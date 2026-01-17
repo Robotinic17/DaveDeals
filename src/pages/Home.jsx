@@ -1,14 +1,41 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import styles from "./Home.module.css";
+
+import heroImg from "../assets/hero.jpg";
 
 export default function Home() {
+  const { t } = useTranslation();
+
   return (
-    <motion.h1
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="heading text-5xl"
-    >
-      Framer Motion Ready
-    </motion.h1>
+    <section className={styles.hero}>
+      <div className={styles.inner}>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className={styles.left}
+        >
+          <h1 className={`${styles.title} heading`}>{t("home.heroTitle")}</h1>
+
+          <p className={styles.subtitle}>{t("home.heroSubtitle")}</p>
+
+          <div className={styles.ctaRow}>
+            <button type="button" className={styles.cta}>
+              {t("home.heroCta")}
+            </button>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
+          className={styles.right}
+        >
+          <img className={styles.heroImage} src={heroImg} alt="" />
+        </motion.div>
+      </div>
+    </section>
   );
 }

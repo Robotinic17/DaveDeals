@@ -1,0 +1,111 @@
+.hero {
+  background: var(--bg);
+  padding: 28px 0 44px;
+}
+
+.inner {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 28px;
+  align-items: center;
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+  background: var(--surface);
+}
+
+/* soft background overlay like your screenshot */
+.inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+      circle at 20% 25%,
+      rgba(0, 150, 255, 0.18),
+      transparent 50%
+    ),
+    radial-gradient(circle at 70% 55%, rgba(0, 200, 140, 0.14), transparent 55%);
+  pointer-events: none;
+}
+
+.left {
+  position: relative;
+  padding: 52px 48px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(42px, 5vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  max-width: 520px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.ctaRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.cta {
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.right {
+  position: relative;
+  padding: 24px 24px 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroImage {
+  width: 100%;
+  height: min(420px, 44vw);
+  object-fit: contain;
+  transform: translateY(6px);
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .left {
+    padding: 44px 24px 20px;
+  }
+
+  .right {
+    padding: 0 18px 24px;
+  }
+
+  .heroImage {
+    height: 320px;
+  }
+}
