@@ -1,0 +1,18 @@
+{
+  "topbar": {
+    "phone": "+001234567890",
+    "promo": "50% de desconto em itens selecionados",
+    "shopNow": "Comprar",
+    "language": "PT",
+    "location": "Localização"
+  },
+  "nav": {
+    "brand": "DaveDeals",
+    "deals": "Ofertas",
+    "whatsNew": "Novidades",
+    "delivery": "Entrega",
+    "searchPlaceholder": "Pesquisar produtos",
+    "cart": "Carrinho",
+    "account": "Conta"
+  }
+}

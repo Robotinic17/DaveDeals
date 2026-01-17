@@ -1,0 +1,18 @@
+{
+  "topbar": {
+    "phone": "+001234567890",
+    "promo": "خصم 50٪ على عناصر محددة",
+    "shopNow": "تسوّق الآن",
+    "language": "AR",
+    "location": "الموقع"
+  },
+  "nav": {
+    "brand": "DaveDeals",
+    "deals": "العروض",
+    "whatsNew": "الجديد",
+    "delivery": "التوصيل",
+    "searchPlaceholder": "ابحث عن منتجات",
+    "cart": "السلة",
+    "account": "الحساب"
+  }
+}

@@ -2,8 +2,13 @@ import { Outlet } from "react-router-dom";
 import Topbar from "../components/navigation/Topbar";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
+import { useEffect } from "react";
+import i18n from "i18next";
 
 export default function MainLayout() {
+  useEffect(() => {
+    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+  }, []);
   return (
     <>
       <Topbar />

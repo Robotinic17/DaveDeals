@@ -1,0 +1,28 @@
+/* Topbar container */
+.topbar {
+  background-color: var(--brand);
+  color: white;
+  font-size: 0.875rem;
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+}
+
+/* Shared text styling */
+.text {
+  opacity: 0.95;
+}
+
+/* Right-side buttons */
+.control {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: white;
+  font-size: 0.875rem;
+  opacity: 0.9;
+  transition: opacity 150ms ease;
+}
+
+.control:hover {
+  opacity: 1;
+}
