@@ -1,20 +1,23 @@
 .hero {
-  background: var(--bg);
-  padding: 28px 0 44px;
+  background-image: url("../assets/hero.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 100% 40%;
+  width: 100%;
+  height: 35rem;
 }
-
 .inner {
-  width: min(1200px, 92%);
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 45% 55%;
   gap: 28px;
   align-items: center;
-  border-radius: 28px;
   border: 1px solid var(--border);
   overflow: hidden;
   position: relative;
-  background: var(--surface);
+  backdrop-filter: blur(1px);
 }
 
 /* soft background overlay like your screenshot */
@@ -28,12 +31,28 @@
       transparent 50%
     ),
     radial-gradient(circle at 70% 55%, rgba(0, 200, 140, 0.14), transparent 55%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    25deg,
+    rgb(0 0 0 / 23%) 0%,
+    rgb(0 0 0 / 0%) 45%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  z-index: 0;
   pointer-events: none;
 }
 
 .left {
   position: relative;
-  padding: 52px 48px;
+  z-index: 1;
+  padding: 0px 0px 0px 20px;
 }
 
 .title {
@@ -42,13 +61,14 @@
   font-size: clamp(42px, 5vw, 72px);
   line-height: 1.05;
   letter-spacing: -0.03em;
-  color: var(--text);
+  color: var(--brand);
   margin-bottom: 16px;
+  font-weight: 900;
 }
 
 .subtitle {
   max-width: 520px;
-  color: var(--muted);
+  color: var(--text);
   font-size: 16px;
   line-height: 1.6;
   margin-bottom: 28px;
@@ -61,7 +81,7 @@
 }
 
 .cta {
-  background: var(--text);
+  background: var(--brand);
   color: var(--bg);
   border: 1px solid transparent;
   border-radius: 999px;
@@ -74,19 +94,22 @@
 .cta:hover {
   transform: translateY(-1px);
   opacity: 0.92;
+  background: var(--brand-soft);
 }
 
 .right {
   position: relative;
-  padding: 24px 24px 24px 0;
+  z-index: 1;
+  padding: 0px 24px 0px 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  height: 30rem;
 }
 
 .heroImage {
   width: 100%;
-  height: min(420px, 44vw);
+  height: auto;
   object-fit: contain;
   transform: translateY(6px);
 }

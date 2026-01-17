@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { ChevronDown, Search, User, ShoppingCart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import styles from "./Navbar.module.css";
 
 import logo from "../../assets/logo.png";
 
 export default function Navbar() {
+  const { t } = useTranslation();
+
   return (
     <header className={styles.navbar}>
       <div className={styles.inner}>
@@ -13,18 +16,18 @@ export default function Navbar() {
         </Link>
 
         <button type="button" className={styles.categoryBtn}>
-          Category <ChevronDown size={16} />
+          {t("nav.category")} <ChevronDown size={16} />
         </button>
 
         <nav className={styles.links}>
           <Link to="/deals" className={styles.link}>
-            Deals
+            {t("nav.deals")}
           </Link>
           <Link to="/whats-new" className={styles.link}>
-            What&apos;s New
+            {t("nav.whatsNew")}
           </Link>
           <Link to="/delivery" className={styles.link}>
-            Delivery
+            {t("nav.delivery")}
           </Link>
         </nav>
 
@@ -32,12 +35,12 @@ export default function Navbar() {
           <input
             className={styles.searchInput}
             type="text"
-            placeholder="Search Product"
+            placeholder={t("nav.searchPlaceholder")}
           />
           <button
             type="button"
             className={styles.searchBtn}
-            aria-label="Search"
+            aria-label={t("nav.search")}
           >
             <Search size={18} />
           </button>
@@ -46,12 +49,12 @@ export default function Navbar() {
         <div className={styles.actions}>
           <Link to="/account" className={styles.actionLink}>
             <User size={18} />
-            <span>Account</span>
+            <span>{t("nav.account")}</span>
           </Link>
 
           <Link to="/cart" className={styles.actionLink}>
             <ShoppingCart size={18} />
-            <span>Cart</span>
+            <span>{t("nav.cart")}</span>
           </Link>
         </div>
       </div>

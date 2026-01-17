@@ -15,9 +15,9 @@ export default function MainLayout() {
       <Navbar />
       <main
         style={{
-          width: "min(1100px, 92%)",
+          width: "100%",
           margin: "0 auto",
-          padding: "24px 0",
+          padding: " 0",
         }}
       >
         <Outlet />

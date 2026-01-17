@@ -13,6 +13,25 @@
     "delivery": "Envío",
     "searchPlaceholder": "Buscar productos",
     "cart": "Carrito",
-    "account": "Cuenta"
+    "account": "Cuenta",
+    "category": "Categoría",
+    "search": "Buscar"
+  },
+  "home": {
+    "heroTitle": "Compras y grandes almacenes.",
+    "heroSubtitle": "Comprar es para mí un pasatiempo relajante, aunque a veces puede afectar al saldo bancario.",
+    "heroCta": "Saber más"
+  },
+  "topCategories": {
+    "title": "Compra nuestras principales categor?as",
+    "subtitle": "Selecciones cuidadas con aire premium.",
+    "items": {
+      "furniture": "Muebles",
+      "handbags": "Bolsos",
+      "books": "Libros",
+      "tech": "Tecnolog?a",
+      "sneakers": "Zapatillas",
+      "travel": "Viajes"
+    }
   }
 }

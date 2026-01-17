@@ -13,6 +13,25 @@
     "delivery": "Entrega",
     "searchPlaceholder": "Pesquisar produtos",
     "cart": "Carrinho",
-    "account": "Conta"
+    "account": "Conta",
+    "category": "Categoria",
+    "search": "Pesquisar"
+  },
+  "home": {
+    "heroTitle": "Compras e loja de departamentos.",
+    "heroSubtitle": "Fazer compras é um hobby relaxante para mim, embora às vezes possa prejudicar o saldo bancário.",
+    "heroCta": "Saiba mais"
+  },
+  "topCategories": {
+    "title": "Compre nossas principais categorias",
+    "subtitle": "Sele??es escolhidas a dedo com toque premium.",
+    "items": {
+      "furniture": "M?veis",
+      "handbags": "Bolsas",
+      "books": "Livros",
+      "tech": "Tecnologia",
+      "sneakers": "T?nis",
+      "travel": "Viagem"
+    }
   }
 }

@@ -13,6 +13,25 @@
     "delivery": "Delivery",
     "searchPlaceholder": "Search products",
     "cart": "Cart",
-    "account": "Account"
+    "account": "Account",
+    "category": "Category",
+    "search": "Search"
+  },
+  "home": {
+    "heroTitle": "Shopping and department store.",
+    "heroSubtitle": "Shopping is a bit of a relaxing hobby for me, which is sometimes troubling for the bank balance.",
+    "heroCta": "Learn more"
+  },
+  "topCategories": {
+    "title": "Shop Our Top Categories",
+    "subtitle": "Curated picks that feel premium.",
+    "items": {
+      "furniture": "Furniture",
+      "handbags": "Hand Bags",
+      "books": "Books",
+      "tech": "Tech",
+      "sneakers": "Sneakers",
+      "travel": "Travel"
+    }
   }
 }

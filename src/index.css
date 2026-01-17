@@ -1,3 +1,51 @@
+@font-face {
+  font-family: "Eina";
+  src: url("./assets/fonts/eina/Eina02-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Eina";
+  src: url("./assets/fonts/eina/Eina02-RegularItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Eina";
+  src: url("./assets/fonts/eina/Eina02-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Eina";
+  src: url("./assets/fonts/eina/Eina02-SemiboldItalic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Eina";
+  src: url("./assets/fonts/eina/Eina02-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Eina";
+  src: url("./assets/fonts/eina/Eina02-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 
 /* Theme tokens (light by default) */
@@ -13,7 +61,8 @@
 
   --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
     sans-serif;
-  --font-heading: Manrope, Inter, system-ui, sans-serif;
+  --font-heading: "Eina", Inter, system-ui, -apple-system, Segoe UI, Roboto,
+    Arial, sans-serif;
 }
 
 /* Dark theme overrides (class-based) */

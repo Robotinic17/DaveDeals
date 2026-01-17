@@ -13,6 +13,25 @@
     "delivery": "Lieferung",
     "searchPlaceholder": "Produkte suchen",
     "cart": "Warenkorb",
-    "account": "Konto"
+    "account": "Konto",
+    "category": "Kategorie",
+    "search": "Suchen"
+  },
+  "home": {
+    "heroTitle": "Einkaufen und Warenhaus.",
+    "heroSubtitle": "Einkaufen ist für mich ein entspannendes Hobby, das jedoch manchmal dem Kontostand schadet.",
+    "heroCta": "Mehr erfahren"
+  },
+  "topCategories": {
+    "title": "Kaufe unsere Top-Kategorien",
+    "subtitle": "Kuratiert, mit Premium-Gef?hl.",
+    "items": {
+      "furniture": "M?bel",
+      "handbags": "Handtaschen",
+      "books": "B?cher",
+      "tech": "Technik",
+      "sneakers": "Sneaker",
+      "travel": "Reisen"
+    }
   }
 }

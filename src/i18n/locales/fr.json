@@ -1,7 +1,7 @@
 {
   "topbar": {
     "phone": "+001234567890",
-    "promo": "50 % de réduction sur une sélection d’articles",
+    "promo": "50 % de réduction sur une sélection d'articles",
     "shopNow": "Acheter",
     "language": "FR",
     "location": "Localisation"
@@ -13,6 +13,25 @@
     "delivery": "Livraison",
     "searchPlaceholder": "Rechercher des produits",
     "cart": "Panier",
-    "account": "Compte"
+    "account": "Compte",
+    "category": "Catégorie",
+    "search": "Rechercher"
+  },
+  "home": {
+    "heroTitle": "Shopping et grand magasin.",
+    "heroSubtitle": "Faire du shopping est pour moi un loisir relaxant, même si cela peut parfois peser sur le solde bancaire.",
+    "heroCta": "En savoir plus"
+  },
+  "topCategories": {
+    "title": "D?couvrez nos meilleures cat?gories",
+    "subtitle": "Une s?lection soign?e au style premium.",
+    "items": {
+      "furniture": "Meubles",
+      "handbags": "Sacs ? main",
+      "books": "Livres",
+      "tech": "Tech",
+      "sneakers": "Baskets",
+      "travel": "Voyage"
+    }
   }
 }
