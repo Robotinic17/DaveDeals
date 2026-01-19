@@ -59,6 +59,19 @@
   --brand: rgb(0, 61, 41); /* primary */
   --brand-soft: rgb(14, 90, 77); /* hover / accents */
 
+  --hover: rgba(0, 0, 0, 0.03);
+  --surface-soft: rgba(0, 0, 0, 0.02);
+
+  --error: #c0392b;
+  --danger: #ef4444;
+
+  --brand-border: rgba(0, 61, 41, 0.2);
+
+  --shine-strong: rgba(255, 255, 255, 0.45);
+  --shine-soft: rgba(255, 255, 255, 0.35);
+
+  --shadow-2: 0 20px 60px rgba(0, 0, 0, 0.08);
+
   --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
     sans-serif;
   --font-heading: "Eina", Inter, system-ui, -apple-system, Segoe UI, Roboto,
@@ -74,6 +87,19 @@ html.dark {
   --border: #334155;
 
   --brand: rgb(20, 140, 110);
+
+  --hover: rgba(255, 255, 255, 0.06);
+  --surface-soft: rgba(255, 255, 255, 0.04);
+
+  --error: #fb7185;
+  --danger: #fb7185;
+
+  --brand-border: rgba(20, 140, 110, 0.25);
+
+  --shine-strong: rgba(255, 255, 255, 0.22);
+  --shine-soft: rgba(255, 255, 255, 0.16);
+
+  --shadow-2: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 /* Base layer */

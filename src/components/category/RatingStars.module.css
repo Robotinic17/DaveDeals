@@ -1,0 +1,33 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.full {
+  color: #16a34a;
+  fill: #16a34a;
+}
+
+.empty {
+  color: #cbd5e1;
+  fill: transparent;
+}
+
+.halfWrap {
+  position: relative;
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+}
+
+.halfWrap svg {
+  position: absolute;
+  inset: 0;
+}
+
+.half {
+  color: #16a34a;
+  fill: #16a34a;
+  clip-path: inset(0 50% 0 0);
+}
