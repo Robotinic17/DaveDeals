@@ -4,7 +4,8 @@
     "promo": "Get 50% Off on Selected Items",
     "shopNow": "Shop Now",
     "language": "EN",
-    "location": "Location"
+    "location": "Location",
+    "themeToggle": "Toggle theme"
   },
   "nav": {
     "brand": "DaveDeals",
@@ -33,5 +34,62 @@
       "sneakers": "Sneakers",
       "travel": "Travel"
     }
+  },
+  "category": {
+    "chipType": "{{title}} Type",
+    "price": "Price",
+    "review": "Review",
+    "color": "Color",
+    "material": "Material",
+    "offer": "Offer",
+    "allFilters": "All Filters",
+    "sortBy": "Sort by",
+    "title": "{{title}} For You!",
+    "loading": "Loading products...",
+    "loadError": "Failed to load products.",
+    "addWishlist": "Add to wishlist",
+    "added": "Added",
+    "addToCart": "Add to Cart",
+    "ratingLabel": "Rating {{rating}} out of 5"
+  },
+  "promoSlider": {
+    "kicker": "Special Offer",
+    "slides": {
+      "ad1": {
+        "title": "Grab Upto 50% Off On",
+        "title2": "Selected Headphone",
+        "cta": "Buy Now"
+      },
+      "ad2": {
+        "title": "Fresh Deals For",
+        "title2": "Your Everyday Essentials",
+        "cta": "Shop Deals"
+      },
+      "ad3": {
+        "title": "Premium Picks",
+        "title2": "At Smart Prices",
+        "cta": "Explore"
+      }
+    }
+  },
+  "cart": {
+    "pageTitle": "Cart page"
+  },
+  "checkout": {
+    "pageTitle": "Checkout page"
+  },
+  "deals": {
+    "title": "Deals: {{type}}"
+  },
+  "product": {
+    "title": "Product: {{id}}"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or was moved.",
+    "backHome": "Back Home"
+  },
+  "footer": {
+    "copyright": "? {{year}} DaveDeals"
   }
 }

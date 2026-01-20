@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import styles from "./PromoSlider.module.css";
 
 import ad1 from "../../assets/ads/ad-1.webp";
@@ -15,32 +16,31 @@ const slideVariants = {
 };
 
 export default function PromoSlider() {
-  const slides = useMemo(
-    () => [
-      {
-        id: "ad1",
-        title: "Grab Upto 50% Off On",
-        title2: "Selected Headphone",
-        cta: "Buy Now",
-        image: ad1,
-      },
-      {
-        id: "ad2",
-        title: "Fresh Deals For",
-        title2: "Your Everyday Essentials",
-        cta: "Shop Deals",
-        image: ad2,
-      },
-      {
-        id: "ad3",
-        title: "Premium Picks",
-        title2: "At Smart Prices",
-        cta: "Explore",
-        image: ad3,
-      },
-    ],
-    []
-  );
+  const { t } = useTranslation();
+
+  const slides = [
+    {
+      id: "ad1",
+      title: t("promoSlider.slides.ad1.title"),
+      title2: t("promoSlider.slides.ad1.title2"),
+      cta: t("promoSlider.slides.ad1.cta"),
+      image: ad1,
+    },
+    {
+      id: "ad2",
+      title: t("promoSlider.slides.ad2.title"),
+      title2: t("promoSlider.slides.ad2.title2"),
+      cta: t("promoSlider.slides.ad2.cta"),
+      image: ad2,
+    },
+    {
+      id: "ad3",
+      title: t("promoSlider.slides.ad3.title"),
+      title2: t("promoSlider.slides.ad3.title2"),
+      cta: t("promoSlider.slides.ad3.cta"),
+      image: ad3,
+    },
+  ];
 
   const [index, setIndex] = useState(0);
 
@@ -66,7 +66,7 @@ export default function PromoSlider() {
           exit="exit"
         >
           <div className={styles.left}>
-            <p className={styles.kicker}>Special Offer</p>
+            <p className={styles.kicker}>{t("promoSlider.kicker")}</p>
             <h2 className={styles.title}>
               {active.title} <br /> {active.title2}
             </h2>

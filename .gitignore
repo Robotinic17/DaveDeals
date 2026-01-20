@@ -1,5 +1,29 @@
-﻿node_modules
-dist
+﻿# dependencies
+node_modules/
+
+# build output
+dist/
+
+# env files
 .env
 .env.*
+!.env.example
+
+# OS / editor junk
 .DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local datasets (raw + generated)
+data_raw/
+data_processed/
+
+# generated catalog data (optional)
+public/data/products.json
+public/data/categories.json
+public/data/categories.enriched.json
+public/data/categories.top.json

@@ -4,7 +4,8 @@
     "promo": "50 % Rabatt auf ausgewählte Artikel",
     "shopNow": "Jetzt kaufen",
     "language": "DE",
-    "location": "Standort"
+    "location": "Standort",
+    "themeToggle": "Theme umschalten"
   },
   "nav": {
     "brand": "DaveDeals",
@@ -33,5 +34,62 @@
       "sneakers": "Sneaker",
       "travel": "Reisen"
     }
+  },
+  "category": {
+    "chipType": "{{title}} Typ",
+    "price": "Preis",
+    "review": "Bewertung",
+    "color": "Farbe",
+    "material": "Material",
+    "offer": "Angebot",
+    "allFilters": "Alle Filter",
+    "sortBy": "Sortieren nach",
+    "title": "{{title}} f?r dich!",
+    "loading": "Produkte werden geladen...",
+    "loadError": "Produkte konnten nicht geladen werden.",
+    "addWishlist": "Zur Wunschliste hinzuf?gen",
+    "added": "Hinzugef?gt",
+    "addToCart": "In den Warenkorb",
+    "ratingLabel": "Bewertung {{rating}} von 5"
+  },
+  "promoSlider": {
+    "kicker": "Sonderangebot",
+    "slides": {
+      "ad1": {
+        "title": "Sichere dir bis zu 50 % Rabatt auf",
+        "title2": "Ausgew?hlte Kopfh?rer",
+        "cta": "Jetzt kaufen"
+      },
+      "ad2": {
+        "title": "Frische Deals f?r",
+        "title2": "deinen Alltag",
+        "cta": "Deals shoppen"
+      },
+      "ad3": {
+        "title": "Premium-Auswahl",
+        "title2": "zu smarten Preisen",
+        "cta": "Entdecken"
+      }
+    }
+  },
+  "cart": {
+    "pageTitle": "Warenkorb"
+  },
+  "checkout": {
+    "pageTitle": "Kasse"
+  },
+  "deals": {
+    "title": "Angebote: {{type}}"
+  },
+  "product": {
+    "title": "Produkt: {{id}}"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "text": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "backHome": "Zur Startseite"
+  },
+  "footer": {
+    "copyright": "? {{year}} DaveDeals"
   }
 }

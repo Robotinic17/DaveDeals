@@ -1,3 +1,6 @@
+import { useTranslation } from "react-i18next";
+
 export default function Checkout() {
-  return <h1>Checkout page</h1>;
+  const { t } = useTranslation();
+  return <h1>{t("checkout.pageTitle")}</h1>;
 }

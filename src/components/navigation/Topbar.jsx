@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Moon, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 import styles from "./Topbar.module.css";
 
 const MANUAL_LANG_KEY = "dd_lang_manual";
+const THEME_KEY = "dd_theme";
 
 const LANG_OPTIONS = [
   { code: "en", short: "EN", name: "English" },
@@ -34,6 +35,14 @@ export default function Topbar() {
 
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isRegionOpen, setIsRegionOpen] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "dark" || saved === "light") return saved;
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return prefersDark ? "dark" : "light";
+  });
 
   const [region, setRegion] = useState(() => {
     const saved = localStorage.getItem(REGION_KEY);
@@ -60,6 +69,11 @@ export default function Topbar() {
       i18n.off("languageChanged", onChange);
     };
   }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem(THEME_KEY, theme);
+  }, [theme]);
 
   useEffect(() => {
     function onDocClick(e) {
@@ -93,6 +107,10 @@ export default function Topbar() {
     setRegion(code);
     localStorage.setItem(REGION_KEY, code);
     setIsRegionOpen(false);
+  }
+
+  function toggleTheme() {
+    setTheme((value) => (value === "dark" ? "light" : "dark"));
   }
   return (
     <motion.div
@@ -163,6 +181,15 @@ export default function Topbar() {
               </div>
             )}
           </div>
+
+          <button
+            type="button"
+            className={styles.control}
+            onClick={toggleTheme}
+            aria-label={t("topbar.themeToggle")}
+          >
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
+          </button>
         </div>
       </div>
     </motion.div>

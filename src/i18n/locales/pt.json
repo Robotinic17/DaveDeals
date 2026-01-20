@@ -4,7 +4,8 @@
     "promo": "50% de desconto em itens selecionados",
     "shopNow": "Comprar",
     "language": "PT",
-    "location": "Localização"
+    "location": "Localização",
+    "themeToggle": "Alternar tema"
   },
   "nav": {
     "brand": "DaveDeals",
@@ -33,5 +34,62 @@
       "sneakers": "T?nis",
       "travel": "Viagem"
     }
+  },
+  "category": {
+    "chipType": "Tipo de {{title}}",
+    "price": "Pre?o",
+    "review": "Avalia??o",
+    "color": "Cor",
+    "material": "Material",
+    "offer": "Oferta",
+    "allFilters": "Todos os filtros",
+    "sortBy": "Ordenar por",
+    "title": "{{title}} para voc?!",
+    "loading": "Carregando produtos...",
+    "loadError": "N?o foi poss?vel carregar os produtos.",
+    "addWishlist": "Adicionar ? lista de desejos",
+    "added": "Adicionado",
+    "addToCart": "Adicionar ao carrinho",
+    "ratingLabel": "Avalia??o {{rating}} de 5"
+  },
+  "promoSlider": {
+    "kicker": "Oferta especial",
+    "slides": {
+      "ad1": {
+        "title": "Aproveite at? 50% de desconto em",
+        "title2": "Fones selecionados",
+        "cta": "Comprar agora"
+      },
+      "ad2": {
+        "title": "Ofertas fresquinhas para",
+        "title2": "seus essenciais do dia a dia",
+        "cta": "Ver ofertas"
+      },
+      "ad3": {
+        "title": "Sele??es premium",
+        "title2": "a pre?os inteligentes",
+        "cta": "Explorar"
+      }
+    }
+  },
+  "cart": {
+    "pageTitle": "Carrinho"
+  },
+  "checkout": {
+    "pageTitle": "Finalizar compra"
+  },
+  "deals": {
+    "title": "Ofertas: {{type}}"
+  },
+  "product": {
+    "title": "Produto: {{id}}"
+  },
+  "notFound": {
+    "title": "P?gina n?o encontrada",
+    "text": "A p?gina que voc? procura n?o existe ou foi movida.",
+    "backHome": "Voltar para a p?gina inicial"
+  },
+  "footer": {
+    "copyright": "? {{year}} DaveDeals"
   }
 }

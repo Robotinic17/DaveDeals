@@ -4,7 +4,8 @@
     "promo": "50% de descuento en artículos seleccionados",
     "shopNow": "Comprar",
     "language": "ES",
-    "location": "Ubicación"
+    "location": "Ubicación",
+    "themeToggle": "Cambiar tema"
   },
   "nav": {
     "brand": "DaveDeals",
@@ -33,5 +34,62 @@
       "sneakers": "Zapatillas",
       "travel": "Viajes"
     }
+  },
+  "category": {
+    "chipType": "{{title}} Tipo",
+    "price": "Precio",
+    "review": "Rese?a",
+    "color": "Color",
+    "material": "Material",
+    "offer": "Oferta",
+    "allFilters": "Todos los filtros",
+    "sortBy": "Ordenar por",
+    "title": "{{title}} Para ti!",
+    "loading": "Cargando productos...",
+    "loadError": "No se pudieron cargar los productos.",
+    "addWishlist": "A?adir a la lista de deseos",
+    "added": "A?adido",
+    "addToCart": "A?adir al carrito",
+    "ratingLabel": "Calificaci?n {{rating}} de 5"
+  },
+  "promoSlider": {
+    "kicker": "Oferta especial",
+    "slides": {
+      "ad1": {
+        "title": "Ahorra hasta 50% en",
+        "title2": "Auriculares seleccionados",
+        "cta": "Comprar ahora"
+      },
+      "ad2": {
+        "title": "Ofertas frescas para",
+        "title2": "tus b?sicos diarios",
+        "cta": "Ver ofertas"
+      },
+      "ad3": {
+        "title": "Selecciones premium",
+        "title2": "a precios inteligentes",
+        "cta": "Explorar"
+      }
+    }
+  },
+  "cart": {
+    "pageTitle": "Carrito"
+  },
+  "checkout": {
+    "pageTitle": "Finalizar compra"
+  },
+  "deals": {
+    "title": "Ofertas: {{type}}"
+  },
+  "product": {
+    "title": "Producto: {{id}}"
+  },
+  "notFound": {
+    "title": "P?gina no encontrada",
+    "text": "La p?gina que buscas no existe o fue movida.",
+    "backHome": "Volver al inicio"
+  },
+  "footer": {
+    "copyright": "? {{year}} DaveDeals"
   }
 }

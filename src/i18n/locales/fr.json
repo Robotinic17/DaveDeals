@@ -4,7 +4,8 @@
     "promo": "50 % de réduction sur une sélection d'articles",
     "shopNow": "Acheter",
     "language": "FR",
-    "location": "Localisation"
+    "location": "Localisation",
+    "themeToggle": "Changer le th?me"
   },
   "nav": {
     "brand": "DaveDeals",
@@ -33,5 +34,62 @@
       "sneakers": "Baskets",
       "travel": "Voyage"
     }
+  },
+  "category": {
+    "chipType": "Type de {{title}}",
+    "price": "Prix",
+    "review": "Avis",
+    "color": "Couleur",
+    "material": "Mat?riau",
+    "offer": "Offre",
+    "allFilters": "Tous les filtres",
+    "sortBy": "Trier par",
+    "title": "{{title}} pour vous !",
+    "loading": "Chargement des produits...",
+    "loadError": "Impossible de charger les produits.",
+    "addWishlist": "Ajouter aux favoris",
+    "added": "Ajout?",
+    "addToCart": "Ajouter au panier",
+    "ratingLabel": "Note {{rating}} sur 5"
+  },
+  "promoSlider": {
+    "kicker": "Offre sp?ciale",
+    "slides": {
+      "ad1": {
+        "title": "Jusqu'? 50 % de r?duction sur",
+        "title2": "Casques s?lectionn?s",
+        "cta": "Acheter"
+      },
+      "ad2": {
+        "title": "Bons plans du moment pour",
+        "title2": "vos essentiels du quotidien",
+        "cta": "Voir les offres"
+      },
+      "ad3": {
+        "title": "S?lections premium",
+        "title2": "? prix malins",
+        "cta": "Explorer"
+      }
+    }
+  },
+  "cart": {
+    "pageTitle": "Panier"
+  },
+  "checkout": {
+    "pageTitle": "Paiement"
+  },
+  "deals": {
+    "title": "Offres : {{type}}"
+  },
+  "product": {
+    "title": "Produit : {{id}}"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "text": "La page que vous recherchez n'existe pas ou a ?t? d?plac?e.",
+    "backHome": "Retour ? l'accueil"
+  },
+  "footer": {
+    "copyright": "? {{year}} DaveDeals"
   }
 }
