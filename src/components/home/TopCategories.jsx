@@ -1,24 +1,10 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import styles from "./TopCategories.module.css";
 
-import furnitureImg from "../../assets/categories/furniture.png";
-import handbagImg from "../../assets/categories/handbag.png";
-import booksImg from "../../assets/categories/books.png";
-import techImg from "../../assets/categories/tech.png";
-import sneakersImg from "../../assets/categories/sneakers.png";
-import travelImg from "../../assets/categories/travel.png";
-
-const CARDS = [
-  { key: "furniture", slug: "furniture", image: furnitureImg },
-  { key: "handbags", slug: "womens-bags", image: handbagImg },
-  { key: "books", slug: "books", image: booksImg },
-  { key: "tech", slug: "smartphones", image: techImg },
-  { key: "sneakers", slug: "mens-shoes", image: sneakersImg },
-  { key: "travel", slug: "travel", image: travelImg },
-];
+import { getCategoryImage } from "../../lib/pixabay";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -41,7 +27,54 @@ const cardVariants = {
 
 export default function TopCategories() {
   const { t } = useTranslation();
-  const cards = useMemo(() => CARDS, []);
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const res = await fetch("/data/categories.top.json");
+        if (!res.ok) throw new Error("Failed to load top categories");
+        const data = await res.json();
+        if (!active) return;
+
+        const next = Array.isArray(data) ? data : [];
+        const withImages = await Promise.all(
+          next.map(async (item) => {
+            const image = await getCategoryImage(item.name, item.slug);
+            return {
+              slug: item.slug,
+              label: item.name || item.slug,
+              imageUrl: image?.url || "",
+              credit: image
+                ? {
+                    name: image.user,
+                    pageUrl: image.pageUrl,
+                  }
+                : null,
+            };
+          })
+        );
+        if (!active) return;
+        setCards(withImages);
+      } catch (e) {
+        if (!active) return;
+        setCards([]);
+      } finally {
+        if (!active) return;
+        setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <section className={styles.section}>
@@ -58,18 +91,59 @@ export default function TopCategories() {
           </div>
 
           <div className={styles.grid}>
-            {cards.map((card) => (
+            {loading &&
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className={styles.skeletonCard} />
+              ))}
+            {!loading &&
+              cards.map((card) => (
               <motion.div key={card.slug} variants={cardVariants}>
-                <Link to={`/c/${card.slug}`} className={styles.card}>
-                  <img src={card.image} alt="" className={styles.image} />
-                  <div className={styles.overlay} />
-                  <div className={styles.shine} />
-                  <p className={styles.cardTitle}>
-                    {t(`topCategories.items.${card.key}`)}
-                  </p>
-                </Link>
+                <div className={styles.cardWrap}>
+                  <Link to={`/c/${card.slug}`} className={styles.card}>
+                    <div className={styles.imageFallback} />
+                    {card.imageUrl && (
+                      <img
+                        src={card.imageUrl}
+                        alt=""
+                        className={styles.image}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    )}
+                    <div className={styles.overlay} />
+                    <div className={styles.shine} />
+                    <p className={styles.cardTitle}>{card.label}</p>
+                  </Link>
+                  {card.credit && (
+                    <p className={styles.credit}>
+                      Image by{" "}
+                      <a
+                        href={card.credit.pageUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {card.credit.name}
+                      </a>{" "}
+                      on{" "}
+                      <a
+                        href="https://pixabay.com"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Pixabay
+                      </a>
+                    </p>
+                  )}
+                </div>
               </motion.div>
             ))}
+            {!loading && cards.length === 0 && (
+              <div className={styles.emptyState}>
+                Top categories are unavailable right now.
+              </div>
+            )}
           </div>
         </motion.div>
       </div>

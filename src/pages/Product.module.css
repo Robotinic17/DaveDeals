@@ -1,0 +1,386 @@
+.page {
+  background: var(--bg);
+  color: var(--text);
+  padding: 20px 0 60px;
+}
+
+.hero {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.gallery {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.mainImage {
+  background: var(--surface-soft);
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  min-height: 360px;
+}
+
+.mainImage img {
+  width: 100%;
+  height: 320px;
+  object-fit: contain;
+}
+
+.thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.thumbBtn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.thumbBtn img {
+  width: 100%;
+  height: 70px;
+  object-fit: contain;
+}
+
+.thumbBtn:hover {
+  transform: translateY(-2px);
+}
+
+.thumbActive {
+  border-color: var(--brand-border);
+}
+
+.details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.category {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 30px;
+  margin: 0;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ratingText {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.priceNote {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.section h3 {
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+.swatches {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.swatchActive {
+  border-color: var(--text);
+}
+
+.ctaRow {
+  display: flex;
+  gap: 12px;
+}
+
+.buyBtn,
+.cartBtn {
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.buyBtn {
+  border: none;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  flex: 1;
+}
+
+.cartBtn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  flex: 1;
+}
+
+.buyBtn:hover,
+.cartBtn:hover {
+  transform: translateY(-2px);
+}
+
+.infoCards {
+  display: grid;
+  gap: 10px;
+}
+
+.infoCard {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: var(--surface-soft);
+}
+
+.infoCard h4 {
+  margin: 0 0 6px;
+  font-size: 13px;
+}
+
+.infoCard p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.specs {
+  width: min(1200px, 92%);
+  margin: 30px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.specCard {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.specCard h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.specRow {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding: 10px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.specRow span:last-child {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.similar {
+  width: min(1200px, 92%);
+  margin: 30px auto 0;
+}
+
+.similar h3 {
+  margin-bottom: 14px;
+}
+
+.similarGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.similarCard {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--text);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.similarCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-2);
+}
+
+.similarCard img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+  background: var(--surface-soft);
+  border-radius: 12px;
+}
+
+.similarTitle {
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.similarMeta {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+.similarBadge {
+  align-self: flex-start;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--surface-soft);
+}
+
+.emptyState {
+  width: min(720px, 92%);
+  margin: 40px auto;
+  text-align: center;
+  border: 1px dashed var(--border);
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.emptyState h1 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
+.emptyState p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.skeletonHero {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+  height: 520px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    90deg,
+    var(--surface-soft) 0%,
+    var(--hover) 50%,
+    var(--surface-soft) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 1050px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .specs {
+    grid-template-columns: 1fr;
+  }
+
+  .similarGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .thumbs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .similarGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+}

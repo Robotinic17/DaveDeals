@@ -22,6 +22,11 @@ export async function getAllCategories() {
   return categories;
 }
 
+export async function getAllProducts() {
+  const { products } = await loadCatalog();
+  return products;
+}
+
 export async function getCategoryBySlug(slug) {
   const { categoriesBySlug } = await loadCatalog();
   return categoriesBySlug.get(slug) || null;
@@ -30,4 +35,12 @@ export async function getCategoryBySlug(slug) {
 export async function getProductsByCategorySlug(slug) {
   const { products } = await loadCatalog();
   return products.filter((p) => p.categorySlug === slug);
+}
+
+export async function getProductById(id) {
+  const { products } = await loadCatalog();
+  const key = String(id);
+  return (
+    products.find((p) => String(p.id) === key || String(p.asin) === key) || null
+  );
 }
