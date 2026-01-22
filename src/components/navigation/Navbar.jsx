@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, Search, User, ShoppingCart } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./Navbar.module.css";
 
 import logo from "../../assets/logo.png";
@@ -181,33 +182,42 @@ export default function Navbar() {
           >
             {t("nav.category")} <ChevronDown size={16} />
           </button>
-          {menuOpen && (
-            <div className={styles.categoryMenu} role="menu">
-              <div className={styles.categoryHeader}>Top Categories</div>
-              <div className={styles.categoryGrid}>
-                {topCategories.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    to={`/c/${cat.slug}`}
-                    className={styles.categoryItem}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <img
-                      src={cat.image}
-                      alt=""
-                      className={styles.categoryImg}
-                    />
-                    <span>{cat.label}</span>
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                className={styles.categoryMenu}
+                role="menu"
+                initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+              >
+                <div className={styles.categoryHeader}>Top Categories</div>
+                <div className={styles.categoryGrid}>
+                  {topCategories.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      to={`/c/${cat.slug}`}
+                      className={styles.categoryItem}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <img
+                        src={cat.image}
+                        alt=""
+                        className={styles.categoryImg}
+                      />
+                      <span>{cat.label}</span>
+                    </Link>
+                  ))}
+                </div>
+                <div className={styles.categoryFooter}>
+                  <Link to="/categories" onClick={() => setMenuOpen(false)}>
+                    View all categories
                   </Link>
-                ))}
-              </div>
-              <div className={styles.categoryFooter}>
-                <Link to="/categories" onClick={() => setMenuOpen(false)}>
-                  View all categories
-                </Link>
-              </div>
-            </div>
-          )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <nav className={styles.links}>
@@ -241,8 +251,15 @@ export default function Navbar() {
           >
             <Search size={18} />
           </button>
-          {searchOpen && (
-            <div className={styles.searchPanel}>
+          <AnimatePresence>
+            {searchOpen && (
+            <motion.div
+              className={styles.searchPanel}
+              initial={{ opacity: 0, y: 8, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 6, scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
               {!query && (
                 <>
                   <div className={styles.searchHeader}>Popular Categories</div>
@@ -338,8 +355,9 @@ export default function Navbar() {
                   </div>
                 </>
               )}
-            </div>
-          )}
+            </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className={styles.actions}>

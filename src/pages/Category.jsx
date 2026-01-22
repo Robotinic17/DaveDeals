@@ -144,6 +144,23 @@ export default function Category() {
       setLoading(true);
       setError(false);
       setCategoryName("");
+      setTypeOpen(false);
+      setPriceOpen(false);
+      setReviewOpen(false);
+      setMaterialOpen(false);
+      setColorOpen(false);
+      setFilters({
+        minPrice: "",
+        maxPrice: "",
+        minRating: "",
+        minReviews: "",
+        onlyPriced: false,
+        onlyReviewed: false,
+        typeKey: "",
+        priceBand: "",
+        materialQuality: "",
+        color: "",
+      });
 
       const start = Date.now();
       try {
@@ -843,6 +860,7 @@ export default function Category() {
                     className={styles.card}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    whileTap={{ scale: 0.99 }}
                     transition={{
                       duration: 0.35,
                       ease: "easeOut",

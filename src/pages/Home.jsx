@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import styles from "./Home.module.css";
 import TopCategories from "../components/home/TopCategories";
+import BestDeals from "../components/home/BestDeals";
 import stage from "../assets/stage.png";
 import travel from "../assets/travel.png";
 import gadgets from "../assets/gadgets.png";
@@ -43,6 +44,7 @@ export default function Home() {
         </div>
       </section>
       <TopCategories />
+      <BestDeals />
     </>
   );
 }

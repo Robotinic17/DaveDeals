@@ -58,6 +58,7 @@
 
   --brand: rgb(0, 61, 41); /* primary */
   --brand-soft: rgb(14, 90, 77); /* hover / accents */
+  --brand-contrast: #ffffff;
 
   --hover: rgba(0, 0, 0, 0.03);
   --surface-soft: rgba(0, 0, 0, 0.02);
@@ -87,6 +88,7 @@ html.dark {
   --border: #334155;
 
   --brand: rgb(20, 140, 110);
+  --brand-contrast: #ffffff;
 
   --hover: rgba(255, 255, 255, 0.06);
   --surface-soft: rgba(255, 255, 255, 0.04);

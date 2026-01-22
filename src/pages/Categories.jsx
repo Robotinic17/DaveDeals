@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import styles from "./Categories.module.css";
 
 import { getCategoryImage } from "../lib/pixabay";
@@ -158,10 +159,12 @@ export default function Categories() {
               const img = images[cat.slug];
               const bg = colorForSlug(cat.slug);
               return (
-                <div
+                <motion.div
                   key={cat.slug}
                   className={styles.cardWrap}
                   style={{ "--card-accent": bg }}
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <Link to={`/c/${cat.slug}`} className={styles.card}>
                     <div className={styles.cardMedia}>
@@ -197,7 +200,7 @@ export default function Categories() {
                       </a>
                     </p>
                   )}
-                </div>
+                </motion.div>
               );
             })}
           </div>

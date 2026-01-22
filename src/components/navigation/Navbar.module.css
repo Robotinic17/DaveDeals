@@ -134,6 +134,7 @@
   align-items: center;
   gap: 22px;
   font-size: 15px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .link {
@@ -151,6 +152,7 @@
 .searchWrap {
   position: relative;
   width: min(320px, 35vw);
+  transition: width 0.28s ease;
 }
 
 .searchActive .links {

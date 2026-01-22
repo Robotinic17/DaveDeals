@@ -136,6 +136,7 @@ export default function WhatsNew() {
                     className={styles.card}
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
+                    whileTap={{ scale: 0.99 }}
                     transition={{
                       duration: 0.3,
                       ease: "easeOut",

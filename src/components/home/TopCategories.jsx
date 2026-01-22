@@ -4,7 +4,26 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import styles from "./TopCategories.module.css";
 
-import { getCategoryImage } from "../../lib/pixabay";
+import furnitureImg from "../../assets/categories/furniture.png";
+import handbagImg from "../../assets/categories/handbag.png";
+import booksImg from "../../assets/categories/books.png";
+import techImg from "../../assets/categories/tech.png";
+import sneakersImg from "../../assets/categories/sneakers.png";
+import travelImg from "../../assets/categories/travel.png";
+import { getCategoryImage, triggerDownloadOnce } from "../../lib/unsplash";
+
+const CATEGORY_IMAGES = {
+  "headphones-and-earbuds": techImg,
+  "cell-phones-and-accessories": techImg,
+  "travel-accessories": travelImg,
+  "home-d-cor-products": furnitureImg,
+  "kitchen-and-dining": booksImg,
+  "home-storage-and-organization": furnitureImg,
+  "women-s-handbags": handbagImg,
+  "men-s-shoes": sneakersImg,
+  "women-s-shoes": sneakersImg,
+  furniture: furnitureImg,
+};
 
 const containerVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -44,15 +63,18 @@ export default function TopCategories() {
         const next = Array.isArray(data) ? data : [];
         const withImages = await Promise.all(
           next.map(async (item) => {
+            const fallback = CATEGORY_IMAGES[item.slug] || furnitureImg;
             const image = await getCategoryImage(item.name, item.slug);
+            if (image) triggerDownloadOnce(image);
             return {
               slug: item.slug,
               label: item.name || item.slug,
-              imageUrl: image?.url || "",
+              imageUrl: image?.url || fallback,
               credit: image
                 ? {
-                    name: image.user,
-                    pageUrl: image.pageUrl,
+                    name: image.name,
+                    userLink: image.userLink,
+                    unsplashLink: image.unsplashLink,
                   }
                 : null,
             };
@@ -97,48 +119,48 @@ export default function TopCategories() {
               ))}
             {!loading &&
               cards.map((card) => (
-              <motion.div key={card.slug} variants={cardVariants}>
-                <div className={styles.cardWrap}>
-                  <Link to={`/c/${card.slug}`} className={styles.card}>
-                    <div className={styles.imageFallback} />
-                    {card.imageUrl && (
-                      <img
-                        src={card.imageUrl}
-                        alt=""
-                        className={styles.image}
-                        loading="lazy"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
+                <motion.div key={card.slug} variants={cardVariants}>
+                  <div className={styles.cardWrap}>
+                    <Link to={`/c/${card.slug}`} className={styles.card}>
+                      <div className={styles.imageFallback} />
+                      {card.imageUrl && (
+                        <img
+                          src={card.imageUrl}
+                          alt=""
+                          className={styles.image}
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                          }}
+                        />
+                      )}
+                      <div className={styles.overlay} />
+                      <div className={styles.shine} />
+                      <p className={styles.cardTitle}>{card.label}</p>
+                    </Link>
+                    {card.credit && (
+                      <p className={styles.credit}>
+                        Photo by{" "}
+                        <a
+                          href={card.credit.userLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {card.credit.name}
+                        </a>{" "}
+                        on{" "}
+                        <a
+                          href={card.credit.unsplashLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Unsplash
+                        </a>
+                      </p>
                     )}
-                    <div className={styles.overlay} />
-                    <div className={styles.shine} />
-                    <p className={styles.cardTitle}>{card.label}</p>
-                  </Link>
-                  {card.credit && (
-                    <p className={styles.credit}>
-                      Image by{" "}
-                      <a
-                        href={card.credit.pageUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {card.credit.name}
-                      </a>{" "}
-                      on{" "}
-                      <a
-                        href="https://pixabay.com"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Pixabay
-                      </a>
-                    </p>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                  </div>
+                </motion.div>
+              ))}
             {!loading && cards.length === 0 && (
               <div className={styles.emptyState}>
                 Top categories are unavailable right now.

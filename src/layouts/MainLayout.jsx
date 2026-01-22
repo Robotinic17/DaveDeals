@@ -3,6 +3,7 @@ import Topbar from "../components/navigation/Topbar";
 import Navbar from "../components/navigation/Navbar";
 import Breadcrumbs from "../components/navigation/Breadcrumbs";
 import Footer from "../components/navigation/Footer";
+import ScrollToTopButton from "../components/ui/ScrollToTopButton";
 import { useEffect } from "react";
 import i18n from "i18next";
 
@@ -32,6 +33,7 @@ export default function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <ScrollToTopButton />
     </>
   );
 }
