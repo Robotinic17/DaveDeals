@@ -1,86 +1,41 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
-import styles from "./WeeklyPopular.module.css";
+import styles from "./MostSelling.module.css";
 import RatingStars from "../category/RatingStars";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 
 const items = [
   {
-    id: "gaming-headphone",
-    name: "Gaming Headphone",
-    price: 239,
+    id: "instax-mini-11",
+    name: "Instax Mini 11",
+    price: 89,
+    rating: 4.7,
+    reviews: 121,
+    description: "Selfie mode and selfie mirror, Macro mode",
+    query: "instant camera product",
+  },
+  {
+    id: "hand-watch",
+    name: "Hand Watch",
+    price: 59,
+    rating: 4.6,
+    reviews: 121,
+    description: "Citizen 650M, W-69g",
+    query: "wrist watch product",
+  },
+  {
+    id: "adidas-sneakers",
+    name: "adidas Sneakers",
+    price: 159,
     rating: 4.8,
     reviews: 121,
-    description: "Table with air purifier, stained veneer/black",
-    query: "gaming headphones product",
-  },
-  {
-    id: "base-camp-duffel",
-    name: "Base Camp Duffel M",
-    price: 159,
-    rating: 4.7,
-    reviews: 121,
-    description: "Table with air purifier, stained veneer/black",
-    query: "travel duffel bag product",
-  },
-  {
-    id: "tomford-watch",
-    name: "Tomford Watch",
-    price: 39,
-    rating: 4.6,
-    reviews: 121,
-    description: "Table with air purifier, stained veneer/black",
-    query: "luxury wrist watch product",
-  },
-  {
-    id: "retro-sneakers",
-    name: "Retro Sneakers",
-    price: 89,
-    rating: 4.5,
-    reviews: 98,
-    description: "Lightweight comfort with a clean finish",
-    query: "retro sneakers product",
-  },
-  {
-    id: "smart-speaker",
-    name: "Smart Speaker",
-    price: 129,
-    rating: 4.6,
-    reviews: 142,
-    description: "Room-filling sound with deep bass",
-    query: "smart speaker product",
-  },
-  {
-    id: "urban-handbag",
-    name: "Urban Handbag",
-    price: 149,
-    rating: 4.7,
-    reviews: 88,
-    description: "Soft leather feel with ample storage",
-    query: "fashion handbag product",
-  },
-  {
-    id: "hardcover-set",
-    name: "Hardcover Set",
-    price: 59,
-    rating: 4.4,
-    reviews: 75,
-    description: "Curated reads for your coffee table",
-    query: "book set product",
-  },
-  {
-    id: "accent-chair",
-    name: "Accent Chair",
-    price: 199,
-    rating: 4.6,
-    reviews: 64,
-    description: "Modern lines with plush comfort",
-    query: "accent chair furniture product",
+    description: "x Sean Wotherspoon Superstar sneakers",
+    query: "colorful sneakers product",
   },
 ];
 
-function PopularCard({ item, liked, onToggle }) {
-  const { image } = useUnsplashImage(item.query, `weekly-${item.id}`);
+function SellingCard({ item, liked, onToggle }) {
+  const { image } = useUnsplashImage(item.query, `selling-${item.id}`);
 
   return (
     <article className={styles.card} role="listitem">
@@ -138,7 +93,7 @@ function PopularCard({ item, liked, onToggle }) {
   );
 }
 
-export default function WeeklyPopular() {
+export default function MostSelling() {
   const [liked, setLiked] = useState(() => new Set());
 
   function toggleLike(id) {
@@ -153,12 +108,15 @@ export default function WeeklyPopular() {
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>Weekly Popular Products</h2>
+        <div className={styles.titleRow}>
+          <span className={styles.titleMark} aria-hidden="true" />
+          <h2 className={styles.title}>Most Selling Products</h2>
+        </div>
       </div>
 
       <div className={styles.scroller} role="list">
         {items.map((item) => (
-          <PopularCard
+          <SellingCard
             key={item.id}
             item={item}
             liked={liked.has(item.id)}

@@ -4,26 +4,7 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import styles from "./TopCategories.module.css";
 
-import furnitureImg from "../../assets/categories/furniture.png";
-import handbagImg from "../../assets/categories/handbag.png";
-import booksImg from "../../assets/categories/books.png";
-import techImg from "../../assets/categories/tech.png";
-import sneakersImg from "../../assets/categories/sneakers.png";
-import travelImg from "../../assets/categories/travel.png";
-import { getCategoryImage, triggerDownloadOnce } from "../../lib/unsplash";
-
-const CATEGORY_IMAGES = {
-  "headphones-and-earbuds": techImg,
-  "cell-phones-and-accessories": techImg,
-  "travel-accessories": travelImg,
-  "home-d-cor-products": furnitureImg,
-  "kitchen-and-dining": booksImg,
-  "home-storage-and-organization": furnitureImg,
-  "women-s-handbags": handbagImg,
-  "men-s-shoes": sneakersImg,
-  "women-s-shoes": sneakersImg,
-  furniture: furnitureImg,
-};
+import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -46,8 +27,8 @@ const cardVariants = {
 
 export default function TopCategories() {
   const { t } = useTranslation();
-  const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     let active = true;
@@ -59,32 +40,10 @@ export default function TopCategories() {
         if (!res.ok) throw new Error("Failed to load top categories");
         const data = await res.json();
         if (!active) return;
-
-        const next = Array.isArray(data) ? data : [];
-        const withImages = await Promise.all(
-          next.map(async (item) => {
-            const fallback = CATEGORY_IMAGES[item.slug] || furnitureImg;
-            const image = await getCategoryImage(item.name, item.slug);
-            if (image) triggerDownloadOnce(image);
-            return {
-              slug: item.slug,
-              label: item.name || item.slug,
-              imageUrl: image?.url || fallback,
-              credit: image
-                ? {
-                    name: image.name,
-                    userLink: image.userLink,
-                    unsplashLink: image.unsplashLink,
-                  }
-                : null,
-            };
-          })
-        );
-        if (!active) return;
-        setCards(withImages);
+        setCategories(Array.isArray(data) ? data : []);
       } catch (e) {
         if (!active) return;
-        setCards([]);
+        setCategories([]);
       } finally {
         if (!active) return;
         setLoading(false);
@@ -97,6 +56,49 @@ export default function TopCategories() {
       active = false;
     };
   }, []);
+
+  function CategoryCard({ category }) {
+    const { image } = useUnsplashImage(
+      `${category.name} category product`,
+      `topcat-${category.slug}`
+    );
+
+    return (
+      <motion.div variants={cardVariants}>
+        <div className={styles.cardWrap}>
+          <Link to={`/c/${category.slug}`} className={styles.card}>
+            <div className={styles.imageFallback} />
+            {image?.url && (
+              <img
+                src={image.url}
+                alt=""
+                className={styles.image}
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+            )}
+            <div className={styles.overlay} />
+            <div className={styles.shine} />
+            <p className={styles.cardTitle}>{category.name}</p>
+          </Link>
+          {image && (
+            <p className={styles.credit}>
+              Photo by{" "}
+              <a href={image.userLink} target="_blank" rel="noreferrer">
+                {image.name}
+              </a>{" "}
+              on{" "}
+              <a href={image.unsplashLink} target="_blank" rel="noreferrer">
+                Unsplash
+              </a>
+            </p>
+          )}
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <section className={styles.section}>
@@ -118,50 +120,10 @@ export default function TopCategories() {
                 <div key={idx} className={styles.skeletonCard} />
               ))}
             {!loading &&
-              cards.map((card) => (
-                <motion.div key={card.slug} variants={cardVariants}>
-                  <div className={styles.cardWrap}>
-                    <Link to={`/c/${card.slug}`} className={styles.card}>
-                      <div className={styles.imageFallback} />
-                      {card.imageUrl && (
-                        <img
-                          src={card.imageUrl}
-                          alt=""
-                          className={styles.image}
-                          loading="lazy"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                      )}
-                      <div className={styles.overlay} />
-                      <div className={styles.shine} />
-                      <p className={styles.cardTitle}>{card.label}</p>
-                    </Link>
-                    {card.credit && (
-                      <p className={styles.credit}>
-                        Photo by{" "}
-                        <a
-                          href={card.credit.userLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {card.credit.name}
-                        </a>{" "}
-                        on{" "}
-                        <a
-                          href={card.credit.unsplashLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Unsplash
-                        </a>
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
+              categories.map((category) => (
+                <CategoryCard key={category.slug} category={category} />
               ))}
-            {!loading && cards.length === 0 && (
+            {!loading && categories.length === 0 && (
               <div className={styles.emptyState}>
                 Top categories are unavailable right now.
               </div>

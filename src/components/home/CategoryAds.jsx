@@ -1,35 +1,72 @@
 import styles from "./CategoryAds.module.css";
-import deal100 from "../../assets/100.png";
-import deal29 from "../../assets/29.png";
-import deal67 from "../../assets/67.png";
-import deal59 from "../../assets/59.png";
+import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 
 const deals = [
   {
     price: 100,
     accent: "#c69018",
     bg: "#f4e6db",
-    img: deal100,
+    query: "living room furniture set",
   },
   {
     price: 29,
     accent: "#a12826",
     bg: "#f8dddd",
-    img: deal29,
+    query: "home decor accessories",
   },
   {
     price: 67,
     accent: "#8b5a3c",
     bg: "#f1e1d6",
-    img: deal67,
+    query: "fashion apparel rack",
   },
   {
     price: 59,
     accent: "#0c5542",
     bg: "#d8f7ed",
-    img: deal59,
+    query: "school backpack flat lay",
   },
 ];
+
+function DealCard({ deal }) {
+  const { image } = useUnsplashImage(
+    deal.query,
+    `category-ad-${deal.price}`
+  );
+
+  return (
+    <article className={styles.card} style={{ backgroundColor: deal.bg }}>
+      <div className={styles.content}>
+        <p className={styles.kicker}>Save</p>
+        <p className={styles.price} style={{ color: deal.accent }}>
+          ${deal.price}
+        </p>
+        <p className={styles.copy}>
+          Explore Our Furniture & Home Furnishing Range
+        </p>
+        {image && (
+          <p className={styles.credit}>
+            Photo by{" "}
+            <a href={image.userLink} target="_blank" rel="noreferrer">
+              {image.name}
+            </a>{" "}
+            on{" "}
+            <a href={image.unsplashLink} target="_blank" rel="noreferrer">
+              Unsplash
+            </a>
+          </p>
+        )}
+      </div>
+      <div className={styles.media}>
+        {image?.url ? (
+          <img src={image.url} alt={`Save $${deal.price}`} />
+        ) : (
+          <div className={styles.mediaFallback} />
+        )}
+      </div>
+    </article>
+  );
+}
 
 export default function CategoryAds() {
   return (
@@ -39,24 +76,7 @@ export default function CategoryAds() {
 
         <div className={styles.grid}>
           {deals.map((deal) => (
-            <article
-              key={deal.price}
-              className={styles.card}
-              style={{ backgroundColor: deal.bg }}
-            >
-              <div className={styles.content}>
-                <p className={styles.kicker}>Save</p>
-                <p className={styles.price} style={{ color: deal.accent }}>
-                  ${deal.price}
-                </p>
-                <p className={styles.copy}>
-                  Explore Our Furniture & Home Furnishing Range
-                </p>
-              </div>
-              <div className={styles.media}>
-                <img src={deal.img} alt={`Save $${deal.price}`} />
-              </div>
-            </article>
+            <DealCard key={deal.price} deal={deal} />
           ))}
         </div>
       </div>

@@ -6,6 +6,10 @@ import BestDeals from "../components/home/BestDeals";
 import TopBrands from "../components/home/TopBrands";
 import CategoryAds from "../components/home/CategoryAds";
 import WeeklyPopular from "../components/home/WeeklyPopular";
+import CashBackBanner from "../components/home/CashBackBanner";
+import MostSelling from "../components/home/MostSelling";
+import TrendingProducts from "../components/home/TrendingProducts";
+import BestSellingStore from "../components/home/BestSellingStore";
 import stage from "../assets/stage.png";
 import travel from "../assets/travel.png";
 import gadgets from "../assets/gadgets.png";
@@ -51,6 +55,10 @@ export default function Home() {
       <TopBrands />
       <CategoryAds />
       <WeeklyPopular />
+      <CashBackBanner />
+      <MostSelling />
+      <TrendingProducts />
+      <BestSellingStore />
     </>
   );
 }

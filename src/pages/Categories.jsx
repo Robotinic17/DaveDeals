@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import styles from "./Categories.module.css";
 
-import { getCategoryImage } from "../lib/pixabay";
+import { useUnsplashImage } from "../hooks/useUnsplashImage";
 
 const COLOR_PALETTE = [
   "#F2EDE7",
@@ -22,6 +22,51 @@ function colorForSlug(slug = "") {
     hash = (hash * 31 + slug.charCodeAt(i)) % COLOR_PALETTE.length;
   }
   return COLOR_PALETTE[hash] || COLOR_PALETTE[0];
+}
+
+function CategoryCard({ category }) {
+  const { image } = useUnsplashImage(
+    `${category.name} category product`,
+    `category-${category.slug}`
+  );
+
+  return (
+    <motion.div
+      className={styles.cardWrap}
+      style={{ "--card-accent": colorForSlug(category.slug) }}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      <Link to={`/c/${category.slug}`} className={styles.card}>
+        <div className={styles.cardMedia}>
+          {image?.url ? (
+            <img src={image.url} alt="" className={styles.cardImg} />
+          ) : (
+            <div className={styles.cardInitial}>
+              {category.name.slice(0, 1)}
+            </div>
+          )}
+        </div>
+        <div className={styles.cardBody}>
+          <h3 className={styles.cardTitle}>{category.name}</h3>
+          <p className={styles.cardMeta}>{category.count} items available</p>
+        </div>
+        <span className={styles.cardArrow}>View</span>
+      </Link>
+      {image && (
+        <p className={styles.credit}>
+          Photo by{" "}
+          <a href={image.userLink} target="_blank" rel="noreferrer">
+            {image.name}
+          </a>{" "}
+          on{" "}
+          <a href={image.unsplashLink} target="_blank" rel="noreferrer">
+            Unsplash
+          </a>
+        </p>
+      )}
+    </motion.div>
+  );
 }
 
 export default function Categories() {
@@ -67,41 +112,6 @@ export default function Categories() {
       .filter((c) => (needle ? c.name.toLowerCase().includes(needle) : true))
       .sort((a, b) => b.count - a.count);
   }, [categories, query, onlyAvailable]);
-
-  const [images, setImages] = useState({});
-
-  useEffect(() => {
-    let active = true;
-
-    async function loadImages() {
-      if (!filtered.length) return;
-      const entries = await Promise.all(
-        filtered.map(async (cat) => {
-          const image = await getCategoryImage(cat.name, cat.slug);
-          return [
-            cat.slug,
-            image
-              ? {
-                  url: image.url,
-                  name: image.user,
-                  pageUrl: image.pageUrl,
-                }
-              : null,
-          ];
-        })
-      );
-      if (!active) return;
-      const next = {};
-      for (const [slug, data] of entries) next[slug] = data;
-      setImages(next);
-    }
-
-    loadImages();
-
-    return () => {
-      active = false;
-    };
-  }, [filtered]);
 
   return (
     <section className={styles.page}>
@@ -155,54 +165,9 @@ export default function Categories() {
                 <p>Try a different search or show all categories.</p>
               </div>
             )}
-            {filtered.map((cat) => {
-              const img = images[cat.slug];
-              const bg = colorForSlug(cat.slug);
-              return (
-                <motion.div
-                  key={cat.slug}
-                  className={styles.cardWrap}
-                  style={{ "--card-accent": bg }}
-                  whileHover={{ y: -4 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Link to={`/c/${cat.slug}`} className={styles.card}>
-                    <div className={styles.cardMedia}>
-                      {img?.url ? (
-                        <img src={img.url} alt="" className={styles.cardImg} />
-                      ) : (
-                        <div className={styles.cardInitial}>
-                          {cat.name.slice(0, 1)}
-                        </div>
-                      )}
-                    </div>
-                    <div className={styles.cardBody}>
-                      <h3 className={styles.cardTitle}>{cat.name}</h3>
-                      <p className={styles.cardMeta}>
-                        {cat.count} items available
-                      </p>
-                    </div>
-                    <span className={styles.cardArrow}>View</span>
-                  </Link>
-                  {img && (
-                    <p className={styles.credit}>
-                      Image by{" "}
-                      <a href={img.pageUrl} target="_blank" rel="noreferrer">
-                        {img.name}
-                      </a>{" "}
-                      on{" "}
-                      <a
-                        href="https://pixabay.com"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Pixabay
-                      </a>
-                    </p>
-                  )}
-                </motion.div>
-              );
-            })}
+            {filtered.map((cat) => (
+              <CategoryCard key={cat.slug} category={cat} />
+            ))}
           </div>
         )}
       </div>
