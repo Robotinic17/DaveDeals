@@ -75,7 +75,7 @@ export default function BestDeals() {
         <div className={styles.header}>
           <h2 className={styles.title}>Todays Best Deals For You!</h2>
           <p className={styles.sub}>
-            Handpicked finds with standout value, updated daily.
+            Products with standout value, updated daily.
           </p>
         </div>
       </div>
@@ -85,11 +85,10 @@ export default function BestDeals() {
           const id = p.id || p.asin;
           if (!id) return null;
           const rating = clampRating(p.rating);
-          const price =
-            typeof p.price === "number" ? p.price : Number(p.price);
+          const price = typeof p.price === "number" ? p.price : Number(p.price);
           const imgSrc = (p.thumbnail || p.imgUrl || "").replace(
             /^http:\/\//,
-            "https://"
+            "https://",
           );
 
           return (
@@ -135,9 +134,7 @@ export default function BestDeals() {
                       {Number.isFinite(price) ? `$${price}` : "$?"}
                     </span>
                   </div>
-                  <p className={styles.meta}>
-                    {p.category || "Top pick"}
-                  </p>
+                  <p className={styles.meta}>{p.category || "Top pick"}</p>
                   <div className={styles.ratingRow}>
                     <RatingStars value={rating} />
                     <span className={styles.ratingText}>
@@ -154,7 +151,7 @@ export default function BestDeals() {
         })}
 
         <div className={styles.endCard} aria-label="End of deals">
-          <p>That&apos;s all best deals for today.</p>
+          <p>That&apos;s all for today.</p>
           <span>Check back tomorrow.</span>
         </div>
       </div>

@@ -20,8 +20,7 @@
   grid-auto-columns: minmax(300px, 1fr);
   gap: 22px;
   overflow-x: auto;
-  padding: 16px 4% 12px;
-  scroll-snap-type: x mandatory;
+  padding: 16px 1% 12px;
   scrollbar-color: #b7b7b7 #e6e6e6;
   width: 95%;
   place-self: center;
@@ -66,7 +65,9 @@
   background: var(--surface);
   display: grid;
   place-items: center;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .heartBtn:hover {

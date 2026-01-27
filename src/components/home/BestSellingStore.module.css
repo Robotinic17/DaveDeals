@@ -62,8 +62,8 @@
 }
 
 .logoWrap img {
-  width: 34px;
-  height: 34px;
+  width: inherit;
+  height: inherit;
   object-fit: contain;
 }
 
