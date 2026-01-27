@@ -32,7 +32,7 @@
   gap: 22px;
   overflow-x: auto;
   padding: 16px 1% 12px;
-  scrollbar-color: #b7b7b7 #e6e6e6;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   width: 95%;
   place-self: center;
 }
@@ -42,12 +42,12 @@
 }
 
 .scroller::-webkit-scrollbar-track {
-  background: #e6e6e6;
+  background: var(--scrollbar-track);
   border-radius: 999px;
 }
 
 .scroller::-webkit-scrollbar-thumb {
-  background: #b7b7b7;
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 

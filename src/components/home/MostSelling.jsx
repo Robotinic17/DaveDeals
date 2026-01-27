@@ -1,41 +1,89 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 import styles from "./MostSelling.module.css";
 import RatingStars from "../category/RatingStars";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
+import { getAllProducts } from "../../lib/catalog";
 
-const items = [
-  {
-    id: "instax-mini-11",
-    name: "Instax Mini 11",
-    price: 89,
-    rating: 4.7,
-    reviews: 121,
-    description: "Selfie mode and selfie mirror, Macro mode",
-    query: "instant camera product",
-  },
-  {
-    id: "hand-watch",
-    name: "Hand Watch",
-    price: 59,
-    rating: 4.6,
-    reviews: 121,
-    description: "Citizen 650M, W-69g",
-    query: "wrist watch product",
-  },
-  {
-    id: "adidas-sneakers",
-    name: "adidas Sneakers",
-    price: 159,
-    rating: 4.8,
-    reviews: 121,
-    description: "x Sean Wotherspoon Superstar sneakers",
-    query: "colorful sneakers product",
-  },
-];
+function clampRating(value) {
+  const n = Number(value);
+  if (Number.isNaN(n)) return 0;
+  return Math.max(0, Math.min(5, n));
+}
+
+function toHttps(url) {
+  return String(url || "").replace(/^http:\/\//, "https://");
+}
+
+function getWeekKey(date = new Date()) {
+  const d = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
+  );
+  const day = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+}
+
+function hashString(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i += 1) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function createSeededRandom(seed) {
+  let state = seed >>> 0;
+  return function random() {
+    state = (1664525 * state + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+function pickWeeklyItems(list, count, weekKey) {
+  if (!Array.isArray(list) || list.length === 0) return [];
+  const rand = createSeededRandom(hashString(`most-selling:${weekKey}`));
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, count);
+}
+
+function normalizeProduct(product) {
+  const id = product?.id || product?.asin;
+  if (!id) return null;
+
+  const price =
+    typeof product.price === "number" ? product.price : Number(product.price);
+  const rating = clampRating(product.rating);
+  const reviews = Number(product.reviewsCount || product.reviews || 0);
+  const title = product.title || "Product";
+  const category = product.category || "Top pick";
+
+  return {
+    id,
+    name: title,
+    price: Number.isFinite(price) ? price : 0,
+    rating,
+    reviews: Number.isFinite(reviews) ? reviews : 0,
+    description: category,
+    thumbnail: toHttps(product.thumbnail || product.imgUrl),
+    query: `${title} product`,
+  };
+}
 
 function SellingCard({ item, liked, onToggle }) {
-  const { image } = useUnsplashImage(item.query, `selling-${item.id}`);
+  const cacheKey = `selling-${String(item.id).toLowerCase()}`;
+  const { image } = useUnsplashImage(item.query, cacheKey);
+  const imgSrc = item.thumbnail || image?.url;
+  const ratingText =
+    item.reviews > 0 ? item.reviews : Number(item.rating || 0).toFixed(1);
 
   return (
     <article className={styles.card} role="listitem">
@@ -48,53 +96,107 @@ function SellingCard({ item, liked, onToggle }) {
         <Heart size={18} />
       </button>
 
-      <div className={styles.media}>
-        {image?.url ? (
-          <img
-            src={image.url}
-            alt={item.name}
-            loading="lazy"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-          />
-        ) : (
-          <div className={styles.mediaFallback} />
-        )}
-      </div>
+      <Link to={`/p/${item.id}`} className={styles.cardLink}>
+        <div className={styles.media}>
+          {imgSrc ? (
+            <img
+              src={imgSrc}
+              alt={item.name}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          ) : (
+            <div className={styles.mediaFallback} />
+          )}
+        </div>
 
-      <div className={styles.body}>
-        <div className={styles.row}>
-          <h3 className={styles.name}>{item.name}</h3>
-          <span className={styles.price}>${item.price.toFixed(2)}</span>
+        <div className={styles.body}>
+          <div className={styles.row}>
+            <h3 className={styles.name}>{item.name}</h3>
+            <span className={styles.price}>${item.price.toFixed(2)}</span>
+          </div>
+          <p className={styles.desc}>{item.description}</p>
+          <div className={styles.ratingRow}>
+            <RatingStars value={item.rating} />
+            <span className={styles.reviewText}>({ratingText})</span>
+          </div>
+          <button type="button" className={styles.addBtn}>
+            Add to cart
+          </button>
         </div>
-        <p className={styles.desc}>{item.description}</p>
-        <div className={styles.ratingRow}>
-          <RatingStars value={item.rating} />
-          <span className={styles.reviewText}>({item.reviews})</span>
-        </div>
-        {image && (
-          <p className={styles.credit}>
-            Photo by{" "}
-            <a href={image.userLink} target="_blank" rel="noreferrer">
-              {image.name}
-            </a>{" "}
-            on{" "}
-            <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-              Unsplash
-            </a>
-          </p>
-        )}
-        <button type="button" className={styles.addBtn}>
-          Add to Cart
-        </button>
-      </div>
+      </Link>
+
+      {image && (
+        <p className={styles.credit}>
+          Photo by{" "}
+          <a href={image.userLink} target="_blank" rel="noreferrer">
+            {image.name}
+          </a>{" "}
+          on{" "}
+          <a href={image.unsplashLink} target="_blank" rel="noreferrer">
+            Unsplash
+          </a>
+        </p>
+      )}
     </article>
   );
 }
 
 export default function MostSelling() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(() => new Set());
+
+  useEffect(() => {
+    let active = true;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const items = await getAllProducts();
+        if (!active) return;
+        setProducts(Array.isArray(items) ? items : []);
+      } catch (e) {
+        if (!active) return;
+        setProducts([]);
+      } finally {
+        if (!active) return;
+        setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const items = useMemo(() => {
+    const MAX_ITEMS = 12;
+    const POOL_SIZE = 200;
+    const weekKey = getWeekKey();
+
+    const normalized = products
+      .map(normalizeProduct)
+      .filter(Boolean)
+      .map((p) => ({
+        ...p,
+        score: (p.reviews || 0) * (p.rating || 0),
+      }));
+
+    normalized.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (b.reviews !== a.reviews) return b.reviews - a.reviews;
+      return b.rating - a.rating;
+    });
+
+    const pool = normalized.slice(0, POOL_SIZE);
+    return pickWeeklyItems(pool, MAX_ITEMS, weekKey);
+  }, [products]);
 
   function toggleLike(id) {
     setLiked((prev) => {
@@ -115,14 +217,15 @@ export default function MostSelling() {
       </div>
 
       <div className={styles.scroller} role="list">
-        {items.map((item) => (
-          <SellingCard
-            key={item.id}
-            item={item}
-            liked={liked.has(item.id)}
-            onToggle={() => toggleLike(item.id)}
-          />
-        ))}
+        {!loading &&
+          items.map((item) => (
+            <SellingCard
+              key={item.id}
+              item={item}
+              liked={liked.has(item.id)}
+              onToggle={() => toggleLike(item.id)}
+            />
+          ))}
       </div>
     </section>
   );

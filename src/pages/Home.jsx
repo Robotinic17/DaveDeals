@@ -10,6 +10,7 @@ import CashBackBanner from "../components/home/CashBackBanner";
 import MostSelling from "../components/home/MostSelling";
 import TrendingProducts from "../components/home/TrendingProducts";
 import BestSellingStore from "../components/home/BestSellingStore";
+import ServicesHelp from "../components/home/ServicesHelp";
 import stage from "../assets/stage.png";
 import travel from "../assets/travel.png";
 import gadgets from "../assets/gadgets.png";
@@ -59,6 +60,7 @@ export default function Home() {
       <MostSelling />
       <TrendingProducts />
       <BestSellingStore />
+      <ServicesHelp />
     </>
   );
 }

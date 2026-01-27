@@ -1,16 +1,141 @@
-import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import styles from "./Footer.module.css";
+import logo from "../../assets/logo.png";
+import stripeLogo from "../../assets/stripe.png";
+import visaLogo from "../../assets/visa.png";
+import mastercardLogo from "../../assets/Mastercard.png";
+import amazonLogo from "../../assets/Amazon.png";
+import klarnaLogo from "../../assets/Klarna.png";
+import paypalLogo from "../../assets/PayPal.png";
+import applePayLogo from "../../assets/ApplePay.png";
+import googlePayLogo from "../../assets/GooglePay.png";
+
+const paymentBadges = [
+  { id: "stripe", src: stripeLogo, alt: "Stripe" },
+  { id: "visa", src: visaLogo, alt: "Visa" },
+  { id: "mastercard", src: mastercardLogo, alt: "Mastercard" },
+  { id: "amazon", src: amazonLogo, alt: "Amazon Pay" },
+  { id: "klarna", src: klarnaLogo, alt: "Klarna" },
+  { id: "paypal", src: paypalLogo, alt: "PayPal" },
+  { id: "applepay", src: applePayLogo, alt: "Apple Pay" },
+  { id: "googlepay", src: googlePayLogo, alt: "Google Pay" },
+];
+
+const columns = [
+  {
+    title: "Department",
+    links: [
+      { label: "Fashion", to: "/c/fashion" },
+      { label: "Frozen Food", to: "/c/frozen-food" },
+      { label: "Beverages", to: "/c/beverages" },
+      { label: "Organic Grocery", to: "/c/organic-grocery" },
+      { label: "Office Supplies", to: "/c/office-supplies" },
+      { label: "Beauty Products", to: "/c/beauty-products" },
+      { label: "Books", to: "/c/books" },
+      { label: "Electronics", to: "/c/electronics" },
+      { label: "Travel Accessories", to: "/c/travel-accessories" },
+    ],
+  },
+  {
+    title: "About Us",
+    links: [
+      { label: "About DaveDeals", to: "/" },
+      { label: "Careers", to: "/" },
+      { label: "News & Blog", to: "/whats-new" },
+      { label: "Help", to: "/categories" },
+      { label: "Press Center", to: "/" },
+      { label: "Shop by Location", to: "/categories" },
+      { label: "Brands", to: "/categories" },
+      { label: "Affiliate & Partners", to: "/" },
+      { label: "Ideas & Guides", to: "/whats-new" },
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      { label: "Gift Cards", to: "/" },
+      { label: "Mobile App", to: "/" },
+      { label: "Shipping & Delivery", to: "/deals/delivery" },
+      { label: "Order Pickup", to: "/" },
+      { label: "Account Signup", to: "/" },
+    ],
+  },
+  {
+    title: "Help",
+    links: [
+      { label: "Help Center", to: "/categories" },
+      { label: "Returns", to: "/" },
+      { label: "Track Orders", to: "/" },
+      { label: "Contact Us", to: "/" },
+      { label: "Feedback", to: "/" },
+      { label: "Security & Fraud", to: "/" },
+    ],
+  },
+];
 
 export default function Footer() {
-  const { t } = useTranslation();
   const year = new Date().getFullYear();
 
   return (
-    <div
-      style={{ borderTop: "1px solid #eee", padding: "18px 0", color: "#555" }}
-    >
-      <div style={{ width: "min(1100px, 92%)", margin: "0 auto" }}>
-        {t("footer.copyright", { year })}
+    <footer className={styles.footer}>
+      <div className={styles.inner}>
+        <div className={styles.brandBlock}>
+          <Link to="/" className={styles.brandLink} aria-label="DaveDeals home">
+            <img src={logo} alt="DaveDeals" className={styles.logo} />
+          </Link>
+          <p className={styles.tagline}>
+            Discover better deals across categories with a homepage that updates
+            daily and weekly.
+          </p>
+
+          <div className={styles.payments}>
+            <p className={styles.paymentsTitle}>Accepted Payments</p>
+            <div className={styles.paymentGrid}>
+              {paymentBadges.map((badge) => (
+                <div key={badge.id} className={styles.paymentBadge}>
+                  <img src={badge.src} alt={badge.alt} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {columns.map((col) => (
+          <div key={col.title} className={styles.col}>
+            <p className={styles.colTitle}>{col.title}</p>
+            <div className={styles.colLinks}>
+              {col.links.map((link) => (
+                <Link key={link.label} className={styles.link} to={link.to}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+
+      <div className={styles.bottom}>
+        <div className={styles.bottomRow}>
+          <Link className={styles.bottomItem} to="/">
+            Become Seller
+          </Link>
+          <Link className={styles.bottomItem} to="/">
+            Gift Cards
+          </Link>
+          <Link className={styles.bottomItem} to="/categories">
+            Help Center
+          </Link>
+        </div>
+        <div className={styles.bottomLinks}>
+          <Link className={styles.bottomItem} to="/">
+            Terms of Service
+          </Link>
+          <Link className={styles.bottomItem} to="/">
+            Privacy & Policy
+          </Link>
+          <span className={styles.copy}>© {year} DaveDeals</span>
+        </div>
+      </div>
+    </footer>
   );
 }

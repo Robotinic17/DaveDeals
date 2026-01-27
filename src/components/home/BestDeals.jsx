@@ -13,6 +13,39 @@ function clampRating(value) {
   return Math.max(0, Math.min(5, n));
 }
 
+function getDayKey(date = new Date()) {
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function hashString(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i += 1) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function createSeededRandom(seed) {
+  let state = seed >>> 0;
+  return function random() {
+    state = (1664525 * state + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+function shuffleWithRand(list, rand) {
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 export default function BestDeals() {
   const [products, setProducts] = useState([]);
   const [liked, setLiked] = useState(() => new Set());
@@ -40,6 +73,8 @@ export default function BestDeals() {
 
   const deals = useMemo(() => {
     const MAX_DEALS = 24;
+    const dayKey = getDayKey();
+    const rand = createSeededRandom(hashString(`best-deals:${dayKey}`));
     const byCategory = new Map();
     for (const product of products) {
       const key = product.categorySlug || product.category || "misc";
@@ -47,7 +82,11 @@ export default function BestDeals() {
       byCategory.get(key).push(product);
     }
 
-    const groups = [...byCategory.values()];
+    // Shuffle items within each category and shuffle category order
+    const groups = shuffleWithRand(
+      [...byCategory.values()].map((group) => shuffleWithRand(group, rand)),
+      rand,
+    );
     const result = [];
     let idx = 0;
     while (result.length < MAX_DEALS && groups.some((g) => g.length)) {

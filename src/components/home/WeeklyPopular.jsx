@@ -1,86 +1,90 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 import styles from "./WeeklyPopular.module.css";
 import RatingStars from "../category/RatingStars";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
+import { getAllProducts } from "../../lib/catalog";
 
-const items = [
-  {
-    id: "gaming-headphone",
-    name: "Gaming Headphone",
-    price: 239,
-    rating: 4.8,
-    reviews: 121,
-    description: "Table with air purifier, stained veneer/black",
-    query: "gaming headphones product",
-  },
-  {
-    id: "base-camp-duffel",
-    name: "Base Camp Duffel M",
-    price: 159,
-    rating: 4.7,
-    reviews: 121,
-    description: "Table with air purifier, stained veneer/black",
-    query: "travel duffel bag product",
-  },
-  {
-    id: "tomford-watch",
-    name: "Tomford Watch",
-    price: 39,
-    rating: 4.6,
-    reviews: 121,
-    description: "Table with air purifier, stained veneer/black",
-    query: "luxury wrist watch product",
-  },
-  {
-    id: "retro-sneakers",
-    name: "Retro Sneakers",
-    price: 89,
-    rating: 4.5,
-    reviews: 98,
-    description: "Lightweight comfort with a clean finish",
-    query: "retro sneakers product",
-  },
-  {
-    id: "smart-speaker",
-    name: "Smart Speaker",
-    price: 129,
-    rating: 4.6,
-    reviews: 142,
-    description: "Room-filling sound with deep bass",
-    query: "smart speaker product",
-  },
-  {
-    id: "urban-handbag",
-    name: "Urban Handbag",
-    price: 149,
-    rating: 4.7,
-    reviews: 88,
-    description: "Soft leather feel with ample storage",
-    query: "fashion handbag product",
-  },
-  {
-    id: "hardcover-set",
-    name: "Hardcover Set",
-    price: 59,
-    rating: 4.4,
-    reviews: 75,
-    description: "Curated reads for your coffee table",
-    query: "book set product",
-  },
-  {
-    id: "accent-chair",
-    name: "Accent Chair",
-    price: 199,
-    rating: 4.6,
-    reviews: 64,
-    description: "Modern lines with plush comfort",
-    query: "accent chair furniture product",
-  },
-];
+function clampRating(value) {
+  const n = Number(value);
+  if (Number.isNaN(n)) return 0;
+  return Math.max(0, Math.min(5, n));
+}
+
+function toHttps(url) {
+  return String(url || "").replace(/^http:\/\//, "https://");
+}
+
+function normalizeProduct(product) {
+  const id = product?.id || product?.asin;
+  if (!id) return null;
+
+  const price =
+    typeof product.price === "number" ? product.price : Number(product.price);
+  const rating = clampRating(product.rating);
+  const reviews = Number(product.reviewsCount || product.reviews || 0);
+  const title = product.title || "Product";
+  const category = product.category || "Top pick";
+
+  return {
+    id,
+    name: title,
+    price: Number.isFinite(price) ? price : 0,
+    rating,
+    reviews: Number.isFinite(reviews) ? reviews : 0,
+    description: category,
+    thumbnail: toHttps(product.thumbnail || product.imgUrl),
+    query: `${title} product`,
+  };
+}
+
+function getWeekKey(date = new Date()) {
+  // Use UTC to avoid timezone drift around midnight.
+  const d = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
+  );
+  const day = d.getUTCDay() || 7; // Sunday -> 7
+  d.setUTCDate(d.getUTCDate() + 4 - day); // Thursday of current week
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+}
+
+function hashString(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i += 1) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function createSeededRandom(seed) {
+  let state = seed >>> 0;
+  return function random() {
+    state = (1664525 * state + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+function pickWeeklyItems(list, count, weekKey) {
+  if (!Array.isArray(list) || list.length === 0) return [];
+  const rand = createSeededRandom(hashString(weekKey));
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(rand() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, count);
+}
 
 function PopularCard({ item, liked, onToggle }) {
-  const { image } = useUnsplashImage(item.query, `weekly-${item.id}`);
+  const cacheKey = `weekly-${String(item.id).toLowerCase()}`;
+  const { image } = useUnsplashImage(item.query, cacheKey);
+  const imgSrc = item.thumbnail || image?.url;
+  const ratingText =
+    item.reviews > 0 ? item.reviews : Number(item.rating || 0).toFixed(1);
 
   return (
     <article className={styles.card} role="listitem">
@@ -93,53 +97,91 @@ function PopularCard({ item, liked, onToggle }) {
         <Heart size={18} />
       </button>
 
-      <div className={styles.media}>
-        {image?.url ? (
-          <img
-            src={image.url}
-            alt={item.name}
-            loading="lazy"
-            onError={(e) => {
-              e.currentTarget.style.display = "none";
-            }}
-          />
-        ) : (
-          <div className={styles.mediaFallback} />
-        )}
-      </div>
+      <Link to={`/p/${item.id}`} className={styles.cardLink}>
+        <div className={styles.media}>
+          {imgSrc ? (
+            <img
+              src={imgSrc}
+              alt={item.name}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.style.display = "none";
+              }}
+            />
+          ) : (
+            <div className={styles.mediaFallback} />
+          )}
+        </div>
 
-      <div className={styles.body}>
-        <div className={styles.row}>
-          <h3 className={styles.name}>{item.name}</h3>
-          <span className={styles.price}>${item.price.toFixed(2)}</span>
+        <div className={styles.body}>
+          <div className={styles.row}>
+            <h3 className={styles.name}>{item.name}</h3>
+            <span className={styles.price}>${item.price.toFixed(2)}</span>
+          </div>
+          <p className={styles.desc}>{item.description}</p>
+          <div className={styles.ratingRow}>
+            <RatingStars value={item.rating} />
+            <span className={styles.reviewText}>({ratingText})</span>
+          </div>
+          <button type="button" className={styles.addBtn}>
+            Add to cart
+          </button>
         </div>
-        <p className={styles.desc}>{item.description}</p>
-        <div className={styles.ratingRow}>
-          <RatingStars value={item.rating} />
-          <span className={styles.reviewText}>({item.reviews})</span>
-        </div>
-        {image && (
-          <p className={styles.credit}>
-            Photo by{" "}
-            <a href={image.userLink} target="_blank" rel="noreferrer">
-              {image.name}
-            </a>{" "}
-            on{" "}
-            <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-              Unsplash
-            </a>
-          </p>
-        )}
-        <button type="button" className={styles.addBtn}>
-          Add to Cart
-        </button>
-      </div>
+      </Link>
+
+      {image && (
+        <p className={styles.credit}>
+          Photo by{" "}
+          <a href={image.userLink} target="_blank" rel="noreferrer">
+            {image.name}
+          </a>{" "}
+          on{" "}
+          <a href={image.unsplashLink} target="_blank" rel="noreferrer">
+            Unsplash
+          </a>
+        </p>
+      )}
     </article>
   );
 }
 
 export default function WeeklyPopular() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(() => new Set());
+
+  useEffect(() => {
+    let active = true;
+
+    async function load() {
+      setLoading(true);
+      try {
+        const items = await getAllProducts();
+        if (!active) return;
+        setProducts(Array.isArray(items) ? items : []);
+      } catch (e) {
+        if (!active) return;
+        setProducts([]);
+      } finally {
+        if (!active) return;
+        setLoading(false);
+      }
+    }
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const items = useMemo(() => {
+    const MAX_ITEMS = 12;
+    const normalized = products.map(normalizeProduct).filter(Boolean);
+    const weekKey = getWeekKey();
+    return pickWeeklyItems(normalized, MAX_ITEMS, weekKey);
+  }, [products]);
 
   function toggleLike(id) {
     setLiked((prev) => {
@@ -157,14 +199,15 @@ export default function WeeklyPopular() {
       </div>
 
       <div className={styles.scroller} role="list">
-        {items.map((item) => (
-          <PopularCard
-            key={item.id}
-            item={item}
-            liked={liked.has(item.id)}
-            onToggle={() => toggleLike(item.id)}
-          />
-        ))}
+        {!loading &&
+          items.map((item) => (
+            <PopularCard
+              key={item.id}
+              item={item}
+              liked={liked.has(item.id)}
+              onToggle={() => toggleLike(item.id)}
+            />
+          ))}
       </div>
     </section>
   );

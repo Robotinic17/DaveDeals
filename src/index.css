@@ -73,6 +73,10 @@
 
   --shadow-2: 0 20px 60px rgba(0, 0, 0, 0.08);
 
+  /* Horizontal scroller scrollbar */
+  --scrollbar-track: #e6e6e6;
+  --scrollbar-thumb: #1f1f1f;
+
   --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
     sans-serif;
   --font-heading: "Eina", Inter, system-ui, -apple-system, Segoe UI, Roboto,
@@ -102,6 +106,10 @@ html.dark {
   --shine-soft: rgba(255, 255, 255, 0.16);
 
   --shadow-2: 0 20px 60px rgba(0, 0, 0, 0.35);
+
+  /* Horizontal scroller scrollbar */
+  --scrollbar-track: #1f2937;
+  --scrollbar-thumb: #e5e7eb;
 }
 
 /* Base layer */
