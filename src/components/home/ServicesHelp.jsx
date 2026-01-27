@@ -7,7 +7,6 @@ const services = [
     id: "faq",
     title: "Frequently Asked Questions",
     copy: "Updates on safe Shopping in our Stores",
-    bg: "#f6d7d9",
     query: "mother daughter shopping online",
     to: "/categories",
   },
@@ -15,7 +14,6 @@ const services = [
     id: "payment",
     title: "Online Payment Process",
     copy: "Updates on safe Shopping in our Stores",
-    bg: "#7fe3b6",
     query: "mobile payment phone hand",
     to: "/checkout",
   },
@@ -23,7 +21,6 @@ const services = [
     id: "delivery",
     title: "Home Delivery Options",
     copy: "Updates on safe Shopping in our Stores",
-    bg: "#f6df8b",
     query: "delivery courier green uniform",
     to: "/deals/delivery",
   },
@@ -81,4 +78,3 @@ export default function ServicesHelp() {
     </section>
   );
 }
-

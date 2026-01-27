@@ -12,6 +12,7 @@ import booksImg from "../../assets/categories/books.png";
 import techImg from "../../assets/categories/tech.png";
 import sneakersImg from "../../assets/categories/sneakers.png";
 import travelImg from "../../assets/categories/travel.png";
+import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
 
 const CATEGORY_IMAGES = {
   "headphones-and-earbuds": techImg,
@@ -33,6 +34,21 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const menuRef = useRef(null);
   const searchRef = useRef(null);
+  const normalizedQuery = useMemo(
+    () =>
+      String(query || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim(),
+    [query],
+  );
+  const queryTokens = useMemo(
+    () => normalizedQuery.split(/\s+/).filter(Boolean),
+    [normalizedQuery],
+  );
 
   useEffect(() => {
     let active = true;
@@ -139,31 +155,130 @@ export default function Navbar() {
     };
   }, [searchOpen, productsLoaded, query]);
 
+  function isCloseMatch(a, b) {
+    if (!a || !b) return false;
+    const alen = a.length;
+    const blen = b.length;
+    if (Math.abs(alen - blen) > 1) return false;
+    let i = 0;
+    let j = 0;
+    let edits = 0;
+    while (i < alen && j < blen) {
+      if (a[i] === b[j]) {
+        i += 1;
+        j += 1;
+        continue;
+      }
+      edits += 1;
+      if (edits > 1) return false;
+      if (alen > blen) i += 1;
+      else if (blen > alen) j += 1;
+      else {
+        i += 1;
+        j += 1;
+      }
+    }
+    return edits + (alen - i) + (blen - j) <= 1;
+  }
+
+  function normalizeSearchText(value) {
+    return String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+
+  function scoreTextMatch(text, queryText, tokens) {
+    if (!text) return 0;
+    const normalized = text;
+    let score = 0;
+    if (queryText && normalized.startsWith(queryText)) score += 100;
+    if (queryText && normalized.includes(queryText)) score += 60;
+    let tokenHits = 0;
+    const words = normalized.split(/\s+/).filter(Boolean);
+    for (const token of tokens) {
+      if (normalized.includes(token)) {
+        tokenHits += 1;
+        score += 10;
+      } else if (token.length >= 4) {
+        const close = words.some((word) => isCloseMatch(token, word));
+        if (close) score += 6;
+      }
+    }
+    if (tokens.length && tokenHits === tokens.length) score += 20;
+    return score;
+  }
+
   const results = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    if (!needle) return [];
-    const terms = needle.split(/\s+/).filter(Boolean);
-    return allCategories
-      .filter((c) => {
-        const name = String(c.name || "").toLowerCase();
-        return terms.every((term) => name.includes(term));
-      })
-      .sort((a, b) => (b.count || 0) - (a.count || 0))
-      .slice(0, 8);
-  }, [allCategories, query]);
+    if (!normalizedQuery) return [];
+    const scored = [];
+    for (const c of allCategories) {
+      const text = normalizeSearchText(`${c.name || ""} ${c.slug || ""}`);
+      if (!text) continue;
+      if (
+        !text.includes(normalizedQuery) &&
+        !queryTokens.some((t) => text.includes(t))
+      ) {
+        const words = text.split(/\s+/).filter(Boolean);
+        const typoMatch = queryTokens.some((t) =>
+          words.some((w) => isCloseMatch(t, w)),
+        );
+        if (!typoMatch) continue;
+      }
+      const baseScore = scoreTextMatch(text, normalizedQuery, queryTokens);
+      const countBoost = Math.log10((c.count || 0) + 10);
+      scored.push({ item: c, score: baseScore + countBoost });
+    }
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, 8).map((s) => s.item);
+  }, [allCategories, normalizedQuery, queryTokens]);
+
+  const resolvedTopCategories = useMemo(
+    () =>
+      topCategories.map((cat) => ({
+        ...cat,
+        resolvedSlug:
+          resolveCategorySlug(
+            { slug: cat.slug, name: cat.label },
+            allCategories,
+            CATEGORY_OVERRIDES,
+          ) || cat.slug,
+      })),
+    [topCategories, allCategories],
+  );
 
   const productResults = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    if (!needle) return [];
+    if (!normalizedQuery || normalizedQuery.length < 2) return [];
     if (!allProducts.length) return [];
-    const terms = needle.split(/\s+/).filter(Boolean);
-    return allProducts
-      .filter((p) => {
-        const title = String(p.title || "").toLowerCase();
-        return terms.every((term) => title.includes(term));
-      })
-      .slice(0, 6);
-  }, [allProducts, query]);
+    const candidates = [];
+    for (const p of allProducts) {
+      const title = normalizeSearchText(p.title);
+      if (!title) continue;
+      if (
+        title.includes(normalizedQuery) ||
+        queryTokens.some((t) => title.includes(t))
+      ) {
+        candidates.push(p);
+        if (candidates.length >= 800) break;
+      }
+    }
+
+    const scored = candidates.map((p) => {
+      const title = normalizeSearchText(p.title);
+      const category = normalizeSearchText(p.category);
+      const text = `${title} ${category}`.trim();
+      let score = scoreTextMatch(text, normalizedQuery, queryTokens);
+      const rating = Number(p.rating || 0);
+      if (Number.isFinite(rating)) score += rating;
+      return { item: p, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, 6).map((s) => s.item);
+  }, [allProducts, normalizedQuery, queryTokens]);
 
   return (
     <header className={styles.navbar}>
@@ -194,10 +309,10 @@ export default function Navbar() {
               >
                 <div className={styles.categoryHeader}>Top Categories</div>
                 <div className={styles.categoryGrid}>
-                  {topCategories.map((cat) => (
+                  {resolvedTopCategories.map((cat) => (
                     <Link
                       key={cat.slug}
-                      to={`/c/${cat.slug}`}
+                      to={`/c/${cat.resolvedSlug}`}
                       className={styles.categoryItem}
                       onClick={() => setMenuOpen(false)}
                     >
@@ -264,10 +379,10 @@ export default function Navbar() {
                 <>
                   <div className={styles.searchHeader}>Popular Categories</div>
                   <div className={styles.searchGrid}>
-                    {topCategories.map((cat) => (
+                    {resolvedTopCategories.map((cat) => (
                       <Link
                         key={cat.slug}
-                        to={`/c/${cat.slug}`}
+                        to={`/c/${cat.resolvedSlug}`}
                         className={styles.searchCard}
                         onClick={() => setSearchOpen(false)}
                       >

@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import styles from "./TopCategories.module.css";
 
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
+import { getAllCategories } from "../../lib/catalog";
+import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 10 },
@@ -29,6 +31,7 @@ export default function TopCategories() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
 
   useEffect(() => {
     let active = true;
@@ -57,7 +60,34 @@ export default function TopCategories() {
     };
   }, []);
 
+  useEffect(() => {
+    let active = true;
+
+    async function loadAll() {
+      try {
+        const items = await getAllCategories();
+        if (!active) return;
+        setAllCategories(Array.isArray(items) ? items : []);
+      } catch (e) {
+        if (!active) return;
+        setAllCategories([]);
+      }
+    }
+
+    loadAll();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   function CategoryCard({ category }) {
+    const resolvedSlug =
+      resolveCategorySlug(
+        { slug: category.slug, name: category.name },
+        allCategories,
+        CATEGORY_OVERRIDES,
+      ) || category.slug;
     const { image } = useUnsplashImage(
       `${category.name} category product`,
       `topcat-${category.slug}`
@@ -66,7 +96,7 @@ export default function TopCategories() {
     return (
       <motion.div variants={cardVariants}>
         <div className={styles.cardWrap}>
-          <Link to={`/c/${category.slug}`} className={styles.card}>
+          <Link to={`/c/${resolvedSlug}`} className={styles.card}>
             <div className={styles.imageFallback} />
             {image?.url && (
               <img

@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Footer.module.css";
 import logo from "../../assets/logo.png";
@@ -9,6 +10,8 @@ import klarnaLogo from "../../assets/Klarna.png";
 import paypalLogo from "../../assets/PayPal.png";
 import applePayLogo from "../../assets/ApplePay.png";
 import googlePayLogo from "../../assets/GooglePay.png";
+import { getAllCategories } from "../../lib/catalog";
+import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
 
 const paymentBadges = [
   { id: "stripe", src: stripeLogo, alt: "Stripe" },
@@ -25,15 +28,20 @@ const columns = [
   {
     title: "Department",
     links: [
-      { label: "Fashion", to: "/c/fashion" },
-      { label: "Frozen Food", to: "/c/frozen-food" },
-      { label: "Beverages", to: "/c/beverages" },
-      { label: "Organic Grocery", to: "/c/organic-grocery" },
-      { label: "Office Supplies", to: "/c/office-supplies" },
-      { label: "Beauty Products", to: "/c/beauty-products" },
-      { label: "Books", to: "/c/books" },
-      { label: "Electronics", to: "/c/electronics" },
-      { label: "Travel Accessories", to: "/c/travel-accessories" },
+      { label: "Fashion", type: "category" },
+      { label: "Education Product", type: "category" },
+      { label: "Frozen Food", type: "category" },
+      { label: "Beverages", type: "category" },
+      { label: "Organic Grocery", type: "category" },
+      { label: "Office Supplies", type: "category" },
+      { label: "Beauty Products", type: "category" },
+      { label: "Books", type: "category" },
+      { label: "Electronics & Gadget", type: "category" },
+      { label: "Travel Accessories", type: "category" },
+      { label: "Fitness", type: "category" },
+      { label: "Sneakers", type: "category" },
+      { label: "Toys", type: "category" },
+      { label: "Furniture", type: "category" },
     ],
   },
   {
@@ -75,6 +83,55 @@ const columns = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function load() {
+      try {
+        const items = await getAllCategories();
+        if (!active) return;
+        setCategories(Array.isArray(items) ? items : []);
+      } catch (e) {
+        if (!active) return;
+        setCategories([]);
+      }
+    }
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const categoryOverrides = useMemo(
+    () => ({
+      ...CATEGORY_OVERRIDES,
+    }),
+    [],
+  );
+
+  const resolvedColumns = useMemo(
+    () =>
+      columns.map((col) => ({
+        ...col,
+        links: col.links.map((link) => {
+          if (link.type !== "category") return link;
+          const slug = resolveCategorySlug(
+            { name: link.label },
+            categories,
+            categoryOverrides,
+          );
+          return {
+            ...link,
+            to: slug ? `/c/${slug}` : "/categories",
+          };
+        }),
+      })),
+    [categories, categoryOverrides],
+  );
 
   return (
     <footer className={styles.footer}>
@@ -84,8 +141,8 @@ export default function Footer() {
             <img src={logo} alt="DaveDeals" className={styles.logo} />
           </Link>
           <p className={styles.tagline}>
-            Discover better deals across categories with a homepage that updates
-            daily and weekly.
+            Where brands showcase their best, and buyers explore with ease.
+            Shopping designed to feel effortless and refined.
           </p>
 
           <div className={styles.payments}>
@@ -100,7 +157,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {columns.map((col) => (
+        {resolvedColumns.map((col) => (
           <div key={col.title} className={styles.col}>
             <p className={styles.colTitle}>{col.title}</p>
             <div className={styles.colLinks}>

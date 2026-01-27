@@ -7,7 +7,7 @@ export default function CashBackBanner() {
       <div className={styles.inner}>
         <div className={styles.content}>
           <h2 className={styles.title}>Get 5% Cash Back</h2>
-          <p className={styles.sub}>on Shopcart.com</p>
+          <p className={styles.sub}>on DaveDeals.com</p>
           <button type="button" className={styles.cta}>
             Learn More
           </button>
