@@ -9,7 +9,6 @@
   margin: 0 auto 36px;
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: 28px;
   align-items: center;
 }
 
@@ -20,45 +19,81 @@
 }
 
 .heroLogo {
-  width: min(280px, 70vw);
-  height: auto;
+  width: 400px;
+  height: 300px;
   object-fit: contain;
+  place-self: center;
+  display: flex;
+  animation:
+    heroZoomIn 700ms ease-out both,
+    heroFloat 4.5s ease-in-out 700ms infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes heroZoomIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroLogo {
+    animation: none;
+  }
 }
 
 .heroImage {
-  border-radius: 22px;
-  border: 1px solid var(--border);
   overflow: hidden;
-  background: var(--surface);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-  min-height: 260px;
   display: grid;
+  width: 400px;
+  border-radius: 50%;
+  justify-self: end;
   place-items: center;
+  border-color: rgba(0, 61, 41, 0.5);
+  box-shadow: 0 18px 40px rgba(0, 61, 41, 0.18);
 }
 
 .heroImage img {
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 400px;
   object-fit: cover;
   display: block;
+  border-radius: 50%;
 }
 
 .inner {
-  width: min(1100px, 92%);
+  width: min(1200px, 92%);
   margin: 0 auto;
 }
 
 .title {
   font-family: var(--font-heading);
-  font-size: 40px;
+  font-size: 60px;
   margin: 0;
+  font-weight: 700;
 }
 
 .subtitle {
   margin: 0;
   color: var(--muted);
-  font-size: 16px;
-  max-width: 52ch;
+  font-size: 22px;
+  max-width: 45ch;
 }
 
 .cards {
@@ -73,7 +108,14 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 20px 22px;
+  transition: all 0.3s ease;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 61, 41, 0.5);
+  box-shadow: 0 18px 40px rgba(0, 61, 41, 0.18);
 }
 
 .cardTitle {
@@ -97,9 +139,10 @@
 .feature {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
+  gap: 3rem;
   align-items: center;
   position: relative;
+  margin-top: 3rem;
 }
 
 .featureReverse {
@@ -118,6 +161,7 @@
 
 .featureTitle {
   font-size: 24px;
+  font-weight: 500;
   margin: 0;
 }
 
@@ -147,7 +191,7 @@
 
 .featureImage img {
   width: 100%;
-  height: 100%;
+  height: 300px;
   object-fit: cover;
   display: block;
 }
