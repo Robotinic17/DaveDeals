@@ -6,6 +6,8 @@ import styles from "./BestDeals.module.css";
 
 import RatingStars from "../category/RatingStars";
 import { getAllProducts } from "../../lib/catalog";
+import { getProductImage } from "../../lib/productImages";
+import { useInView } from "../../hooks/useInView";
 
 function clampRating(value) {
   const n = Number(value);
@@ -49,9 +51,11 @@ function shuffleWithRand(list, rand) {
 export default function BestDeals() {
   const [products, setProducts] = useState([]);
   const [liked, setLiked] = useState(() => new Set());
+  const { ref, inView } = useInView();
 
   useEffect(() => {
     let active = true;
+    if (!inView) return () => {};
 
     async function load() {
       try {
@@ -69,7 +73,7 @@ export default function BestDeals() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [inView]);
 
   const deals = useMemo(() => {
     const MAX_DEALS = 24;
@@ -109,7 +113,7 @@ export default function BestDeals() {
   }
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={ref}>
       <div className={styles.inner}>
         <div className={styles.header}>
           <h2 className={styles.title}>Todays Best Deals For You!</h2>
@@ -125,10 +129,7 @@ export default function BestDeals() {
           if (!id) return null;
           const rating = clampRating(p.rating);
           const price = typeof p.price === "number" ? p.price : Number(p.price);
-          const imgSrc = (p.thumbnail || p.imgUrl || "").replace(
-            /^http:\/\//,
-            "https://",
-          );
+          const imgSrc = getProductImage(p);
 
           return (
             <motion.div

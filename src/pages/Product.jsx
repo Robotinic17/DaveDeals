@@ -6,6 +6,7 @@ import styles from "./Product.module.css";
 
 import RatingStars from "../components/category/RatingStars";
 import { getProductById, getProductsByCategorySlug } from "../lib/catalog";
+import { getProductImage } from "../lib/productImages";
 
 const COLOR_SWATCHES = [
   { id: "black", label: "Black", hex: "#121212" },
@@ -81,11 +82,18 @@ export default function Product() {
 
   const gallery = useMemo(() => {
     if (!product) return [];
+    const images = Array.isArray(product.images) ? product.images : [];
+    const normalized = images
+      .map((url) => String(url || "").replace(/^http:\/\//, "https://").trim())
+      .filter(Boolean);
+
+    if (normalized.length) return normalized.slice(0, 6);
+
     const src = (product.thumbnail || product.imgUrl || "").replace(
       /^http:\/\//,
       "https://"
     );
-    if (!src) return [];
+    if (!src) return ["/fallback-product.png"];
     return [src, src, src, src];
   }, [product]);
 
@@ -154,7 +162,14 @@ export default function Product() {
                 }`}
                 onClick={() => setActiveImage(src)}
               >
-                <img src={src} alt="" />
+                <img
+                  src={src || "/fallback-product.png"}
+                  alt=""
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "/fallback-product.png";
+                  }}
+                />
               </button>
             ))}
           </div>
@@ -264,10 +279,7 @@ export default function Product() {
           <div className={styles.similarGrid}>
             {similar.map((item, idx) => {
               const pid = item.id || item.asin;
-              const imgSrc = (item.thumbnail || item.imgUrl || "").replace(
-                /^http:\/\//,
-                "https://"
-              );
+              const imgSrc = getProductImage(item);
               return (
                 <Link
                   key={pid}

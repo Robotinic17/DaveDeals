@@ -11,7 +11,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 2.8fr) repeat(4, minmax(0, 1fr));
-  gap: 32px;
+  gap: 50px;
 }
 
 .brandBlock {
@@ -63,11 +63,12 @@
   color: var(--muted);
   text-decoration: none;
   font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 .link:hover {
-  color: var(--text);
-  text-decoration: underline;
+  color: var(--brand);
+  transform: translateX(5px);
 }
 
 .bottom {
@@ -101,11 +102,12 @@
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .bottomItem:hover {
-  color: var(--text);
-  text-decoration: underline;
+  color: var(--brand);
+  transform: translatey(-3px);
 }
 
 .copy {

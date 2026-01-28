@@ -27,35 +27,20 @@ const paymentBadges = [
 const columns = [
   {
     title: "Department",
-    links: [
-      { label: "Fashion", type: "category" },
-      { label: "Education Product", type: "category" },
-      { label: "Frozen Food", type: "category" },
-      { label: "Beverages", type: "category" },
-      { label: "Organic Grocery", type: "category" },
-      { label: "Office Supplies", type: "category" },
-      { label: "Beauty Products", type: "category" },
-      { label: "Books", type: "category" },
-      { label: "Electronics & Gadget", type: "category" },
-      { label: "Travel Accessories", type: "category" },
-      { label: "Fitness", type: "category" },
-      { label: "Sneakers", type: "category" },
-      { label: "Toys", type: "category" },
-      { label: "Furniture", type: "category" },
-    ],
+    links: [],
   },
   {
     title: "About Us",
     links: [
-      { label: "About DaveDeals", to: "/" },
-      { label: "Careers", to: "/" },
-      { label: "News & Blog", to: "/whats-new" },
-      { label: "Help", to: "/categories" },
-      { label: "Press Center", to: "/" },
-      { label: "Shop by Location", to: "/categories" },
-      { label: "Brands", to: "/categories" },
-      { label: "Affiliate & Partners", to: "/" },
-      { label: "Ideas & Guides", to: "/whats-new" },
+      { label: "About DaveDeals", to: "/about" },
+      { label: "Careers", to: "/careers" },
+      { label: "News & Blog", to: "/news" },
+      { label: "Help", to: "/help" },
+      { label: "Press Center", to: "/press" },
+      { label: "Shop by Location", to: "/locations" },
+      { label: "Brands", to: "/brands" },
+      { label: "Affiliate & Partners", to: "/partners" },
+      { label: "Ideas & Guides", to: "/guides" },
     ],
   },
   {
@@ -106,31 +91,73 @@ export default function Footer() {
     };
   }, []);
 
-  const categoryOverrides = useMemo(
+  const categoryOverrides = useMemo(() => ({ ...CATEGORY_OVERRIDES }), []);
+
+  const shortLabelOverrides = useMemo(
     () => ({
-      ...CATEGORY_OVERRIDES,
+      "beading and jewelry making": "Jewelry",
+      "knitting and crochet supplies": "Crochet",
+      "beauty and personal care": "Beauty",
+      "men s clothing": "Men",
+      "women s clothing": "Women",
+      "toys and games": "Toys",
+      "home decor products": "Decor",
+      "home d cor products": "Decor",
+      "kitchen and dining": "Kitchen",
+      "sports and fitness": "Fitness",
+      "health and household": "Health",
+      "office electronics": "Office",
+      "office supplies": "Office",
+      "travel accessories": "Travel",
     }),
     [],
   );
+
+  function shortLabel(name) {
+    const normalized = String(name || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+    if (!normalized) return "Shop";
+    if (shortLabelOverrides[normalized]) return shortLabelOverrides[normalized];
+    const first = normalized.split(/\s+/)[0];
+    return first ? first[0].toUpperCase() + first.slice(1) : "Shop";
+  }
+
+  const departmentLinks = useMemo(() => {
+    const sorted = [...categories].sort(
+      (a, b) => (b.count || 0) - (a.count || 0),
+    );
+    return sorted.slice(0, 12).map((cat) => ({
+      label: shortLabel(cat.name || cat.slug),
+      to: `/c/${cat.slug}`,
+    }));
+  }, [categories, shortLabelOverrides]);
 
   const resolvedColumns = useMemo(
     () =>
       columns.map((col) => ({
         ...col,
-        links: col.links.map((link) => {
-          if (link.type !== "category") return link;
-          const slug = resolveCategorySlug(
-            { name: link.label },
-            categories,
-            categoryOverrides,
-          );
-          return {
-            ...link,
-            to: slug ? `/c/${slug}` : "/categories",
-          };
-        }),
+        links:
+          col.title === "Department"
+            ? departmentLinks
+            : col.links.map((link) => {
+                if (link.type !== "category") return link;
+                const slug = resolveCategorySlug(
+                  { name: link.label },
+                  categories,
+                  categoryOverrides,
+                );
+                return {
+                  ...link,
+                  to: slug ? `/c/${slug}` : "/categories",
+                };
+              }),
       })),
-    [categories, categoryOverrides],
+    [categories, categoryOverrides, departmentLinks],
   );
 
   return (
@@ -179,7 +206,7 @@ export default function Footer() {
           <Link className={styles.bottomItem} to="/">
             Gift Cards
           </Link>
-          <Link className={styles.bottomItem} to="/categories">
+          <Link className={styles.bottomItem} to="/help">
             Help Center
           </Link>
         </div>

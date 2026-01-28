@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronDown, Search, User, ShoppingCart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,6 +13,7 @@ import techImg from "../../assets/categories/tech.png";
 import sneakersImg from "../../assets/categories/sneakers.png";
 import travelImg from "../../assets/categories/travel.png";
 import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
+import { getProductImage } from "../../lib/productImages";
 
 const CATEGORY_IMAGES = {
   "headphones-and-earbuds": techImg,
@@ -25,6 +26,7 @@ const CATEGORY_IMAGES = {
 
 export default function Navbar() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [topCategories, setTopCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -32,6 +34,7 @@ export default function Navbar() {
   const [productsLoaded, setProductsLoaded] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(-1);
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const normalizedQuery = useMemo(
@@ -133,7 +136,7 @@ export default function Navbar() {
 
     async function loadProducts() {
       if (!searchOpen || productsLoaded) return;
-      if (!query.trim()) return;
+      if (!query.trim() || query.trim().length < 2) return;
       try {
         const res = await fetch("/data/products.json");
         if (!res.ok) throw new Error("Failed to load products");
@@ -148,10 +151,11 @@ export default function Navbar() {
       }
     }
 
-    loadProducts();
+    const timer = setTimeout(loadProducts, 180);
 
     return () => {
       active = false;
+      clearTimeout(timer);
     };
   }, [searchOpen, productsLoaded, query]);
 
@@ -210,6 +214,26 @@ export default function Navbar() {
     }
     if (tokens.length && tokenHits === tokens.length) score += 20;
     return score;
+  }
+
+  function highlightText(text, tokens) {
+    if (!text || !tokens.length) return text;
+    const escaped = tokens
+      .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .filter(Boolean);
+    if (!escaped.length) return text;
+    const regex = new RegExp(`(${escaped.join("|")})`, "ig");
+    const matchRegex = new RegExp(`^(${escaped.join("|")})$`, "i");
+    const parts = String(text).split(regex);
+    return parts.map((part, idx) =>
+      matchRegex.test(part) ? (
+        <span key={`${part}-${idx}`} className={styles.searchHighlight}>
+          {part}
+        </span>
+      ) : (
+        part
+      ),
+    );
   }
 
   const results = useMemo(() => {
@@ -279,6 +303,77 @@ export default function Navbar() {
     scored.sort((a, b) => b.score - a.score);
     return scored.slice(0, 6).map((s) => s.item);
   }, [allProducts, normalizedQuery, queryTokens]);
+
+  const resolvedSearchCategories = useMemo(
+    () =>
+      results.map((cat) => ({
+        ...cat,
+        resolvedSlug:
+          resolveCategorySlug(
+            { slug: cat.slug, name: cat.name },
+            allCategories,
+            CATEGORY_OVERRIDES,
+          ) || cat.slug,
+      })),
+    [results, allCategories],
+  );
+
+  const searchItems = useMemo(() => {
+    const items = [];
+    resolvedSearchCategories.forEach((cat) => {
+      items.push({
+        type: "category",
+        id: `cat-${cat.slug}`,
+        to: `/c/${cat.resolvedSlug}`,
+        label: cat.name,
+        meta: cat.count != null ? `${cat.count} available` : "Category",
+      });
+    });
+    productResults.forEach((p) => {
+      const pid = p.id || p.asin;
+      items.push({
+        type: "product",
+        id: `prod-${pid}`,
+        to: `/p/${pid}`,
+        label: p.title,
+        meta: p.category || "Product",
+        thumb: (p.thumbnail || p.imgUrl || "").replace(/^http:\/\//, "https://"),
+      });
+    });
+    return items;
+  }, [resolvedSearchCategories, productResults]);
+
+  useEffect(() => {
+    if (!normalizedQuery) {
+      setActiveIndex(-1);
+      return;
+    }
+    setActiveIndex(searchItems.length ? 0 : -1);
+  }, [normalizedQuery, searchItems.length]);
+
+  function handleSearchKeyDown(event) {
+    if (!searchOpen) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (!searchItems.length) return;
+      setActiveIndex((prev) =>
+        prev < 0 ? 0 : (prev + 1) % searchItems.length,
+      );
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!searchItems.length) return;
+      setActiveIndex((prev) =>
+        prev <= 0 ? searchItems.length - 1 : prev - 1,
+      );
+    } else if (event.key === "Enter") {
+      if (!searchItems.length || activeIndex < 0) return;
+      event.preventDefault();
+      navigate(searchItems[activeIndex].to);
+      setSearchOpen(false);
+    } else if (event.key === "Escape") {
+      setSearchOpen(false);
+    }
+  }
 
   return (
     <header className={styles.navbar}>
@@ -354,6 +449,7 @@ export default function Navbar() {
             placeholder={t("nav.searchPlaceholder")}
             value={query}
             onFocus={() => setSearchOpen(true)}
+            onKeyDown={handleSearchKeyDown}
             onChange={(e) => {
               setQuery(e.target.value);
               setSearchOpen(true);
@@ -413,18 +509,20 @@ export default function Navbar() {
                         No categories match "{query}"
                       </div>
                     )}
-                    {results.map((cat) => (
+                    {resolvedSearchCategories.map((cat, idx) => (
                       <Link
                         key={cat.slug}
-                        to={`/c/${cat.slug}`}
-                        className={styles.searchRow}
+                        to={`/c/${cat.resolvedSlug}`}
+                        className={`${styles.searchRow} ${
+                          activeIndex === idx ? styles.searchRowActive : ""
+                        }`}
                         onClick={() => setSearchOpen(false)}
                       >
                         <span className={styles.searchInitial}>
                           {cat.name?.slice(0, 1) || "?"}
                         </span>
                         <span className={styles.searchRowTitle}>
-                          {cat.name}
+                          {highlightText(cat.name, queryTokens)}
                         </span>
                         <span className={styles.searchRowMeta}>
                           {cat.count} available
@@ -440,18 +538,20 @@ export default function Navbar() {
                         No products match "{query}"
                       </div>
                     )}
-                    {productResults.map((p) => (
+                    {productResults.map((p, idx) => {
+                      const rowIndex = resolvedSearchCategories.length + idx;
+                      const imgSrc = getProductImage(p);
+                      return (
                       <Link
                         key={p.id || p.asin}
                         to={`/p/${p.id || p.asin}`}
-                        className={styles.searchRow}
+                        className={`${styles.searchRow} ${
+                          activeIndex === rowIndex ? styles.searchRowActive : ""
+                        }`}
                         onClick={() => setSearchOpen(false)}
                       >
                         <img
-                          src={(p.thumbnail || p.imgUrl || "").replace(
-                            /^http:\/\//,
-                            "https://"
-                          )}
+                          src={imgSrc || "/fallback-product.png"}
                           alt=""
                           className={styles.searchThumb}
                           onError={(e) => {
@@ -460,13 +560,26 @@ export default function Navbar() {
                           }}
                         />
                         <span className={styles.searchRowTitle}>
-                          {p.title}
+                          {highlightText(p.title, queryTokens)}
                         </span>
                         <span className={styles.searchRowMeta}>
-                          {p.category || "Product"}
+                          {highlightText(p.category || "Product", queryTokens)}
                         </span>
                       </Link>
-                    ))}
+                      );
+                    })}
+                  </div>
+                  <div className={styles.searchFooter}>
+                    <span className={styles.searchHint}>
+                      Use ↑/↓ to navigate and Enter to open.
+                    </span>
+                    <Link
+                      className={styles.searchSeeAll}
+                      to="/categories"
+                      onClick={() => setSearchOpen(false)}
+                    >
+                      See all results
+                    </Link>
                   </div>
                 </>
               )}

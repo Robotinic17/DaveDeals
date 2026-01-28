@@ -8,6 +8,7 @@ import styles from "./Category.module.css";
 import PromoSlider from "../components/category/PromoSlider";
 import RatingStars from "../components/category/RatingStars";
 import { getCategoryBySlug, getProductsByCategorySlug } from "../lib/catalog";
+import { getProductImage } from "../lib/productImages";
 
 function formatCategoryTitle(slug) {
   if (!slug) return "";
@@ -849,10 +850,7 @@ export default function Category() {
                 const price =
                   typeof p.price === "number" ? p.price : Number(p.price);
 
-                const imgSrc = (p.thumbnail || p.imgUrl || "").replace(
-                  /^http:\/\//,
-                  "https://"
-                );
+                const imgSrc = getProductImage(p);
 
                 return (
                   <motion.article

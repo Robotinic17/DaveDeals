@@ -6,6 +6,7 @@ import styles from "./WhatsNew.module.css";
 
 import RatingStars from "../components/category/RatingStars";
 import { getAllProducts } from "../lib/catalog";
+import { getProductImage } from "../lib/productImages";
 
 const PAGE_SIZE = 70;
 const MAX_PAGES = 5;
@@ -125,10 +126,7 @@ export default function WhatsNew() {
                 const price =
                   typeof p.price === "number" ? p.price : Number(p.price);
 
-                const imgSrc = (p.thumbnail || p.imgUrl || "").replace(
-                  /^http:\/\//,
-                  "https://"
-                );
+                const imgSrc = getProductImage(p);
 
                 return (
                   <motion.article

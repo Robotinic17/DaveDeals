@@ -5,6 +5,8 @@ import styles from "./MostSelling.module.css";
 import RatingStars from "../category/RatingStars";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 import { getAllProducts } from "../../lib/catalog";
+import { useInView } from "../../hooks/useInView";
+import { getProductImage } from "../../lib/productImages";
 
 function clampRating(value) {
   const n = Number(value);
@@ -73,7 +75,7 @@ function normalizeProduct(product) {
     rating,
     reviews: Number.isFinite(reviews) ? reviews : 0,
     description: category,
-    thumbnail: toHttps(product.thumbnail || product.imgUrl),
+    thumbnail: toHttps(getProductImage(product)),
     query: `${title} product`,
   };
 }
@@ -81,7 +83,7 @@ function normalizeProduct(product) {
 function SellingCard({ item, liked, onToggle }) {
   const cacheKey = `selling-${String(item.id).toLowerCase()}`;
   const { image } = useUnsplashImage(item.query, cacheKey);
-  const imgSrc = item.thumbnail || image?.url;
+  const imgSrc = item.thumbnail || image?.url || "/fallback-product.png";
   const ratingText =
     item.reviews > 0 ? item.reviews : Number(item.rating || 0).toFixed(1);
 
@@ -98,19 +100,15 @@ function SellingCard({ item, liked, onToggle }) {
 
       <Link to={`/p/${item.id}`} className={styles.cardLink}>
         <div className={styles.media}>
-          {imgSrc ? (
-            <img
-              src={imgSrc}
-              alt={item.name}
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.onerror = null;
-                e.currentTarget.style.display = "none";
-              }}
-            />
-          ) : (
-            <div className={styles.mediaFallback} />
-          )}
+          <img
+            src={imgSrc}
+            alt={item.name}
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/fallback-product.png";
+            }}
+          />
         </div>
 
         <div className={styles.body}>
@@ -149,9 +147,11 @@ export default function MostSelling() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(() => new Set());
+  const { ref, inView } = useInView();
 
   useEffect(() => {
     let active = true;
+    if (!inView) return () => {};
 
     async function load() {
       setLoading(true);
@@ -173,7 +173,7 @@ export default function MostSelling() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [inView]);
 
   const items = useMemo(() => {
     const MAX_ITEMS = 12;
@@ -208,7 +208,7 @@ export default function MostSelling() {
   }
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={ref}>
       <div className={styles.inner}>
         <div className={styles.titleRow}>
           <span className={styles.titleMark} aria-hidden="true" />
