@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styles from "./TrendingProducts.module.css";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 import { getAllCategories } from "../../lib/catalog";
@@ -8,8 +9,8 @@ function getWeekKey(date = new Date()) {
   const d = new Date(
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
   );
-  const day = d.getUTCDay() || 7; // Sunday -> 7
-  d.setUTCDate(d.getUTCDate() + 4 - day); // Thursday of current week
+  const day = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - day);
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
   return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
@@ -43,19 +44,22 @@ function pickWeeklyItems(list, count, key) {
   return copy.slice(0, count);
 }
 
-function normalizeCategory(category) {
+function normalizeCategory(category, t) {
   if (!category?.slug) return null;
   const count = Number(category.count || 0);
   return {
     id: category.id || category.slug,
-    title: category.name || "Trending Category",
+    title: category.name || t("home.trending.fallbackTitle"),
     slug: category.slug,
-    meta: count > 0 ? `${count.toLocaleString()} items` : "Shop this week",
+    meta:
+      count > 0
+        ? t("home.trending.items", { count })
+        : t("home.trending.shopThisWeek"),
     query: `${category.name || category.slug} products`,
   };
 }
 
-function TrendingCard({ card }) {
+function TrendingCard({ card, t }) {
   const cacheKey = `trending-${String(card.slug || card.id).toLowerCase()}`;
   const { image } = useUnsplashImage(card.query, cacheKey);
 
@@ -73,20 +77,20 @@ function TrendingCard({ card }) {
           <h3 className={styles.cardTitle}>{card.title}</h3>
           <p className={styles.meta}>{card.meta}</p>
           <button type="button" className={styles.cta}>
-            Shop now
+            {t("common.shopNow")}
           </button>
         </div>
       </Link>
 
       {image && (
         <p className={styles.credit}>
-          Photo by{" "}
+          {t("common.photoBy")} {" "}
           <a href={image.userLink} target="_blank" rel="noreferrer">
             {image.name}
           </a>{" "}
-          on{" "}
+          {t("common.on")} {" "}
           <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-            Unsplash
+            {t("common.unsplash")}
           </a>
         </p>
       )}
@@ -95,6 +99,7 @@ function TrendingCard({ card }) {
 }
 
 export default function TrendingProducts() {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -126,18 +131,20 @@ export default function TrendingProducts() {
   const cards = useMemo(() => {
     const MAX_CARDS = 2;
     const weekKey = getWeekKey();
-    const normalized = categories.map(normalizeCategory).filter(Boolean);
+    const normalized = categories.map((c) => normalizeCategory(c, t)).filter(Boolean);
     return pickWeeklyItems(normalized, MAX_CARDS, weekKey);
-  }, [categories]);
+  }, [categories, t]);
 
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>Trending Products For You!</h2>
+        <h2 className={styles.title}>{t("home.trending.title")}</h2>
 
         <div className={styles.grid}>
           {!loading &&
-            cards.map((card) => <TrendingCard key={card.id} card={card} />)}
+            cards.map((card) => (
+              <TrendingCard key={card.id} card={card} t={t} />
+            ))}
         </div>
       </div>
     </section>

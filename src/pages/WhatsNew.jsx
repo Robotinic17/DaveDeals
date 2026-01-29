@@ -95,11 +95,8 @@ export default function WhatsNew() {
         <div className={styles.heroInner}>
           <div>
             <p className={styles.kicker}>{t("nav.whatsNew")}</p>
-            <h1 className={styles.title}>New arrivals</h1>
-            <p className={styles.sub}>
-              Fresh drops curated from across the catalog. Updated as inventory
-              flows in.
-            </p>
+            <h1 className={styles.title}>{t("whatsNew.title")}</h1>
+            <p className={styles.sub}>{t("whatsNew.subtitle")}</p>
           </div>
         </div>
       </div>
@@ -142,11 +139,11 @@ export default function WhatsNew() {
                     }}
                   >
                     <Link to={`/p/${id}`} className={styles.cardLink}>
-                    <div className={styles.badge}>New</div>
+                    <div className={styles.badge}>{t("whatsNew.badge")}</div>
                     <div className={styles.media}>
                       <img
                         src={imgSrc || "/fallback-product.png"}
-                        alt={p.title || "Product"}
+                        alt={p.title || t("common.product")}
                         className={styles.thumb}
                         loading="lazy"
                         referrerPolicy="origin"
@@ -162,7 +159,9 @@ export default function WhatsNew() {
                       </p>
                       <div className={styles.row}>
                         <p className={styles.price}>
-                          {Number.isFinite(price) ? `$${price}` : "$?"}
+                          {Number.isFinite(price)
+                            ? `$${price}`
+                            : t("common.priceNA")}
                         </p>
                         <div className={styles.ratingRow}>
                           <RatingStars value={rating} />
@@ -172,7 +171,7 @@ export default function WhatsNew() {
                         </div>
                       </div>
                       <p className={styles.meta}>
-                        {p.category || "New arrivals"}
+                        {p.category || t("whatsNew.metaFallback")}
                       </p>
                     </div>
                     </Link>

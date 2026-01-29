@@ -402,7 +402,9 @@ export default function Navbar() {
                 exit={{ opacity: 0, y: -4, scale: 0.98 }}
                 transition={{ duration: 0.18, ease: "easeOut" }}
               >
-                <div className={styles.categoryHeader}>Top Categories</div>
+                <div className={styles.categoryHeader}>
+                  {t("nav.searchHeaders.topCategories")}
+                </div>
                 <div className={styles.categoryGrid}>
                   {resolvedTopCategories.map((cat) => (
                     <Link
@@ -422,7 +424,7 @@ export default function Navbar() {
                 </div>
                 <div className={styles.categoryFooter}>
                   <Link to="/categories" onClick={() => setMenuOpen(false)}>
-                    View all categories
+                    {t("nav.searchActions.viewAllCategories")}
                   </Link>
                 </div>
               </motion.div>
@@ -473,7 +475,9 @@ export default function Navbar() {
             >
               {!query && (
                 <>
-                  <div className={styles.searchHeader}>Popular Categories</div>
+                  <div className={styles.searchHeader}>
+                    {t("nav.searchHeaders.popularCategories")}
+                  </div>
                   <div className={styles.searchGrid}>
                     {resolvedTopCategories.map((cat) => (
                       <Link
@@ -502,7 +506,9 @@ export default function Navbar() {
               )}
               {query && (
                 <>
-                  <div className={styles.searchHeader}>Categories</div>
+                  <div className={styles.searchHeader}>
+                    {t("nav.searchHeaders.categories")}
+                  </div>
                   <div className={styles.searchList}>
                     {results.length === 0 && (
                       <div className={styles.searchEmpty}>
@@ -531,7 +537,9 @@ export default function Navbar() {
                     ))}
                   </div>
                   <div className={styles.searchDivider} />
-                  <div className={styles.searchHeader}>Products</div>
+                  <div className={styles.searchHeader}>
+                    {t("nav.searchHeaders.products")}
+                  </div>
                   <div className={styles.searchList}>
                     {productResults.length === 0 && (
                       <div className={styles.searchEmpty}>

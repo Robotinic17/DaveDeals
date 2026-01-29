@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -24,10 +24,10 @@ function colorForSlug(slug = "") {
   return COLOR_PALETTE[hash] || COLOR_PALETTE[0];
 }
 
-function CategoryCard({ category }) {
+function CategoryCard({ category, t }) {
   const { image } = useUnsplashImage(
     `${category.name} category product`,
-    `category-${category.slug}`
+    `category-${category.slug}`,
   );
 
   return (
@@ -49,19 +49,21 @@ function CategoryCard({ category }) {
         </div>
         <div className={styles.cardBody}>
           <h3 className={styles.cardTitle}>{category.name}</h3>
-          <p className={styles.cardMeta}>{category.count} items available</p>
+          <p className={styles.cardMeta}>
+            {t("categories.itemsAvailable", { count: category.count })}
+          </p>
         </div>
-        <span className={styles.cardArrow}>View</span>
+        <span className={styles.cardArrow}>{t("common.view")}</span>
       </Link>
       {image && (
         <p className={styles.credit}>
-          Photo by{" "}
+          {t("common.photoBy")} {" "}
           <a href={image.userLink} target="_blank" rel="noreferrer">
             {image.name}
           </a>{" "}
-          on{" "}
+          {t("common.on")} {" "}
           <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-            Unsplash
+            {t("common.unsplash")}
           </a>
         </p>
       )}
@@ -118,10 +120,8 @@ export default function Categories() {
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <div>
-            <h1 className={styles.title}>Categories</h1>
-            <p className={styles.sub}>
-              Explore everything in the catalog. Tap a category to jump in.
-            </p>
+            <h1 className={styles.title}>{t("categories.title")}</h1>
+            <p className={styles.sub}>{t("categories.subtitle")}</p>
           </div>
 
           <div className={styles.searchWrap}>
@@ -129,7 +129,7 @@ export default function Categories() {
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="Search categories"
+              placeholder={t("categories.searchPlaceholder")}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -140,7 +140,9 @@ export default function Categories() {
               }`}
               onClick={() => setOnlyAvailable((v) => !v)}
             >
-              {onlyAvailable ? "In stock" : "Show all"}
+              {onlyAvailable
+                ? t("categories.toggle.inStock")
+                : t("categories.toggle.showAll")}
             </button>
           </div>
         </div>
@@ -161,12 +163,12 @@ export default function Categories() {
           <div className={styles.grid}>
             {filtered.length === 0 && (
               <div className={styles.emptyCard}>
-                <h3>No categories found</h3>
-                <p>Try a different search or show all categories.</p>
+                <h3>{t("categories.empty.title")}</h3>
+                <p>{t("categories.empty.subtitle")}</p>
               </div>
             )}
             {filtered.map((cat) => (
-              <CategoryCard key={cat.slug} category={cat} />
+              <CategoryCard key={cat.slug} category={cat} t={t} />
             ))}
           </div>
         )}

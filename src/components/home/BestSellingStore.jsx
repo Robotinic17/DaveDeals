@@ -1,4 +1,5 @@
-import { Tag } from "lucide-react";
+﻿import { Tag } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import styles from "./BestSellingStore.module.css";
 import staplesLogo from "../../assets/staples.png";
 import bevmoLogo from "../../assets/bevmo.png";
@@ -9,38 +10,30 @@ import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 const stores = [
   {
     name: "Staples",
-    category: "Bag • Perfume",
-    delivery: "Delivery with in 24 hours",
     logo: staplesLogo,
     query: "stationery desk accessories flat lay",
   },
   {
     name: "Now Delivery",
-    category: "Bag • Perfume",
-    delivery: "Delivery with in 24 hours",
     logo: targetLogo,
     query: "smartphone accessories product",
   },
   {
     name: "Bevmo",
-    category: "Bag • Perfume",
-    delivery: "Delivery with in 24 hours",
     logo: bevmoLogo,
     query: "beauty skincare bottles product",
   },
   {
     name: "Quicklly",
-    category: "Bag • Perfume",
-    delivery: "Delivery with in 24 hours",
     logo: shopLogo,
     query: "sneakers product shot",
   },
 ];
 
-function StoreCard({ store }) {
+function StoreCard({ store, t }) {
   const { image } = useUnsplashImage(
     store.query,
-    `store-${store.name.toLowerCase().replace(/\s+/g, "-")}`
+    `store-${store.name.toLowerCase().replace(/\s+/g, "-")}`,
   );
 
   return (
@@ -52,25 +45,28 @@ function StoreCard({ store }) {
           <div className={styles.mediaFallback} />
         )}
         <span className={styles.logoWrap}>
-          <img src={store.logo} alt={`${store.name} logo`} />
+          <img
+            src={store.logo}
+            alt={t("home.bestSellingStore.logoAlt", { brand: store.name })}
+          />
         </span>
       </div>
       <div className={styles.body}>
         <h3 className={styles.cardTitle}>{store.name}</h3>
-        <p className={styles.meta}>{store.category}</p>
+        <p className={styles.meta}>{t("home.bestSellingStore.category")}</p>
         <p className={styles.delivery}>
           <Tag size={16} />
-          {store.delivery}
+          {t("home.bestSellingStore.delivery")}
         </p>
         {image && (
           <p className={styles.credit}>
-            Photo by{" "}
+            {t("common.photoBy")} {" "}
             <a href={image.userLink} target="_blank" rel="noreferrer">
               {image.name}
             </a>{" "}
-            on{" "}
+            {t("common.on")} {" "}
             <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-              Unsplash
+              {t("common.unsplash")}
             </a>
           </p>
         )}
@@ -80,14 +76,16 @@ function StoreCard({ store }) {
 }
 
 export default function BestSellingStore() {
+  const { t } = useTranslation();
+
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>Best Selling Store</h2>
+        <h2 className={styles.title}>{t("home.bestSellingStore.title")}</h2>
 
         <div className={styles.grid}>
           {stores.map((store) => (
-            <StoreCard key={store.name} store={store} />
+            <StoreCard key={store.name} store={store} t={t} />
           ))}
         </div>
       </div>

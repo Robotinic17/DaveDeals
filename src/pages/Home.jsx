@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import styles from "./Home.module.css";
 import TopCategories from "../components/home/TopCategories";
@@ -12,10 +12,6 @@ import TrendingProducts from "../components/home/TrendingProducts";
 import BestSellingStore from "../components/home/BestSellingStore";
 import ServicesHelp from "../components/home/ServicesHelp";
 import stage from "../assets/stage.png";
-import travel from "../assets/travel.png";
-import gadgets from "../assets/gadgets.png";
-import snack from "../assets/snack.png";
-import bags from "../assets/bags.png";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -47,7 +43,11 @@ export default function Home() {
             transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
             className={styles.right}
           >
-            <img className={styles.heroImage} src={stage} alt="stage" />
+            <img
+              className={styles.heroImage}
+              src={stage}
+              alt={t("home.heroImageAlt")}
+            />
           </motion.div>
         </div>
       </section>

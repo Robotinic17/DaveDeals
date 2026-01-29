@@ -1,3 +1,4 @@
+﻿import { useTranslation } from "react-i18next";
 import styles from "./CategoryAds.module.css";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 
@@ -32,7 +33,7 @@ const deals = [
   },
 ];
 
-function DealCard({ deal }) {
+function DealCard({ deal, t }) {
   const CACHE_VERSION = "v3";
   const { image } = useUnsplashImage(
     deal.query,
@@ -42,29 +43,30 @@ function DealCard({ deal }) {
   return (
     <article className={styles.card} style={{ backgroundColor: deal.bg }}>
       <div className={styles.content}>
-        <p className={styles.kicker}>Save</p>
+        <p className={styles.kicker}>{t("home.categoryAds.kicker")}</p>
         <p className={styles.price} style={{ color: deal.accent }}>
           ${deal.price}
         </p>
-        <p className={styles.copy}>
-          Explore Our Furniture & Home Furnishing Range
-        </p>
+        <p className={styles.copy}>{t("home.categoryAds.copy")}</p>
         {image && (
           <p className={styles.credit}>
-            Photo by{" "}
+            {t("common.photoBy")} {" "}
             <a href={image.userLink} target="_blank" rel="noreferrer">
               {image.name}
             </a>{" "}
-            on{" "}
+            {t("common.on")} {" "}
             <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-              Unsplash
+              {t("common.unsplash")}
             </a>
           </p>
         )}
       </div>
       <div className={styles.media}>
         {image?.url ? (
-          <img src={image.url} alt={`Save $${deal.price}`} />
+          <img
+            src={image.url}
+            alt={t("home.categoryAds.imageAlt", { amount: `$${deal.price}` })}
+          />
         ) : (
           <div className={styles.mediaFallback} />
         )}
@@ -74,14 +76,16 @@ function DealCard({ deal }) {
 }
 
 export default function CategoryAds() {
+  const { t } = useTranslation();
+
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>Get Up To 70% Off</h2>
+        <h2 className={styles.title}>{t("home.categoryAds.title")}</h2>
 
         <div className={styles.grid}>
           {deals.map((deal) => (
-            <DealCard key={deal.id} deal={deal} />
+            <DealCard key={deal.id} deal={deal} t={t} />
           ))}
         </div>
       </div>

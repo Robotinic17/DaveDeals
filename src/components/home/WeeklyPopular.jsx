@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styles from "./WeeklyPopular.module.css";
 import RatingStars from "../category/RatingStars";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
@@ -18,7 +19,7 @@ function toHttps(url) {
   return String(url || "").replace(/^http:\/\//, "https://");
 }
 
-function normalizeProduct(product) {
+function normalizeProduct(product, t) {
   const id = product?.id || product?.asin;
   if (!id) return null;
 
@@ -26,8 +27,8 @@ function normalizeProduct(product) {
     typeof product.price === "number" ? product.price : Number(product.price);
   const rating = clampRating(product.rating);
   const reviews = Number(product.reviewsCount || product.reviews || 0);
-  const title = product.title || "Product";
-  const category = product.category || "Top pick";
+  const title = product.title || t("common.product");
+  const category = product.category || t("common.topPick");
 
   return {
     id,
@@ -42,12 +43,11 @@ function normalizeProduct(product) {
 }
 
 function getWeekKey(date = new Date()) {
-  // Use UTC to avoid timezone drift around midnight.
   const d = new Date(
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()),
   );
-  const day = d.getUTCDay() || 7; // Sunday -> 7
-  d.setUTCDate(d.getUTCDate() + 4 - day); // Thursday of current week
+  const day = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - day);
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
   return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
@@ -81,7 +81,7 @@ function pickWeeklyItems(list, count, weekKey) {
   return copy.slice(0, count);
 }
 
-function PopularCard({ item, liked, onToggle }) {
+function PopularCard({ item, liked, onToggle, t }) {
   const cacheKey = `weekly-${String(item.id).toLowerCase()}`;
   const { image } = useUnsplashImage(item.query, cacheKey);
   const imgSrc = item.thumbnail || image?.url || "/fallback-product.png";
@@ -94,7 +94,7 @@ function PopularCard({ item, liked, onToggle }) {
         type="button"
         className={`${styles.heartBtn} ${liked ? styles.hearted : ""}`}
         onClick={onToggle}
-        aria-label="Favorite"
+        aria-label={t("common.favorite")}
       >
         <Heart size={18} />
       </button>
@@ -123,20 +123,20 @@ function PopularCard({ item, liked, onToggle }) {
             <span className={styles.reviewText}>({ratingText})</span>
           </div>
           <button type="button" className={styles.addBtn}>
-            Add to cart
+            {t("common.addToCart")}
           </button>
         </div>
       </Link>
 
       {image && (
         <p className={styles.credit}>
-          Photo by{" "}
+          {t("common.photoBy")} {" "}
           <a href={image.userLink} target="_blank" rel="noreferrer">
             {image.name}
           </a>{" "}
-          on{" "}
+          {t("common.on")} {" "}
           <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-            Unsplash
+            {t("common.unsplash")}
           </a>
         </p>
       )}
@@ -145,6 +145,7 @@ function PopularCard({ item, liked, onToggle }) {
 }
 
 export default function WeeklyPopular() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(() => new Set());
@@ -178,10 +179,10 @@ export default function WeeklyPopular() {
 
   const items = useMemo(() => {
     const MAX_ITEMS = 12;
-    const normalized = products.map(normalizeProduct).filter(Boolean);
     const weekKey = getWeekKey();
+    const normalized = products.map((p) => normalizeProduct(p, t)).filter(Boolean);
     return pickWeeklyItems(normalized, MAX_ITEMS, weekKey);
-  }, [products]);
+  }, [products, t]);
 
   function toggleLike(id) {
     setLiked((prev) => {
@@ -195,7 +196,7 @@ export default function WeeklyPopular() {
   return (
     <section className={styles.section} ref={ref}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>Weekly Popular Products</h2>
+        <h2 className={styles.title}>{t("home.weeklyPopular.title")}</h2>
       </div>
 
       <div className={styles.scroller} role="list">
@@ -206,6 +207,7 @@ export default function WeeklyPopular() {
               item={item}
               liked={liked.has(item.id)}
               onToggle={() => toggleLike(item.id)}
+              t={t}
             />
           ))}
       </div>

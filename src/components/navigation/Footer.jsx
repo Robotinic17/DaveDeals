@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styles from "./Footer.module.css";
 import logo from "../../assets/logo.png";
 import stripeLogo from "../../assets/stripe.png";
@@ -26,47 +27,48 @@ const paymentBadges = [
 
 const columns = [
   {
-    title: "Department",
+    key: "department",
     links: [],
   },
   {
-    title: "About Us",
+    key: "about",
     links: [
-      { label: "About DaveDeals", to: "/about" },
-      { label: "Careers", to: "/careers" },
-      { label: "News & Blog", to: "/news" },
-      { label: "Help", to: "/help" },
-      { label: "Press Center", to: "/press" },
-      { label: "Shop by Location", to: "/locations" },
-      { label: "Brands", to: "/brands" },
-      { label: "Affiliate & Partners", to: "/partners" },
-      { label: "Ideas & Guides", to: "/guides" },
+      { key: "aboutDaveDeals", to: "/about" },
+      { key: "careers", to: "/careers" },
+      { key: "news", to: "/news" },
+      { key: "help", to: "/help" },
+      { key: "press", to: "/press" },
+      { key: "locations", to: "/locations" },
+      { key: "brands", to: "/brands" },
+      { key: "partners", to: "/partners" },
+      { key: "guides", to: "/guides" },
     ],
   },
   {
-    title: "Services",
+    key: "services",
     links: [
-      { label: "Gift Cards", to: "/" },
-      { label: "Mobile App", to: "/" },
-      { label: "Shipping & Delivery", to: "/deals/delivery" },
-      { label: "Order Pickup", to: "/" },
-      { label: "Account Signup", to: "/" },
+      { key: "giftCards", to: "/" },
+      { key: "mobileApp", to: "/" },
+      { key: "shipping", to: "/deals/delivery" },
+      { key: "orderPickup", to: "/" },
+      { key: "accountSignup", to: "/" },
     ],
   },
   {
-    title: "Help",
+    key: "help",
     links: [
-      { label: "Help Center", to: "/categories" },
-      { label: "Returns", to: "/" },
-      { label: "Track Orders", to: "/" },
-      { label: "Contact Us", to: "/" },
-      { label: "Feedback", to: "/" },
-      { label: "Security & Fraud", to: "/" },
+      { key: "helpCenter", to: "/categories" },
+      { key: "returns", to: "/" },
+      { key: "trackOrders", to: "/" },
+      { key: "contactUs", to: "/" },
+      { key: "feedback", to: "/" },
+      { key: "security", to: "/" },
     ],
   },
 ];
 
 export default function Footer() {
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
   const [categories, setCategories] = useState([]);
 
@@ -142,7 +144,7 @@ export default function Footer() {
       columns.map((col) => ({
         ...col,
         links:
-          col.title === "Department"
+          col.key === "department"
             ? departmentLinks
             : col.links.map((link) => {
                 if (link.type !== "category") return link;
@@ -164,16 +166,17 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.brandBlock}>
-          <Link to="/" className={styles.brandLink} aria-label="DaveDeals home">
-            <img src={logo} alt="DaveDeals" className={styles.logo} />
+          <Link
+            to="/"
+            className={styles.brandLink}
+            aria-label={t("footer.brandAria")}
+          >
+            <img src={logo} alt={t("footer.logoAlt")} className={styles.logo} />
           </Link>
-          <p className={styles.tagline}>
-            Where brands showcase their best, and buyers explore with ease.
-            Shopping designed to feel effortless and refined.
-          </p>
+          <p className={styles.tagline}>{t("footer.tagline")}</p>
 
           <div className={styles.payments}>
-            <p className={styles.paymentsTitle}>Accepted Payments</p>
+            <p className={styles.paymentsTitle}>{t("footer.paymentsTitle")}</p>
             <div className={styles.paymentGrid}>
               {paymentBadges.map((badge) => (
                 <div key={badge.id} className={styles.paymentBadge}>
@@ -185,12 +188,16 @@ export default function Footer() {
         </div>
 
         {resolvedColumns.map((col) => (
-          <div key={col.title} className={styles.col}>
-            <p className={styles.colTitle}>{col.title}</p>
+          <div key={col.key} className={styles.col}>
+            <p className={styles.colTitle}>{t(`footer.columns.${col.key}`)}</p>
             <div className={styles.colLinks}>
-              {col.links.map((link) => (
-                <Link key={link.label} className={styles.link} to={link.to}>
-                  {link.label}
+              {col.links.map((link, idx) => (
+                <Link
+                  key={`${link.key || link.label}-${link.to}-${idx}`}
+                  className={styles.link}
+                  to={link.to}
+                >
+                  {link.key ? t(`footer.links.${link.key}`) : link.label}
                 </Link>
               ))}
             </div>
@@ -201,23 +208,25 @@ export default function Footer() {
       <div className={styles.bottom}>
         <div className={styles.bottomRow}>
           <Link className={styles.bottomItem} to="/">
-            Become Seller
+            {t("footer.bottom.becomeSeller")}
           </Link>
           <Link className={styles.bottomItem} to="/">
-            Gift Cards
+            {t("footer.bottom.giftCards")}
           </Link>
           <Link className={styles.bottomItem} to="/help">
-            Help Center
+            {t("footer.bottom.helpCenter")}
           </Link>
         </div>
         <div className={styles.bottomLinks}>
           <Link className={styles.bottomItem} to="/">
-            Terms of Service
+            {t("footer.bottom.terms")}
           </Link>
           <Link className={styles.bottomItem} to="/">
-            Privacy & Policy
+            {t("footer.bottom.privacy")}
           </Link>
-          <span className={styles.copy}>© {year} DaveDeals</span>
+          <span className={styles.copy}>
+            (c) {year} {t("footer.brandName")}
+          </span>
         </div>
       </div>
     </footer>

@@ -1,95 +1,520 @@
-{
-  "topbar": {
-    "phone": "+001234567890",
-    "promo": "50 % de réduction sur une sélection d'articles",
-    "shopNow": "Acheter",
-    "language": "FR",
-    "location": "Localisation",
-    "themeToggle": "Changer le th?me"
-  },
-  "nav": {
-    "brand": "DaveDeals",
-    "deals": "Offres",
-    "whatsNew": "Nouveautés",
-    "delivery": "Livraison",
-    "searchPlaceholder": "Rechercher des produits",
-    "cart": "Panier",
-    "account": "Compte",
-    "category": "Catégorie",
-    "search": "Rechercher"
-  },
-  "home": {
-    "heroTitle": "Shopping et grand magasin.",
-    "heroSubtitle": "Faire du shopping est pour moi un loisir relaxant, même si cela peut parfois peser sur le solde bancaire.",
-    "heroCta": "En savoir plus"
-  },
-  "topCategories": {
-    "title": "D?couvrez nos meilleures cat?gories",
-    "subtitle": "Une s?lection soign?e au style premium.",
-    "items": {
-      "furniture": "Meubles",
-      "handbags": "Sacs ? main",
-      "books": "Livres",
-      "tech": "Tech",
-      "sneakers": "Baskets",
-      "travel": "Voyage"
-    }
-  },
-  "category": {
-    "chipType": "Type de {{title}}",
-    "price": "Prix",
-    "review": "Avis",
-    "color": "Couleur",
-    "material": "Mat?riau",
-    "offer": "Offre",
-    "allFilters": "Tous les filtres",
-    "sortBy": "Trier par",
-    "title": "{{title}} pour vous !",
-    "loading": "Chargement des produits...",
-    "loadError": "Impossible de charger les produits.",
-    "addWishlist": "Ajouter aux favoris",
-    "added": "Ajout?",
-    "addToCart": "Ajouter au panier",
-    "ratingLabel": "Note {{rating}} sur 5"
-  },
-  "promoSlider": {
-    "kicker": "Offre sp?ciale",
-    "slides": {
-      "ad1": {
-        "title": "Jusqu'? 50 % de r?duction sur",
-        "title2": "Casques s?lectionn?s",
-        "cta": "Acheter"
-      },
-      "ad2": {
-        "title": "Bons plans du moment pour",
-        "title2": "vos essentiels du quotidien",
-        "cta": "Voir les offres"
-      },
-      "ad3": {
-        "title": "S?lections premium",
-        "title2": "? prix malins",
-        "cta": "Explorer"
-      }
-    }
-  },
-  "cart": {
-    "pageTitle": "Panier"
-  },
-  "checkout": {
-    "pageTitle": "Paiement"
-  },
-  "deals": {
-    "title": "Offres : {{type}}"
-  },
-  "product": {
-    "title": "Produit : {{id}}"
-  },
-  "notFound": {
-    "title": "Page introuvable",
-    "text": "La page que vous recherchez n'existe pas ou a ?t? d?plac?e.",
-    "backHome": "Retour ? l'accueil"
-  },
-  "footer": {
-    "copyright": "? {{year}} DaveDeals"
-  }
+﻿{
+    "topbar":  {
+                   "phone":  "+001234567890",
+                   "promo":  "50 % de rÃ©duction sur une sÃ©lection d\u0027articles",
+                   "shopNow":  "Acheter",
+                   "language":  "FR",
+                   "location":  "Localisation",
+                   "themeToggle":  "Changer le th?me"
+               },
+    "nav":  {
+                "brand":  "DaveDeals",
+                "deals":  "Offres",
+                "whatsNew":  "NouveautÃ©s",
+                "delivery":  "Livraison",
+                "searchPlaceholder":  "Rechercher des produits",
+                "cart":  "Panier",
+                "account":  "Compte",
+                "category":  "CatÃ©gorie",
+                "search":  "Rechercher",
+                "searchHeaders":  {
+                                      "categories":  "Categories",
+                                      "topCategories":  "Top Categories",
+                                      "popularCategories":  "Popular Categories",
+                                      "products":  "Products"
+                                  },
+                "searchActions":  {
+                                      "viewAllCategories":  "View all categories"
+                                  }
+            },
+    "home":  {
+                 "heroTitle":  "Shopping et grand magasin.",
+                 "heroSubtitle":  "Faire du shopping est pour moi un loisir relaxant, mÃªme si cela peut parfois peser sur le solde bancaire.",
+                 "heroCta":  "En savoir plus",
+                 "heroImageAlt":  "Shopping stage",
+                 "bestDeals":  {
+                                   "title":  "Todays Best Deals For You!",
+                                   "endTitle":  "That is all for today.",
+                                   "endSubtitle":  "Check back tomorrow.",
+                                   "subtitle":  "Products with standout value, updated daily.",
+                                   "endAria":  "End of deals"
+                               },
+                 "weeklyPopular":  {
+                                       "title":  "Weekly Popular Products"
+                                   },
+                 "mostSelling":  {
+                                     "title":  "Most Selling Products"
+                                 },
+                 "categoryAds":  {
+                                     "kicker":  "Save",
+                                     "title":  "Get Up To 70% Off",
+                                     "copy":  "Explore Our Furniture and Home Furnishing Range",
+                                     "imageAlt":  "Save {{amount}}"
+                                 },
+                 "cashBack":  {
+                                  "cta":  "Learn More",
+                                  "title":  "Get 5% Cash Back",
+                                  "subtitle":  "on DaveDeals.com",
+                                  "imageAlt":  "DaveDeals cards"
+                              },
+                 "servicesHelp":  {
+                                      "cards":  {
+                                                    "payment":  {
+                                                                    "copy":  "Updates on safe shopping in our stores",
+                                                                    "title":  "Online Payment Process"
+                                                                },
+                                                    "faq":  {
+                                                                "copy":  "Updates on safe shopping in our stores",
+                                                                "title":  "Frequently Asked Questions"
+                                                            },
+                                                    "delivery":  {
+                                                                     "copy":  "Updates on safe shopping in our stores",
+                                                                     "title":  "Home Delivery Options"
+                                                                 }
+                                                },
+                                      "title":  "Services To Help You Shop"
+                                  },
+                 "topBrands":  {
+                                   "logoAlt":  "{{brand}} logo",
+                                   "title":  "Choose By Brand",
+                                   "delivery":  "Delivery within 24 hours"
+                               },
+                 "trending":  {
+                                  "title":  "Trending Products For You!",
+                                  "fallbackTitle":  "Trending Category",
+                                  "shopThisWeek":  "Shop this week",
+                                  "items":  "{{count}} items"
+                              },
+                 "bestSellingStore":  {
+                                          "logoAlt":  "{{brand}} logo",
+                                          "title":  "Best Selling Store",
+                                          "category":  "Bag - Perfume",
+                                          "delivery":  "Delivery within 24 hours"
+                                      }
+             },
+    "topCategories":  {
+                          "title":  "D?couvrez nos meilleures cat?gories",
+                          "subtitle":  "Une s?lection soign?e au style premium.",
+                          "items":  {
+                                        "furniture":  "Meubles",
+                                        "handbags":  "Sacs ? main",
+                                        "books":  "Livres",
+                                        "tech":  "Tech",
+                                        "sneakers":  "Baskets",
+                                        "travel":  "Voyage"
+                                    }
+                      },
+    "category":  {
+                     "chipType":  "Type de {{title}}",
+                     "price":  "Prix",
+                     "review":  "Avis",
+                     "color":  "Couleur",
+                     "material":  "Mat?riau",
+                     "offer":  "Offre",
+                     "allFilters":  "Tous les filtres",
+                     "sortBy":  "Trier par",
+                     "title":  "{{title}} pour vous !",
+                     "loading":  "Chargement des produits...",
+                     "loadError":  "Impossible de charger les produits.",
+                     "addWishlist":  "Ajouter aux favoris",
+                     "added":  "Ajout?",
+                     "addToCart":  "Ajouter au panier",
+                     "ratingLabel":  "Note {{rating}} sur 5",
+                     "sort":  {
+                                  "featured":  "Featured",
+                                  "topRated":  "Top Rated",
+                                  "priceHighLow":  "Price: High to Low",
+                                  "priceLowHigh":  "Price: Low to High",
+                                  "mostReviewed":  "Most Reviewed",
+                                  "nameAZ":  "Name: A to Z"
+                              },
+                     "types":  {
+                                   "none":  "No types found",
+                                   "all":  "All types"
+                               },
+                     "priceMenu":  {
+                                       "highLow":  "High to Low",
+                                       "lowHigh":  "Low to High",
+                                       "budget":  "Budget",
+                                       "mid":  "Mid range"
+                                   },
+                     "ratings":  {
+                                     "any":  "Any rating",
+                                     "value":  "{{value}} star"
+                                 },
+                     "colors":  {
+                                    "black":  "Black",
+                                    "any":  "Any color",
+                                    "brown":  "Brown",
+                                    "purple":  "Purple",
+                                    "white":  "White",
+                                    "gold":  "Gold",
+                                    "silver":  "Silver",
+                                    "red":  "Red",
+                                    "gray":  "Gray",
+                                    "green":  "Green",
+                                    "blue":  "Blue",
+                                    "pink":  "Pink",
+                                    "yellow":  "Yellow",
+                                    "orange":  "Orange"
+                                },
+                     "quality":  {
+                                     "less":  "Less quality",
+                                     "quality":  "Quality",
+                                     "any":  "Any quality"
+                                 },
+                     "filters":  {
+                                     "apply":  "Apply",
+                                     "priceHint":  "Budget \u003c= ${{budget}} | Mid range \u003c= ${{mid}}",
+                                     "clear":  "Clear",
+                                     "maxPrice":  "Max price",
+                                     "minPrice":  "Min price"
+                                 },
+                     "empty":  {
+                                   "title":  "No results found",
+                                   "body":  "Try a different search or clear your filters. If this keeps happening, check your connection.",
+                                   "clear":  "Clear filters"
+                               }
+                 },
+    "promoSlider":  {
+                        "kicker":  "Offre sp?ciale",
+                        "slides":  {
+                                       "ad1":  {
+                                                   "title":  "Jusqu\u0027? 50 % de r?duction sur",
+                                                   "title2":  "Casques s?lectionn?s",
+                                                   "cta":  "Acheter"
+                                               },
+                                       "ad2":  {
+                                                   "title":  "Bons plans du moment pour",
+                                                   "title2":  "vos essentiels du quotidien",
+                                                   "cta":  "Voir les offres"
+                                               },
+                                       "ad3":  {
+                                                   "title":  "S?lections premium",
+                                                   "title2":  "? prix malins",
+                                                   "cta":  "Explorer"
+                                               }
+                                   }
+                    },
+    "cart":  {
+                 "pageTitle":  "Panier"
+             },
+    "checkout":  {
+                     "pageTitle":  "Paiement"
+                 },
+    "deals":  {
+                  "title":  "Offres : {{type}}"
+              },
+    "product":  {
+                    "title":  "Produit : {{id}}",
+                    "unavailable":  {
+                                        "cta":  "Browse categories",
+                                        "title":  "Product unavailable",
+                                        "body":  "We could not find this product. Try going back or browsing another category."
+                                    },
+                    "featured":  "Featured",
+                    "priceNote":  "Free delivery available",
+                    "chooseColor":  "Choose a color",
+                    "buyNow":  "Buy now",
+                    "info":  {
+                                 "easyReturnsTitle":  "Easy returns",
+                                 "freeDeliveryTitle":  "Free delivery",
+                                 "freeDeliveryBody":  "Check delivery availability in your area.",
+                                 "easyReturnsBody":  "30-day returns with pickup options."
+                             },
+                    "specs":  {
+                                  "rating":  "Rating",
+                                  "productId":  "Product ID",
+                                  "shippingValue":  "Standard (3-5 days)",
+                                  "details":  "Details",
+                                  "category":  "Category",
+                                  "conditionValue":  "New",
+                                  "availability":  "Availability",
+                                  "reviews":  "Reviews",
+                                  "generalValue":  "General",
+                                  "general":  "General",
+                                  "warranty":  "Warranty",
+                                  "inStock":  "In stock",
+                                  "warrantyValue":  "1 year",
+                                  "shipping":  "Shipping",
+                                  "condition":  "Condition"
+                              },
+                    "similar":  {
+                                    "title":  "Similar items you might like"
+                                }
+                },
+    "notFound":  {
+                     "title":  "Page introuvable",
+                     "text":  "La page que vous recherchez n\u0027existe pas ou a ?t? d?plac?e.",
+                     "backHome":  "Retour ? l\u0027accueil"
+                 },
+    "about":  {
+                  "subtitle":  "Built to help you discover better deals with less effort, faster decisions, and more confidence every time you shop.",
+                  "sections":  {
+                                   "whatWeDo":  {
+                                                    "body":  "We organize products across brands, highlight standout deals, and make it easy to start selling. Whether you are exploring new brands or running a business, DaveDeals helps you find the right fit.",
+                                                    "title":  "What We Do"
+                                                },
+                                   "vision":  {
+                                                  "body":  "Our vision is to create a marketplace where buyers and sellers make deals directly. You can start your business, choose from the brands you want, and ensure you get the most from every product.",
+                                                  "title":  "Our Vision"
+                                              },
+                                   "whoWeAre":  {
+                                                    "body":  "DaveDeals is a marketplace built for both buyers and sellers. We focus on clarity, value, and a smooth path to discovery so you can shop confidently and compare options quickly.",
+                                                    "title":  "Who We Are"
+                                                }
+                               },
+                  "logoAlt":  "DaveDeals logo",
+                  "features":  {
+                                   "approach":  {
+                                                    "imageAlt":  "Team collaboration meeting",
+                                                    "title":  "Our Approach",
+                                                    "text":  "We put trust, clarity, and value first. Our experience is built to cut the noise, surface the best options, and help you compare quickly without feeling overwhelmed."
+                                                },
+                                   "vision":  {
+                                                  "imageAlt":  "Creator tools and smart commerce",
+                                                  "title":  "Our Vision",
+                                                  "text":  "We are creating a marketplace where buyers and sellers connect directly, build lasting relationships, and grow with confidence. Every decision is focused on fairness, transparency, and real value for both sides."
+                                              },
+                                   "process":  {
+                                                   "imageAlt":  "Process and planning",
+                                                   "title":  "Our Process",
+                                                   "text":  "We listen closely, test constantly, and improve relentlessly. That means smarter discovery, better recommendations, and a storefront that stays fresh every time you visit."
+                                               }
+                               },
+                  "heroImageAlt":  "DaveDeals team",
+                  "title":  "About DaveDeals"
+              },
+    "careers":  {
+                    "rolesSubtitle":  "These are the core roles that will make DaveDeals explode. Pick the one that matches your strength and apply.",
+                    "rolesTitle":  "Skills we need right now",
+                    "subtitle":  "We need builders, makers, and storytellers to help DaveDeals scale. If you want to create a marketplace that empowers both buyers and sellers, you are in the right place.",
+                    "kicker":  "Careers at DaveDeals",
+                    "apply":  "Apply",
+                    "roles":  {
+                                  "fullstackEngineer":  {
+                                                            "summary":  "Ship end-to-end features that move the product forward quickly.",
+                                                            "title":  "Fullstack Engineer",
+                                                            "location":  "Remote",
+                                                            "type":  "Engineering"
+                                                        },
+                                  "devopsEngineer":  {
+                                                         "summary":  "Automate, secure, and scale the platform so the team can move fast.",
+                                                         "title":  "DevOps Engineer",
+                                                         "location":  "Remote",
+                                                         "type":  "Infrastructure"
+                                                     },
+                                  "frontendEngineer":  {
+                                                           "summary":  "Build fast, accessible, and beautiful experiences across the platform.",
+                                                           "title":  "Frontend Engineer",
+                                                           "location":  "Remote",
+                                                           "type":  "Engineering"
+                                                       },
+                                  "growthMarketer":  {
+                                                         "summary":  "Own acquisition, retention, and partnerships that bring the marketplace to life.",
+                                                         "title":  "Growth Marketer",
+                                                         "location":  "Remote",
+                                                         "type":  "Marketing"
+                                                     },
+                                  "backendEngineer":  {
+                                                          "summary":  "Design scalable services, APIs, and data pipelines for the marketplace.",
+                                                          "title":  "Backend Engineer",
+                                                          "location":  "Remote",
+                                                          "type":  "Engineering"
+                                                      }
+                              },
+                    "secondaryCta":  "Learn about DaveDeals",
+                    "primaryCta":  "See the skills we need",
+                    "title":  "We are building the future of deals",
+                    "heroImageAlt":  "Team collaboration"
+                },
+    "footer":  {
+                   "bottom":  {
+                                  "privacy":  "Privacy \u0026 Policy",
+                                  "giftCards":  "Gift Cards",
+                                  "terms":  "Terms of Service",
+                                  "helpCenter":  "Help Center",
+                                  "becomeSeller":  "Become Seller"
+                              },
+                   "tagline":  "Where brands showcase their best, and buyers explore with ease. Shopping designed to feel effortless and refined.",
+                   "paymentsTitle":  "Accepted Payments",
+                   "columns":  {
+                                   "department":  "Department",
+                                   "services":  "Services",
+                                   "help":  "Help",
+                                   "about":  "About Us"
+                               },
+                   "brandName":  "DaveDeals",
+                   "logoAlt":  "DaveDeals",
+                   "brandAria":  "DaveDeals home",
+                   "links":  {
+                                 "careers":  "Careers",
+                                 "locations":  "Shop by Location",
+                                 "news":  "News \u0026 Blog",
+                                 "help":  "Help",
+                                 "brands":  "Brands",
+                                 "giftCards":  "Gift Cards",
+                                 "returns":  "Returns",
+                                 "accountSignup":  "Account Signup",
+                                 "partners":  "Affiliate \u0026 Partners",
+                                 "trackOrders":  "Track Orders",
+                                 "helpCenter":  "Help Center",
+                                 "contactUs":  "Contact Us",
+                                 "guides":  "Ideas \u0026 Guides",
+                                 "press":  "Press Center",
+                                 "shipping":  "Shipping \u0026 Delivery",
+                                 "mobileApp":  "Mobile App",
+                                 "orderPickup":  "Order Pickup",
+                                 "feedback":  "Feedback",
+                                 "aboutDaveDeals":  "About DaveDeals",
+                                 "security":  "Security \u0026 Fraud"
+                             }
+               },
+    "common":  {
+                   "favorite":  "Favorite",
+                   "product":  "Product",
+                   "topPick":  "Top pick",
+                   "addToCart":  "Add to cart",
+                   "photoBy":  "Photo by",
+                   "on":  "on",
+                   "unsplash":  "Unsplash",
+                   "shopNow":  "Shop now",
+                   "priceNA":  "N/A",
+                   "view":  "View"
+               },
+    "info":  {
+                 "kicker":  "DaveDeals",
+                 "notFound":  {
+                                  "cta":  "Back to home",
+                                  "title":  "Page not found",
+                                  "subtitle":  "This page is not available yet. Try another destination."
+                              },
+                 "pages":  {
+                               "partners":  {
+                                                "title":  "Affiliate and Partners",
+                                                "sections":  [
+                                                                 {
+                                                                     "body":  "We work with affiliates, creators, and merchants to build best-in-class shopping experiences.",
+                                                                     "title":  "Partner With Us"
+                                                                 }
+                                                             ],
+                                                "subtitle":  "Lets build the future of commerce together."
+                                            },
+                               "press":  {
+                                             "title":  "Press Center",
+                                             "sections":  [
+                                                              {
+                                                                  "body":  "For press coverage and partnerships, reach out to our team. We love collaborating with great partners.",
+                                                                  "title":  "Press Requests"
+                                                              }
+                                                          ],
+                                             "subtitle":  "Resources for media and brand inquiries."
+                                         },
+                               "news":  {
+                                            "title":  "News and Blog",
+                                            "sections":  [
+                                                             {
+                                                                 "body":  "Our blog features trend spotlights, buyer guides, and curated picks across categories.",
+                                                                 "title":  "Highlights"
+                                                             }
+                                                         ],
+                                            "subtitle":  "Product drops, shopping tips, and behind-the-scenes updates."
+                                        },
+                               "careers":  {
+                                               "title":  "Careers",
+                                               "sections":  [
+                                                                {
+                                                                    "body":  "We move fast, stay customer-obsessed, and focus on clean design and thoughtful engineering.",
+                                                                    "title":  "Our Culture"
+                                                                },
+                                                                {
+                                                                    "body":  "We are growing across product, design, and engineering. Check back soon for updated openings.",
+                                                                    "title":  "Open Roles"
+                                                                }
+                                                            ],
+                                               "subtitle":  "Help build the next generation of smart shopping."
+                                           },
+                               "locations":  {
+                                                 "title":  "Shop by Location",
+                                                 "sections":  [
+                                                                  {
+                                                                      "body":  "Explore categories and availability based on your area. We are expanding coverage regularly.",
+                                                                      "title":  "Local Discovery"
+                                                                  }
+                                                              ],
+                                                 "subtitle":  "Find products and delivery options near you."
+                                             },
+                               "brands":  {
+                                              "title":  "Brands",
+                                              "sections":  [
+                                                               {
+                                                                   "body":  "Browse popular brands and discover new favorites with reliable reviews and standout value.",
+                                                                   "title":  "Featured Brands"
+                                                               }
+                                                           ],
+                                              "subtitle":  "Discover top brands across every category."
+                                          },
+                               "about":  {
+                                             "title":  "About DaveDeals",
+                                             "sections":  [
+                                                              {
+                                                                  "body":  "DaveDeals brings together a broad catalog so you can compare, explore, and shop with confidence. We prioritize clarity, quality, and a simple experience.",
+                                                                  "title":  "Who We Are"
+                                                              },
+                                                              {
+                                                                  "body":  "We highlight daily and weekly picks, organize categories intelligently, and make discovery fast so you can get to the right products quickly.",
+                                                                  "title":  "What We Do"
+                                                              }
+                                                          ],
+                                             "subtitle":  "Built to help you discover better deals with less effort."
+                                         },
+                               "help":  {
+                                            "title":  "Help Center",
+                                            "sections":  [
+                                                             {
+                                                                 "body":  "Get help with orders, delivery, returns, and account questions. We keep this page updated with the most common topics.",
+                                                                 "title":  "Common Questions"
+                                                             }
+                                                         ],
+                                            "subtitle":  "Find answers fast and get the support you need."
+                                        },
+                               "guides":  {
+                                              "title":  "Ideas and Guides",
+                                              "sections":  [
+                                                               {
+                                                                   "body":  "From seasonal collections to category deep-dives, our guides help you shop confidently.",
+                                                                   "title":  "Guides"
+                                                               }
+                                                           ],
+                                              "subtitle":  "Curated buying guides to make decisions easier."
+                                          }
+                           }
+             },
+    "categories":  {
+                       "subtitle":  "Explore everything in the catalog. Tap a category to jump in.",
+                       "itemsAvailable":  "{{count}} items available",
+                       "toggle":  {
+                                      "inStock":  "In stock",
+                                      "showAll":  "Show all"
+                                  },
+                       "empty":  {
+                                     "subtitle":  "Try a different search or show all categories.",
+                                     "title":  "No categories found"
+                                 },
+                       "searchPlaceholder":  "Search categories",
+                       "title":  "Categories"
+                   },
+    "whatsNew":  {
+                     "title":  "New arrivals",
+                     "badge":  "New",
+                     "metaFallback":  "New arrivals",
+                     "subtitle":  "Fresh drops curated from across the catalog. Updated as inventory flows in."
+                 },
+    "breadcrumbs":  {
+                        "categories":  "Categories",
+                        "deals":  "Deals",
+                        "whatsNew":  "What\u0027s New",
+                        "delivery":  "Delivery",
+                        "home":  "Home"
+                    }
 }

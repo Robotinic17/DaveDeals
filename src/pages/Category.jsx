@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Heart, SlidersHorizontal, ChevronDown } from "lucide-react";
@@ -39,14 +39,6 @@ function getTypeKey(title = "") {
 const PAGE_SIZE = 70;
 const MAX_PAGES = 5;
 const MIN_LOADING_MS = 900;
-const SORT_OPTIONS = [
-  { id: "featured", label: "Featured" },
-  { id: "price_asc", label: "Price: Low to High" },
-  { id: "price_desc", label: "Price: High to Low" },
-  { id: "rating_desc", label: "Top Rated" },
-  { id: "reviews_desc", label: "Most Reviewed" },
-  { id: "title_asc", label: "Name: A to Z" },
-];
 
 const STOP_WORDS = new Set([
   "the",
@@ -62,20 +54,20 @@ const STOP_WORDS = new Set([
   "to",
 ]);
 
-const COLOR_OPTIONS = [
-  { id: "black", label: "Black" },
-  { id: "white", label: "White" },
-  { id: "gray", label: "Gray" },
-  { id: "blue", label: "Blue" },
-  { id: "red", label: "Red" },
-  { id: "green", label: "Green" },
-  { id: "yellow", label: "Yellow" },
-  { id: "pink", label: "Pink" },
-  { id: "purple", label: "Purple" },
-  { id: "orange", label: "Orange" },
-  { id: "brown", label: "Brown" },
-  { id: "gold", label: "Gold" },
-  { id: "silver", label: "Silver" },
+const COLOR_OPTION_IDS = [
+  "black",
+  "white",
+  "gray",
+  "blue",
+  "red",
+  "green",
+  "yellow",
+  "pink",
+  "purple",
+  "orange",
+  "brown",
+  "gold",
+  "silver",
 ];
 
 export default function Category() {
@@ -114,7 +106,28 @@ export default function Category() {
 
   const title = useMemo(
     () => categoryName || formatCategoryTitle(slug),
-    [categoryName, slug]
+    [categoryName, slug],
+  );
+
+  const sortOptions = useMemo(
+    () => [
+      { id: "featured", label: t("category.sort.featured") },
+      { id: "price_asc", label: t("category.sort.priceLowHigh") },
+      { id: "price_desc", label: t("category.sort.priceHighLow") },
+      { id: "rating_desc", label: t("category.sort.topRated") },
+      { id: "reviews_desc", label: t("category.sort.mostReviewed") },
+      { id: "title_asc", label: t("category.sort.nameAZ") },
+    ],
+    [t],
+  );
+
+  const colorOptions = useMemo(
+    () =>
+      COLOR_OPTION_IDS.map((id) => ({
+        id,
+        label: t(`category.colors.${id}`),
+      })),
+    [t],
   );
 
   function toggleLiked(id) {
@@ -238,10 +251,8 @@ export default function Category() {
   }, [products]);
 
   const filteredProducts = useMemo(() => {
-    const minPrice =
-      filters.minPrice === "" ? null : Number(filters.minPrice);
-    const maxPrice =
-      filters.maxPrice === "" ? null : Number(filters.maxPrice);
+    const minPrice = filters.minPrice === "" ? null : Number(filters.minPrice);
+    const maxPrice = filters.maxPrice === "" ? null : Number(filters.maxPrice);
     const minRating =
       filters.minRating === "" ? null : Number(filters.minRating);
     const minReviews =
@@ -326,7 +337,7 @@ export default function Category() {
   const maxItems = PAGE_SIZE * MAX_PAGES;
   const pagedProducts = useMemo(
     () => sortedProducts.slice(0, maxItems),
-    [sortedProducts, maxItems]
+    [sortedProducts, maxItems],
   );
 
   const totalPages = useMemo(() => {
@@ -379,51 +390,51 @@ export default function Category() {
               </button>
               {typeOpen && (
                 <div className={styles.chipMenu} role="menu">
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    !filters.typeKey ? styles.chipMenuItemActive : ""
-                  }`}
-                  onClick={() => {
-                    setFilters((prev) => ({ ...prev, typeKey: "" }));
-                    setTypeOpen(false);
-                  }}
-                  role="menuitem"
-                >
-                  All types
-                </button>
-                {typeOptions.length > 0 ? (
-                  typeOptions.map((option) => (
-                    <button
-                      key={option.key}
-                      type="button"
-                      className={`${styles.chipMenuItem} ${
-                        filters.typeKey === option.key
-                          ? styles.chipMenuItemActive
-                          : ""
-                      }`}
-                      onClick={() => {
-                        setFilters((prev) => ({
-                          ...prev,
-                          typeKey: option.key,
-                        }));
-                        setTypeOpen(false);
-                      }}
-                      role="menuitem"
-                    >
-                      {option.label} ({option.count})
-                    </button>
-                  ))
-                ) : (
                   <button
                     type="button"
-                    className={styles.chipMenuItem}
+                    className={`${styles.chipMenuItem} ${
+                      !filters.typeKey ? styles.chipMenuItemActive : ""
+                    }`}
+                    onClick={() => {
+                      setFilters((prev) => ({ ...prev, typeKey: "" }));
+                      setTypeOpen(false);
+                    }}
                     role="menuitem"
-                    disabled
                   >
-                    No types found
+                    {t("category.types.all")}
                   </button>
-                )}
+                  {typeOptions.length > 0 ? (
+                    typeOptions.map((option) => (
+                      <button
+                        key={option.key}
+                        type="button"
+                        className={`${styles.chipMenuItem} ${
+                          filters.typeKey === option.key
+                            ? styles.chipMenuItemActive
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setFilters((prev) => ({
+                            ...prev,
+                            typeKey: option.key,
+                          }));
+                          setTypeOpen(false);
+                        }}
+                        role="menuitem"
+                      >
+                        {option.label} ({option.count})
+                      </button>
+                    ))
+                  ) : (
+                    <button
+                      type="button"
+                      className={styles.chipMenuItem}
+                      role="menuitem"
+                      disabled
+                    >
+                      {t("category.types.none")}
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -441,84 +452,84 @@ export default function Category() {
               </button>
               {priceOpen && (
                 <div className={styles.chipMenu} role="menu">
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    sortKey === "price_asc" ? styles.chipMenuItemActive : ""
-                  }`}
-                  onClick={() => {
-                    setSortKey("price_asc");
-                    setFilters((prev) => ({
-                      ...prev,
-                      priceBand: "",
-                      onlyPriced: false,
-                    }));
-                    setPriceOpen(false);
-                  }}
-                  role="menuitem"
-                >
-                  Low to High
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    sortKey === "price_desc" ? styles.chipMenuItemActive : ""
-                  }`}
-                  onClick={() => {
-                    setSortKey("price_desc");
-                    setFilters((prev) => ({
-                      ...prev,
-                      priceBand: "",
-                      onlyPriced: false,
-                    }));
-                    setPriceOpen(false);
-                  }}
-                  role="menuitem"
-                >
-                  High to Low
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    filters.priceBand === "budget"
-                      ? styles.chipMenuItemActive
-                      : ""
-                  }`}
-                  onClick={() => {
-                    if (!priceBands) return;
-                    setFilters((prev) => ({
-                      ...prev,
-                      priceBand: "budget",
-                      onlyPriced: true,
-                    }));
-                    setPriceOpen(false);
-                  }}
-                  role="menuitem"
-                  disabled={!priceBands}
-                >
-                  Budget
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    filters.priceBand === "mid"
-                      ? styles.chipMenuItemActive
-                      : ""
-                  }`}
-                  onClick={() => {
-                    if (!priceBands) return;
-                    setFilters((prev) => ({
-                      ...prev,
-                      priceBand: "mid",
-                      onlyPriced: true,
-                    }));
-                    setPriceOpen(false);
-                  }}
-                  role="menuitem"
-                  disabled={!priceBands}
-                >
-                  Mid range
-                </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      sortKey === "price_asc" ? styles.chipMenuItemActive : ""
+                    }`}
+                    onClick={() => {
+                      setSortKey("price_asc");
+                      setFilters((prev) => ({
+                        ...prev,
+                        priceBand: "",
+                        onlyPriced: false,
+                      }));
+                      setPriceOpen(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {t("category.priceMenu.lowHigh")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      sortKey === "price_desc" ? styles.chipMenuItemActive : ""
+                    }`}
+                    onClick={() => {
+                      setSortKey("price_desc");
+                      setFilters((prev) => ({
+                        ...prev,
+                        priceBand: "",
+                        onlyPriced: false,
+                      }));
+                      setPriceOpen(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {t("category.priceMenu.highLow")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      filters.priceBand === "budget"
+                        ? styles.chipMenuItemActive
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (!priceBands) return;
+                      setFilters((prev) => ({
+                        ...prev,
+                        priceBand: "budget",
+                        onlyPriced: true,
+                      }));
+                      setPriceOpen(false);
+                    }}
+                    role="menuitem"
+                    disabled={!priceBands}
+                  >
+                    {t("category.priceMenu.budget")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      filters.priceBand === "mid"
+                        ? styles.chipMenuItemActive
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (!priceBands) return;
+                      setFilters((prev) => ({
+                        ...prev,
+                        priceBand: "mid",
+                        onlyPriced: true,
+                      }));
+                      setPriceOpen(false);
+                    }}
+                    role="menuitem"
+                    disabled={!priceBands}
+                  >
+                    {t("category.priceMenu.mid")}
+                  </button>
                 </div>
               )}
             </div>
@@ -536,28 +547,30 @@ export default function Category() {
               </button>
               {reviewOpen && (
                 <div className={styles.chipMenu} role="menu">
-                {[0, 1, 2, 3, 4, 5].map((value) => (
-                  <button
-                    key={value}
-                    type="button"
-                    className={`${styles.chipMenuItem} ${
-                      Number(filters.minRating || 0) === value
-                        ? styles.chipMenuItemActive
-                        : ""
-                    }`}
-                    onClick={() => {
-                      setFilters((prev) => ({
-                        ...prev,
-                        minRating: value ? String(value) : "",
-                        onlyReviewed: value > 0,
-                      }));
-                      setReviewOpen(false);
-                    }}
-                    role="menuitem"
-                  >
-                    {value === 0 ? "Any rating" : `${value} star`}
-                  </button>
-                ))}
+                  {[0, 1, 2, 3, 4, 5].map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      className={`${styles.chipMenuItem} ${
+                        Number(filters.minRating || 0) === value
+                          ? styles.chipMenuItemActive
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setFilters((prev) => ({
+                          ...prev,
+                          minRating: value ? String(value) : "",
+                          onlyReviewed: value > 0,
+                        }));
+                        setReviewOpen(false);
+                      }}
+                      role="menuitem"
+                    >
+                      {value === 0
+                        ? t("category.ratings.any")
+                        : t("category.ratings.value", { value })}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -583,9 +596,9 @@ export default function Category() {
                     }}
                     role="menuitem"
                   >
-                    Any color
+                    {t("category.colors.any")}
                   </button>
-                  {COLOR_OPTIONS.map((option) => (
+                  {colorOptions.map((option) => (
                     <button
                       key={option.id}
                       type="button"
@@ -620,58 +633,58 @@ export default function Category() {
               </button>
               {materialOpen && (
                 <div className={styles.chipMenu} role="menu">
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    !filters.materialQuality ? styles.chipMenuItemActive : ""
-                  }`}
-                  onClick={() => {
-                    setFilters((prev) => ({
-                      ...prev,
-                      materialQuality: "",
-                    }));
-                    setMaterialOpen(false);
-                  }}
-                  role="menuitem"
-                >
-                  Any quality
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    filters.materialQuality === "quality"
-                      ? styles.chipMenuItemActive
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setFilters((prev) => ({
-                      ...prev,
-                      materialQuality: "quality",
-                    }));
-                    setMaterialOpen(false);
-                  }}
-                  role="menuitem"
-                >
-                  Quality
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.chipMenuItem} ${
-                    filters.materialQuality === "less"
-                      ? styles.chipMenuItemActive
-                      : ""
-                  }`}
-                  onClick={() => {
-                    setFilters((prev) => ({
-                      ...prev,
-                      materialQuality: "less",
-                    }));
-                    setMaterialOpen(false);
-                  }}
-                  role="menuitem"
-                >
-                  Less quality
-                </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      !filters.materialQuality ? styles.chipMenuItemActive : ""
+                    }`}
+                    onClick={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        materialQuality: "",
+                      }));
+                      setMaterialOpen(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {t("category.quality.any")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      filters.materialQuality === "quality"
+                        ? styles.chipMenuItemActive
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        materialQuality: "quality",
+                      }));
+                      setMaterialOpen(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {t("category.quality.quality")}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.chipMenuItem} ${
+                      filters.materialQuality === "less"
+                        ? styles.chipMenuItemActive
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        materialQuality: "less",
+                      }));
+                      setMaterialOpen(false);
+                    }}
+                    role="menuitem"
+                  >
+                    {t("category.quality.less")}
+                  </button>
                 </div>
               )}
             </div>
@@ -697,7 +710,7 @@ export default function Category() {
             </button>
             {sortOpen && (
               <div className={styles.sortMenu} role="menu">
-                {SORT_OPTIONS.map((option) => (
+                {sortOptions.map((option) => (
                   <button
                     key={option.id}
                     type="button"
@@ -723,7 +736,7 @@ export default function Category() {
           <div className={styles.filtersPanel}>
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel} htmlFor="min-price">
-                Min price
+                {t("category.filters.minPrice")}
               </label>
               <input
                 id="min-price"
@@ -737,7 +750,7 @@ export default function Category() {
             </div>
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel} htmlFor="max-price">
-                Max price
+                {t("category.filters.maxPrice")}
               </label>
               <input
                 id="max-price"
@@ -768,19 +781,22 @@ export default function Category() {
                   })
                 }
               >
-                Clear
+                {t("category.filters.clear")}
               </button>
               <button
                 type="button"
                 className={styles.applyBtn}
                 onClick={() => setFiltersOpen(false)}
               >
-                Apply
+                {t("category.filters.apply")}
               </button>
             </div>
             {priceBands && (
               <p className={styles.filterHint}>
-                Budget &lt;= $ {priceBands.budgetMax} | Mid range &lt;= $ {priceBands.midMax}
+                {t("category.filters.priceHint", {
+                  budget: priceBands.budgetMax,
+                  mid: priceBands.midMax,
+                })}
               </p>
             )}
           </div>
@@ -789,7 +805,7 @@ export default function Category() {
         <h1 className={styles.title}>{t("category.title", { title })}</h1>
 
         {loading && (
-          <div className={styles.skeletonGrid} aria-label="Loading">
+          <div className={styles.skeletonGrid} aria-label={t("category.loading")}>
             {Array.from({ length: 8 }).map((_, idx) => (
               <div key={idx} className={styles.skeletonCard}>
                 <div className={styles.skeletonMedia} />
@@ -811,11 +827,8 @@ export default function Category() {
 
         {!loading && !error && sortedProducts.length === 0 && (
           <div className={styles.emptyState}>
-            <h2>No results found</h2>
-            <p>
-              Try a different search or clear your filters. If this keeps
-              happening, check your connection.
-            </p>
+            <h2>{t("category.empty.title")}</h2>
+            <p>{t("category.empty.body")}</p>
             <button
               type="button"
               className={styles.clearBtn}
@@ -834,7 +847,7 @@ export default function Category() {
                 })
               }
             >
-              Clear filters
+              {t("category.empty.clear")}
             </button>
           </div>
         )}
@@ -866,72 +879,73 @@ export default function Category() {
                     }}
                   >
                     <Link to={`/p/${id}`} className={styles.cardLink}>
-                    <motion.button
-                      type="button"
-                      className={`${styles.heartBtn} ${
-                        likedIds.has(id) ? styles.hearted : ""
-                      }`}
-                      aria-label={t("category.addWishlist")}
-                      onClick={() => toggleLiked(id)}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <Heart size={18} />
-                      <span className={styles.heartShine} aria-hidden="true" />
-                    </motion.button>
-
-                    <div className={styles.media}>
-                      <img
-                        src={imgSrc || "/fallback-product.png"}
-                        alt={p.title || "Product"}
-                        className={styles.thumb}
-                        loading="lazy"
-                        referrerPolicy="origin"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = "/fallback-product.png";
-                        }}
-                      />
-                    </div>
-
-                    <div className={styles.cardBody}>
-                      <div className={styles.row}>
-                        <p className={`${styles.name} ${styles.clamp2}`}>
-                          {p.title}
-                        </p>
-                        <p className={styles.price}>
-                          {Number.isFinite(price) ? `$${price}` : "$?"}
-                        </p>
-                      </div>
-
-                      <p className={`${styles.desc} ${styles.clamp2}`}>
-                        {/* dataset does not have description, so show category + reviews */}
-                        {p.category || title}
-                        {p.reviewsCount != null ? ` (${p.reviewsCount})` : ""}
-                      </p>
-
-                      <div className={styles.ratingRow}>
-                        <RatingStars value={rating} />
-                        <span className={styles.ratingText}>
-                          ({rating.toFixed(1)})
-                        </span>
-                      </div>
-
                       <motion.button
                         type="button"
-                        className={`${styles.addBtn} ${
-                          cartIds.has(id) ? styles.added : ""
+                        className={`${styles.heartBtn} ${
+                          likedIds.has(id) ? styles.hearted : ""
                         }`}
-                        onClick={() => toggleCart(id)}
-                        whileTap={{ scale: 0.98 }}
+                        aria-label={t("category.addWishlist")}
+                        onClick={() => toggleLiked(id)}
+                        whileTap={{ scale: 0.9 }}
                       >
-                        <span className={styles.addBtnText}>
-                          {cartIds.has(id)
-                            ? t("category.added")
-                            : t("category.addToCart")}
-                        </span>
-                        <span className={styles.addShine} aria-hidden="true" />
+                        <Heart size={18} />
+                        <span className={styles.heartShine} aria-hidden="true" />
                       </motion.button>
-                    </div>
+
+                      <div className={styles.media}>
+                        <img
+                          src={imgSrc || "/fallback-product.png"}
+                          alt={p.title || t("common.product")}
+                          className={styles.thumb}
+                          loading="lazy"
+                          referrerPolicy="origin"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/fallback-product.png";
+                          }}
+                        />
+                      </div>
+
+                      <div className={styles.cardBody}>
+                        <div className={styles.row}>
+                          <p className={`${styles.name} ${styles.clamp2}`}>
+                            {p.title}
+                          </p>
+                          <p className={styles.price}>
+                            {Number.isFinite(price)
+                              ? `$${price}`
+                              : t("common.priceNA")}
+                          </p>
+                        </div>
+
+                        <p className={`${styles.desc} ${styles.clamp2}`}>
+                          {p.category || title}
+                          {p.reviewsCount != null ? ` (${p.reviewsCount})` : ""}
+                        </p>
+
+                        <div className={styles.ratingRow}>
+                          <RatingStars value={rating} />
+                          <span className={styles.ratingText}>
+                            ({rating.toFixed(1)})
+                          </span>
+                        </div>
+
+                        <motion.button
+                          type="button"
+                          className={`${styles.addBtn} ${
+                            cartIds.has(id) ? styles.added : ""
+                          }`}
+                          onClick={() => toggleCart(id)}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <span className={styles.addBtnText}>
+                            {cartIds.has(id)
+                              ? t("category.added")
+                              : t("category.addToCart")}
+                          </span>
+                          <span className={styles.addShine} aria-hidden="true" />
+                        </motion.button>
+                      </div>
                     </Link>
                   </motion.article>
                 );
@@ -972,7 +986,7 @@ export default function Category() {
                     <span key={item} className={styles.pageGap}>
                       ...
                     </span>
-                  )
+                  ),
                 )}
                 <button
                   type="button"

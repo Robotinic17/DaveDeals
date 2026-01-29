@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import styles from "./BestDeals.module.css";
 
 import RatingStars from "../category/RatingStars";
@@ -49,6 +50,7 @@ function shuffleWithRand(list, rand) {
 }
 
 export default function BestDeals() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [liked, setLiked] = useState(() => new Set());
   const { ref, inView } = useInView();
@@ -86,7 +88,6 @@ export default function BestDeals() {
       byCategory.get(key).push(product);
     }
 
-    // Shuffle items within each category and shuffle category order
     const groups = shuffleWithRand(
       [...byCategory.values()].map((group) => shuffleWithRand(group, rand)),
       rand,
@@ -116,10 +117,8 @@ export default function BestDeals() {
     <section className={styles.section} ref={ref}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Todays Best Deals For You!</h2>
-          <p className={styles.sub}>
-            Products with standout value, updated daily.
-          </p>
+          <h2 className={styles.title}>{t("home.bestDeals.title")}</h2>
+          <p className={styles.sub}>{t("home.bestDeals.subtitle")}</p>
         </div>
       </div>
 
@@ -150,7 +149,7 @@ export default function BestDeals() {
                     e.preventDefault();
                     toggleLike(id);
                   }}
-                  aria-label="Favorite"
+                  aria-label={t("common.favorite")}
                 >
                   <Heart size={18} />
                 </button>
@@ -158,7 +157,7 @@ export default function BestDeals() {
                 <div className={styles.media}>
                   <img
                     src={imgSrc || "/fallback-product.png"}
-                    alt={p.title || "Product"}
+                    alt={p.title || t("common.product")}
                     loading="lazy"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
@@ -171,10 +170,12 @@ export default function BestDeals() {
                   <div className={styles.row}>
                     <h3 className={styles.name}>{p.title}</h3>
                     <span className={styles.price}>
-                      {Number.isFinite(price) ? `$${price}` : "$?"}
+                      {Number.isFinite(price) ? `$${price}` : t("common.priceNA")}
                     </span>
                   </div>
-                  <p className={styles.meta}>{p.category || "Top pick"}</p>
+                  <p className={styles.meta}>
+                    {p.category || t("common.topPick")}
+                  </p>
                   <div className={styles.ratingRow}>
                     <RatingStars value={rating} />
                     <span className={styles.ratingText}>
@@ -182,7 +183,7 @@ export default function BestDeals() {
                     </span>
                   </div>
                   <button type="button" className={styles.addBtn}>
-                    Add to cart
+                    {t("common.addToCart")}
                   </button>
                 </div>
               </Link>
@@ -190,9 +191,9 @@ export default function BestDeals() {
           );
         })}
 
-        <div className={styles.endCard} aria-label="End of deals">
-          <p>That&apos;s all for today.</p>
-          <span>Check back tomorrow.</span>
+        <div className={styles.endCard} aria-label={t("home.bestDeals.endAria")}> 
+          <p>{t("home.bestDeals.endTitle")}</p>
+          <span>{t("home.bestDeals.endSubtitle")}</span>
         </div>
       </div>
     </section>

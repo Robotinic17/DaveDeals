@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -9,16 +9,16 @@ import { getProductById, getProductsByCategorySlug } from "../lib/catalog";
 import { getProductImage } from "../lib/productImages";
 
 const COLOR_SWATCHES = [
-  { id: "black", label: "Black", hex: "#121212" },
-  { id: "white", label: "White", hex: "#f3f3f3" },
-  { id: "gray", label: "Gray", hex: "#9a9a9a" },
-  { id: "blue", label: "Blue", hex: "#2c5aa0" },
-  { id: "red", label: "Red", hex: "#c73b3b" },
-  { id: "green", label: "Green", hex: "#2c7b5a" },
-  { id: "yellow", label: "Yellow", hex: "#d5b53d" },
-  { id: "pink", label: "Pink", hex: "#d38aa7" },
-  { id: "purple", label: "Purple", hex: "#7b5fb2" },
-  { id: "orange", label: "Orange", hex: "#d9853b" },
+  { id: "black", hex: "#121212" },
+  { id: "white", hex: "#f3f3f3" },
+  { id: "gray", hex: "#9a9a9a" },
+  { id: "blue", hex: "#2c5aa0" },
+  { id: "red", hex: "#c73b3b" },
+  { id: "green", hex: "#2c7b5a" },
+  { id: "yellow", hex: "#d5b53d" },
+  { id: "pink", hex: "#d38aa7" },
+  { id: "purple", hex: "#7b5fb2" },
+  { id: "orange", hex: "#d9853b" },
 ];
 
 function clampRating(value) {
@@ -125,13 +125,10 @@ export default function Product() {
     return (
       <section className={styles.page}>
         <div className={styles.emptyState}>
-          <h1>Product unavailable</h1>
-          <p>
-            We couldn’t find this product. Try going back or browsing another
-            category.
-          </p>
+          <h1>{t("product.unavailable.title")}</h1>
+          <p>{t("product.unavailable.body")}</p>
           <Link to="/categories" className={styles.backBtn}>
-            Browse categories
+            {t("product.unavailable.cta")}
           </Link>
         </div>
       </section>
@@ -145,7 +142,7 @@ export default function Product() {
           <div className={styles.mainImage}>
             <img
               src={activeImage || "/fallback-product.png"}
-              alt={product.title || "Product"}
+              alt={product.title || t("common.product")}
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = "/fallback-product.png";
@@ -176,7 +173,7 @@ export default function Product() {
         </div>
 
         <div className={styles.details}>
-          <p className={styles.category}>{product.category || "Featured"}</p>
+          <p className={styles.category}>{product.category || t("product.featured")}</p>
           <h1 className={styles.title}>{product.title}</h1>
           <div className={styles.ratingRow}>
             <RatingStars value={rating} />
@@ -187,13 +184,13 @@ export default function Product() {
 
           <div className={styles.priceBlock}>
             <span className={styles.price}>
-              {Number.isFinite(price) ? `$${price}` : "$?"}
+              {Number.isFinite(price) ? `$${price}` : t("common.priceNA")}
             </span>
-            <span className={styles.priceNote}>Free delivery available</span>
+            <span className={styles.priceNote}>{t("product.priceNote")}</span>
           </div>
 
           <div className={styles.section}>
-            <h3>Choose a color</h3>
+            <h3>{t("product.chooseColor")}</h3>
             <div className={styles.swatches}>
               {suggestedColors.map((c, idx) => (
                 <button
@@ -203,7 +200,7 @@ export default function Product() {
                     idx === 0 ? styles.swatchActive : ""
                   }`}
                   style={{ background: c.hex }}
-                  aria-label={c.label}
+                  aria-label={t(`category.colors.${c.id}`)}
                 />
               ))}
             </div>
@@ -211,21 +208,21 @@ export default function Product() {
 
           <div className={styles.ctaRow}>
             <button type="button" className={styles.buyBtn}>
-              Buy now
+              {t("product.buyNow")}
             </button>
             <button type="button" className={styles.cartBtn}>
-              Add to cart
+              {t("common.addToCart")}
             </button>
           </div>
 
           <div className={styles.infoCards}>
             <div className={styles.infoCard}>
-              <h4>Free delivery</h4>
-              <p>Check delivery availability in your area.</p>
+              <h4>{t("product.info.freeDeliveryTitle")}</h4>
+              <p>{t("product.info.freeDeliveryBody")}</p>
             </div>
             <div className={styles.infoCard}>
-              <h4>Easy returns</h4>
-              <p>30‑day returns with pickup options.</p>
+              <h4>{t("product.info.easyReturnsTitle")}</h4>
+              <p>{t("product.info.easyReturnsBody")}</p>
             </div>
           </div>
         </div>
@@ -233,49 +230,49 @@ export default function Product() {
 
       <div className={styles.specs}>
         <div className={styles.specCard}>
-          <h3>General</h3>
+          <h3>{t("product.specs.general")}</h3>
           <div className={styles.specRow}>
-            <span>Product ID</span>
+            <span>{t("product.specs.productId")}</span>
             <span>{product.id || product.asin}</span>
           </div>
           <div className={styles.specRow}>
-            <span>Category</span>
-            <span>{product.category || "General"}</span>
+            <span>{t("product.specs.category")}</span>
+            <span>{product.category || t("product.specs.generalValue")}</span>
           </div>
           <div className={styles.specRow}>
-            <span>Rating</span>
+            <span>{t("product.specs.rating")}</span>
             <span>{rating.toFixed(1)}</span>
           </div>
           <div className={styles.specRow}>
-            <span>Reviews</span>
+            <span>{t("product.specs.reviews")}</span>
             <span>{product.reviewsCount || 0}</span>
           </div>
         </div>
 
         <div className={styles.specCard}>
-          <h3>Details</h3>
+          <h3>{t("product.specs.details")}</h3>
           <div className={styles.specRow}>
-            <span>Availability</span>
-            <span>In stock</span>
+            <span>{t("product.specs.availability")}</span>
+            <span>{t("product.specs.inStock")}</span>
           </div>
           <div className={styles.specRow}>
-            <span>Shipping</span>
-            <span>Standard (3-5 days)</span>
+            <span>{t("product.specs.shipping")}</span>
+            <span>{t("product.specs.shippingValue")}</span>
           </div>
           <div className={styles.specRow}>
-            <span>Warranty</span>
-            <span>1 year</span>
+            <span>{t("product.specs.warranty")}</span>
+            <span>{t("product.specs.warrantyValue")}</span>
           </div>
           <div className={styles.specRow}>
-            <span>Condition</span>
-            <span>New</span>
+            <span>{t("product.specs.condition")}</span>
+            <span>{t("product.specs.conditionValue")}</span>
           </div>
         </div>
       </div>
 
       {similar.length > 0 && (
         <div className={styles.similar}>
-          <h3>Similar items you might like</h3>
+          <h3>{t("product.similar.title")}</h3>
           <div className={styles.similarGrid}>
             {similar.map((item, idx) => {
               const pid = item.id || item.asin;
@@ -288,7 +285,7 @@ export default function Product() {
                 >
                   <img
                     src={imgSrc || "/fallback-product.png"}
-                    alt={item.title || "Product"}
+                    alt={item.title || t("common.product")}
                     loading="lazy"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
@@ -300,7 +297,7 @@ export default function Product() {
                     <p className={styles.similarMeta}>
                       {Number.isFinite(Number(item.price))
                         ? `$${Number(item.price)}`
-                        : "$?"}
+                        : t("common.priceNA")}
                     </p>
                   </div>
                   <motion.span
@@ -309,7 +306,7 @@ export default function Product() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: Math.min(idx * 0.05, 0.2) }}
                   >
-                    View
+                    {t("common.view")}
                   </motion.span>
                 </Link>
               );
@@ -320,3 +317,6 @@ export default function Product() {
     </section>
   );
 }
+
+
+

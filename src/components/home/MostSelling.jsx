@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import styles from "./MostSelling.module.css";
 import RatingStars from "../category/RatingStars";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
@@ -57,7 +58,7 @@ function pickWeeklyItems(list, count, weekKey) {
   return copy.slice(0, count);
 }
 
-function normalizeProduct(product) {
+function normalizeProduct(product, t) {
   const id = product?.id || product?.asin;
   if (!id) return null;
 
@@ -65,8 +66,8 @@ function normalizeProduct(product) {
     typeof product.price === "number" ? product.price : Number(product.price);
   const rating = clampRating(product.rating);
   const reviews = Number(product.reviewsCount || product.reviews || 0);
-  const title = product.title || "Product";
-  const category = product.category || "Top pick";
+  const title = product.title || t("common.product");
+  const category = product.category || t("common.topPick");
 
   return {
     id,
@@ -80,7 +81,7 @@ function normalizeProduct(product) {
   };
 }
 
-function SellingCard({ item, liked, onToggle }) {
+function SellingCard({ item, liked, onToggle, t }) {
   const cacheKey = `selling-${String(item.id).toLowerCase()}`;
   const { image } = useUnsplashImage(item.query, cacheKey);
   const imgSrc = item.thumbnail || image?.url || "/fallback-product.png";
@@ -93,7 +94,7 @@ function SellingCard({ item, liked, onToggle }) {
         type="button"
         className={`${styles.heartBtn} ${liked ? styles.hearted : ""}`}
         onClick={onToggle}
-        aria-label="Favorite"
+        aria-label={t("common.favorite")}
       >
         <Heart size={18} />
       </button>
@@ -122,20 +123,20 @@ function SellingCard({ item, liked, onToggle }) {
             <span className={styles.reviewText}>({ratingText})</span>
           </div>
           <button type="button" className={styles.addBtn}>
-            Add to cart
+            {t("common.addToCart")}
           </button>
         </div>
       </Link>
 
       {image && (
         <p className={styles.credit}>
-          Photo by{" "}
+          {t("common.photoBy")} {" "}
           <a href={image.userLink} target="_blank" rel="noreferrer">
             {image.name}
           </a>{" "}
-          on{" "}
+          {t("common.on")} {" "}
           <a href={image.unsplashLink} target="_blank" rel="noreferrer">
-            Unsplash
+            {t("common.unsplash")}
           </a>
         </p>
       )}
@@ -144,6 +145,7 @@ function SellingCard({ item, liked, onToggle }) {
 }
 
 export default function MostSelling() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(() => new Set());
@@ -181,7 +183,7 @@ export default function MostSelling() {
     const weekKey = getWeekKey();
 
     const normalized = products
-      .map(normalizeProduct)
+      .map((p) => normalizeProduct(p, t))
       .filter(Boolean)
       .map((p) => ({
         ...p,
@@ -196,7 +198,7 @@ export default function MostSelling() {
 
     const pool = normalized.slice(0, POOL_SIZE);
     return pickWeeklyItems(pool, MAX_ITEMS, weekKey);
-  }, [products]);
+  }, [products, t]);
 
   function toggleLike(id) {
     setLiked((prev) => {
@@ -212,7 +214,7 @@ export default function MostSelling() {
       <div className={styles.inner}>
         <div className={styles.titleRow}>
           <span className={styles.titleMark} aria-hidden="true" />
-          <h2 className={styles.title}>Most Selling Products</h2>
+          <h2 className={styles.title}>{t("home.mostSelling.title")}</h2>
         </div>
       </div>
 
@@ -224,6 +226,7 @@ export default function MostSelling() {
               item={item}
               liked={liked.has(item.id)}
               onToggle={() => toggleLike(item.id)}
+              t={t}
             />
           ))}
       </div>
