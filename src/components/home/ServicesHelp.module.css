@@ -57,14 +57,14 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 800;
   line-height: 1.2;
 }
 
 .copy {
   margin: 0;
-  font-size: 18px;
+  font-size: 14px;
   color: var(--text);
   max-width: 22ch;
 }
@@ -121,7 +121,7 @@
   }
 
   .cardTitle {
-    font-size: 24px;
+    font-size: 17px;
   }
 
   .copy {
