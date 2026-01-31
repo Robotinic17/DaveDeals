@@ -294,7 +294,47 @@
                     "heroImageAlt":  "Colaboración del equipo",
                     "rolesTitle":  "Habilidades que necesitamos ahora",
                     "rolesSubtitle":  "Estas son las funciones clave que harán despegar DaveDeals. Elige la que mejor se adapte a ti y postúlate.",
-                    "apply":  "Postular",
+                      "apply":  "Postular",
+                      "values":  {
+                                     "title":  "Los valores que dan forma a DaveDeals",
+                                     "subtitle":  "Nuestra cultura es el producto. Estos valores guían cada decisión que tomamos.",
+                                     "items":  {
+                                                   "mission":  {
+                                                                   "title":  "Enfoque en la misión",
+                                                                   "body":  "Medimos cada movimiento por una sola cosa: ayudar a las personas a descubrir mejores ofertas con menos esfuerzo."
+                                                               },
+                                                   "team":  {
+                                                                 "title":  "Mentalidad de equipo profesional",
+                                                                 "body":  "Jugamos para ganar, elevamos el estándar y nos hacemos responsables con respeto."
+                                                             },
+                                                   "curiosity":  {
+                                                                      "title":  "Optimismo curioso",
+                                                                      "body":  "Hacemos preguntas difíciles y confiamos en que aparecerán respuestas inteligentes."
+                                                                  },
+                                                   "create":  {
+                                                                  "title":  "Crear algo que la gente quiere",
+                                                                  "body":  "Construimos solo lo que crea valor para compradores, vendedores y marcas."
+                                                              }
+                                               }
+                                 },
+                      "belief":  {
+                                     "title":  "Creemos en ayudar a las personas a crecer",
+                                     "body1":  "Los mercados de la vieja escuela persiguen volumen. Nosotros preferimos resultados con significado: el vendedor adecuado con el comprador adecuado en el momento adecuado.",
+                                     "body2":  "Así se crea lealtad real y ganancias sostenibles para todos.",
+                                     "body3":  "Nuestra misión empieza con nuestra gente. Protegemos el enfoque y la libertad para construir algo de clase mundial."
+                                 },
+                      "story":  {
+                                    "imageAlt":  "Equipo trabajando juntos"
+                                },
+                      "quote":  {
+                                    "text":  "DaveDeals se construye sobre una idea: facilitar que las personas encuentren un valor extraordinario y permitir que los vendedores crezcan sin fricción. Soy el CEO y actualmente el único miembro del equipo, pero la visión es más grande que yo.",
+                                    "author":  "Eluwole David Timileyin",
+                                    "role":  "Fundador y CEO"
+                                },
+                      "cta":  {
+                                  "title":  "Ahora es tu turno.",
+                                  "subtitle":  "Únete al equipo que está construyendo un mercado más inteligente para todos."
+                              },
                     "roles":  {
                                   "fullstackEngineer":  {
                                                             "summary":  "Entrega funciones de principio a fin que impulsen el producto.",

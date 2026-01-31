@@ -286,7 +286,47 @@
                     "rolesTitle":  "Habilidades que precisamos agora",
                     "subtitle":  "Precisamos de criadores para escalar a DaveDeals.",
                     "kicker":  "Carreiras na DaveDeals",
-                    "apply":  "Candidatar-se",
+                      "apply":  "Candidatar-se",
+                      "values":  {
+                                     "title":  "Os valores que moldam a DaveDeals",
+                                     "subtitle":  "Nossa cultura é o produto. Esses valores guiam cada decisão que tomamos.",
+                                     "items":  {
+                                                   "mission":  {
+                                                                   "title":  "Foco na missão",
+                                                                   "body":  "Medimos cada movimento por uma coisa: ajudar as pessoas a descobrir melhores ofertas com menos esforço."
+                                                               },
+                                                   "team":  {
+                                                                 "title":  "Mentalidade de time profissional",
+                                                                 "body":  "Jogamos para vencer, elevamos o padrão e nos cobramos com respeito."
+                                                             },
+                                                   "curiosity":  {
+                                                                      "title":  "Otimismo curioso",
+                                                                      "body":  "Fazemos perguntas difíceis e confiamos que respostas inteligentes vão surgir."
+                                                                  },
+                                                   "create":  {
+                                                                  "title":  "Criar algo que as pessoas querem",
+                                                                  "body":  "Construímos apenas o que cria valor para compradores, vendedores e marcas."
+                                                              }
+                                               }
+                                 },
+                      "belief":  {
+                                     "title":  "Acreditamos em ajudar as pessoas a crescer",
+                                     "body1":  "Marketplaces tradicionais perseguem volume. Preferimos resultados com significado: o vendedor certo com o comprador certo no momento certo.",
+                                     "body2":  "Assim criamos lealdade real e lucro sustentável para todos.",
+                                     "body3":  "Nossa missão começa com as pessoas. Protegemos o foco e a liberdade para construir algo de nível mundial."
+                                 },
+                      "story":  {
+                                    "imageAlt":  "Equipe trabalhando junta"
+                                },
+                      "quote":  {
+                                    "text":  "A DaveDeals foi construída sobre uma ideia: facilitar o acesso a um grande valor e permitir que os vendedores cresçam sem atrito. Sou o CEO e atualmente o único membro da equipe, mas a visão é maior do que eu.",
+                                    "author":  "Eluwole David Timileyin",
+                                    "role":  "Fundador e CEO"
+                                },
+                      "cta":  {
+                                  "title":  "Agora é a sua vez.",
+                                  "subtitle":  "Junte-se ao time que está construindo um marketplace mais inteligente para todos."
+                              },
                     "roles":  {
                                   "fullstackEngineer":  {
                                                             "summary":  "Funcionalidades de ponta a ponta",

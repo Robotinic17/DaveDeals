@@ -286,7 +286,47 @@
                     "rolesTitle":  "Compétences recherchées",
                     "subtitle":  "Nous avons besoin de bâtisseurs et créateurs pour faire grandir DaveDeals.",
                     "kicker":  "Carrières chez DaveDeals",
-                    "apply":  "Postuler",
+                      "apply":  "Postuler",
+                      "values":  {
+                                     "title":  "Les valeurs qui façonnent DaveDeals",
+                                     "subtitle":  "Notre culture est le produit. Ces valeurs guident chaque décision que nous prenons.",
+                                     "items":  {
+                                                   "mission":  {
+                                                                   "title":  "Priorité à la mission",
+                                                                   "body":  "Nous mesurons chaque action par une seule chose : aider les gens à trouver de meilleures offres avec moins d'effort."
+                                                               },
+                                                   "team":  {
+                                                                 "title":  "Mentalité d'équipe pro",
+                                                                 "body":  "Nous jouons pour gagner, nous élevons le niveau et nous nous tenons responsables avec respect."
+                                                             },
+                                                   "curiosity":  {
+                                                                      "title":  "Optimisme curieux",
+                                                                      "body":  "Nous posons des questions difficiles et nous faisons confiance aux réponses intelligentes."
+                                                                  },
+                                                   "create":  {
+                                                                  "title":  "Créer quelque chose que les gens veulent",
+                                                                  "body":  "Nous construisons uniquement ce qui crée de la valeur pour les acheteurs, les vendeurs et les marques."
+                                                              }
+                                               }
+                                 },
+                      "belief":  {
+                                     "title":  "Nous croyons à aider les gens à grandir",
+                                     "body1":  "Les marketplaces à l'ancienne chassent le volume. Nous préférons des résultats porteurs de sens : le bon vendeur avec le bon acheteur au bon moment.",
+                                     "body2":  "C'est ainsi que l'on crée une vraie fidélité et des profits durables pour tous.",
+                                     "body3":  "Notre mission commence avec nos équipes. Nous protégeons la concentration et la liberté nécessaires pour bâtir quelque chose de mondial."
+                                 },
+                      "story":  {
+                                    "imageAlt":  "Équipe au travail"
+                                },
+                      "quote":  {
+                                    "text":  "DaveDeals repose sur une idée : faciliter l'accès à une vraie valeur et permettre aux vendeurs de grandir sans friction. Je suis le PDG et actuellement le seul membre de l'équipe, mais la vision est plus grande que moi.",
+                                    "author":  "Eluwole David Timileyin",
+                                    "role":  "Fondateur & PDG"
+                                },
+                      "cta":  {
+                                  "title":  "À toi de jouer.",
+                                  "subtitle":  "Rejoins l'équipe qui construit une marketplace plus intelligente pour tous."
+                              },
                     "roles":  {
                                   "fullstackEngineer":  {
                                                             "summary":  "Livrer des fonctionnalités de bout en bout.",

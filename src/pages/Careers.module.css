@@ -130,6 +130,198 @@
   gap: 32px;
 }
 
+.valuesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.valuesHeader h2 {
+  margin: 0 0 8px;
+  font-size: 2.6rem;
+  font-family: var(--font-heading);
+}
+
+.valuesHeader p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  width: 90%;
+}
+
+.valueCard {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.valueCard h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.valueCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.valueCardGold {
+  background: #fff2a8;
+}
+
+.valueCardMint {
+  background: #c9f7c7;
+}
+
+.valueCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+}
+
+.valueIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.valueIcon::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.55);
+  border-radius: 50%;
+  transform: rotate(6deg);
+}
+
+.valueIconSwirl::after {
+  border-radius: 12px 50% 50% 12px;
+  transform: rotate(-12deg);
+}
+
+.valueIconCloud::after {
+  border-radius: 50% 50% 12px 12px;
+  transform: translateY(-2px);
+}
+
+.valueIconArrow::after {
+  border-radius: 2px;
+  border-left: none;
+  border-bottom: none;
+  transform: rotate(45deg) translate(2px, -2px);
+}
+
+.beliefSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.beliefCopy h2 {
+  margin: 0 0 12px;
+  font-size: 2.4rem;
+  font-family: var(--font-heading);
+}
+
+.beliefMark {
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  border-bottom: 3px solid var(--text);
+  border-right: 3px solid var(--text);
+  transform: skewX(-20deg);
+  opacity: 0.5;
+}
+
+.beliefBody {
+  color: var(--muted);
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.beliefBody p {
+  margin: 0;
+}
+
+.storySection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.storyCard,
+.quoteCard {
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
+
+.storyCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.storyCard img {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.quote {
+  margin: 0 0 24px;
+  font-size: 22px;
+  line-height: 1.6;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+.quoteFooter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quoteFooter img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.quoteFooter span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
 .rolesHeader {
   display: flex;
   flex-direction: column;
@@ -219,12 +411,65 @@
   box-shadow: 0 18px 40px rgba(0, 61, 41, 0.18);
 }
 
+.ctaBanner {
+  width: min(1200px, 92%);
+  margin: 0 auto 80px;
+  border-radius: 24px;
+  background: #173b2a;
+  color: #f5f6f4;
+  padding: 40px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.ctaBanner h2 {
+  margin: 0 0 6px;
+  font-size: 2.4rem;
+  font-family: var(--font-heading);
+}
+
+.ctaBanner p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #f5f6f4;
+  color: #173b2a;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.ctaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+}
+
+.ctaBtn:active {
+  transform: translateY(0) scale(0.98);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heroMedia,
   .roleCard,
   .roleBtn,
   .primaryBtn,
-  .secondaryBtn {
+  .secondaryBtn,
+  .valueCard,
+  .ctaBtn {
     transition: none;
   }
 }
@@ -233,11 +478,28 @@
   .hero {
     grid-template-columns: 1fr;
   }
+
+  .beliefSection,
+  .storySection {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 640px) {
   .title {
     font-size: 28px;
+  }
+
+  .valuesHeader h2,
+  .beliefCopy h2,
+  .rolesHeader h2,
+  .ctaBanner h2 {
+    font-size: 2rem;
   }
 
   .roleCard {
