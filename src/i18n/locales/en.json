@@ -1,4 +1,4 @@
-﻿{
+{
     "topbar":  {
                    "phone":  "+001234567890",
                    "promo":  "Get 50% Off on Selected Items",
@@ -164,47 +164,47 @@
                                      "any":  "Any quality"
                                  },
                      "filters":  {
-                      "apply":  "Apply",
-                      "values":  {
-                                     "title":  "The values that shape DaveDeals",
-                                     "subtitle":  "Our culture is the product. These values guide every decision we make.",
-                                     "items":  {
-                                                   "mission":  {
-                                                                   "title":  "Mission focus",
-                                                                   "body":  "We measure every move by one thing: helping people discover better deals with less effort."
-                                                               },
-                                                   "team":  {
-                                                                 "title":  "Pro-team mentality",
-                                                                 "body":  "We play to win, we raise the bar, and we keep each other accountable with respect."
-                                                             },
-                                                   "curiosity":  {
-                                                                      "title":  "Curious optimism",
-                                                                      "body":  "We ask tough questions and stay confident that smart answers will show up."
-                                                                  },
-                                                   "create":  {
-                                                                  "title":  "Make something people want",
-                                                                  "body":  "We build only what creates value for buyers, sellers, and brands."
+                                     "apply":  "Apply",
+                                     "values":  {
+                                                    "title":  "The values that shape DaveDeals",
+                                                    "subtitle":  "Our culture is the product. These values guide every decision we make.",
+                                                    "items":  {
+                                                                  "mission":  {
+                                                                                  "title":  "Mission focus",
+                                                                                  "body":  "We measure every move by one thing: helping people discover better deals with less effort."
+                                                                              },
+                                                                  "team":  {
+                                                                               "title":  "Pro-team mentality",
+                                                                               "body":  "We play to win, we raise the bar, and we keep each other accountable with respect."
+                                                                           },
+                                                                  "curiosity":  {
+                                                                                    "title":  "Curious optimism",
+                                                                                    "body":  "We ask tough questions and stay confident that smart answers will show up."
+                                                                                },
+                                                                  "create":  {
+                                                                                 "title":  "Make something people want",
+                                                                                 "body":  "We build only what creates value for buyers, sellers, and brands."
+                                                                             }
                                                               }
-                                               }
-                                 },
-                      "belief":  {
-                                     "title":  "We believe in helping people grow",
-                                     "body1":  "Old-school marketplaces chase volume. We prefer meaningful outcomes: the right sellers connecting with the right buyers at the right moment.",
-                                     "body2":  "That is how you create real loyalty and sustainable profit for everyone involved.",
-                                     "body3":  "Our mission starts with our people. We protect the focus and freedom needed to build something world-class."
-                                 },
-                      "story":  {
-                                    "imageAlt":  "Team working together"
-                                },
-                      "quote":  {
-                                    "text":  "DaveDeals is built on one idea: make it easier for everyday people to find outstanding value, and let sellers grow without friction. I am the CEO and currently the only team member, but the vision is bigger than me.",
-                                    "author":  "Eluwole David Timileyin",
-                                    "role":  "Founder & CEO"
-                                },
-                      "cta":  {
-                                  "title":  "Now it is your turn.",
-                                  "subtitle":  "Join the team that is building a smarter marketplace for everyone."
-                              },
+                                                },
+                                     "belief":  {
+                                                    "title":  "We believe in helping people grow",
+                                                    "body1":  "Old-school marketplaces chase volume. We prefer meaningful outcomes: the right sellers connecting with the right buyers at the right moment.",
+                                                    "body2":  "That is how you create real loyalty and sustainable profit for everyone involved.",
+                                                    "body3":  "Our mission starts with our people. We protect the focus and freedom needed to build something world-class."
+                                                },
+                                     "story":  {
+                                                   "imageAlt":  "Team working together"
+                                               },
+                                     "quote":  {
+                                                   "text":  "DaveDeals is built on one idea: make it easier for everyday people to find outstanding value, and let sellers grow without friction. I am the CEO and currently the only team member, but the vision is bigger than me.",
+                                                   "author":  "Eluwole David Timileyin",
+                                                   "role":  "Founder \u0026 CEO"
+                                               },
+                                     "cta":  {
+                                                 "title":  "Now it is your turn.",
+                                                 "subtitle":  "Join the team that is building a smarter marketplace for everyone."
+                                             },
                                      "priceHint":  "Budget \u003c= ${{budget}} | Mid range \u003c= ${{mid}}",
                                      "clear":  "Clear",
                                      "maxPrice":  "Max price",
@@ -366,7 +366,47 @@
                     "secondaryCta":  "Learn about DaveDeals",
                     "primaryCta":  "See current openings",
                     "title":  "We are building the future of deals",
-                    "heroImageAlt":  "Team collaboration"
+                    "heroImageAlt":  "Team collaboration",
+                    "values":  {
+                                   "title":  "The values that shape DaveDeals",
+                                   "subtitle":  "Our culture is the product. These values guide every decision we make.",
+                                   "items":  {
+                                                 "mission":  {
+                                                                 "title":  "Mission focus",
+                                                                 "body":  "We measure every move by one thing: helping people discover better deals with less effort."
+                                                             },
+                                                 "team":  {
+                                                              "title":  "Pro-team mentality",
+                                                              "body":  "We play to win, we raise the bar, and we keep each other accountable with respect."
+                                                          },
+                                                 "curiosity":  {
+                                                                   "title":  "Curious optimism",
+                                                                   "body":  "We ask tough questions and stay confident that smart answers will show up."
+                                                               },
+                                                 "create":  {
+                                                                "title":  "Make something people want",
+                                                                "body":  "We build only what creates value for buyers, sellers, and brands."
+                                                            }
+                                             }
+                               },
+                    "belief":  {
+                                   "title":  "We believe in helping people grow",
+                                   "body1":  "Old-school marketplaces chase volume. We prefer meaningful outcomes: the right sellers connecting with the right buyers at the right moment.",
+                                   "body2":  "That is how you create real loyalty and sustainable profit for everyone involved.",
+                                   "body3":  "Our mission starts with our people. We protect the focus and freedom needed to build something world-class."
+                               },
+                    "story":  {
+                                  "imageAlt":  "Team working together"
+                              },
+                    "quote":  {
+                                  "text":  "DaveDeals is built on one idea: make it easier for everyday people to find outstanding value, and let sellers grow without friction. I am the CEO and currently the only team member, but the vision is bigger than me.",
+                                  "author":  "Eluwole David Timileyin",
+                                  "role":  "Founder \u0026 CEO"
+                              },
+                    "cta":  {
+                                "title":  "Now it is your turn.",
+                                "subtitle":  "Join the team that is building a smarter marketplace for everyone."
+                            }
                 },
     "footer":  {
                    "bottom":  {

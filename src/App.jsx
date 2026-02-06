@@ -13,6 +13,8 @@ import NotFound from "./pages/NotFound";
 import InfoPage from "./pages/InfoPage";
 import About from "./pages/About";
 import Careers from "./pages/Careers";
+import NewsBlog from "./pages/NewsBlog";
+import NewsPost from "./pages/NewsPost";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,8 @@ const router = createBrowserRouter([
       { path: "categories", element: <Categories /> },
       { path: "about", element: <About /> },
       { path: "careers", element: <Careers /> },
-      { path: "news", element: <InfoPage pageKey="news" /> },
+      { path: "news", element: <NewsBlog /> },
+      { path: "news/:slug", element: <NewsPost /> },
       { path: "help", element: <InfoPage pageKey="help" /> },
       { path: "press", element: <InfoPage pageKey="press" /> },
       { path: "locations", element: <InfoPage pageKey="locations" /> },
