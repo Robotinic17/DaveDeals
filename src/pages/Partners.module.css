@@ -1,0 +1,385 @@
+.page {
+  width: min(1200px, 92%);
+  margin: 32px auto 90px;
+  color: var(--text);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(30px, 4.2vw, 48px);
+  font-family: var(--font-heading);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.primaryBtn {
+  background: var(--brand);
+  color: var(--brand-contrast);
+}
+
+.secondaryBtn {
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.primaryBtn:hover,
+.secondaryBtn:hover,
+.downloadBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.primaryBtn:active,
+.secondaryBtn:active,
+.downloadBtn:active {
+  transform: scale(0.98);
+}
+
+.heroCard {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.cardNote {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.sectionHeader {
+  margin: 36px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 26px;
+  font-family: var(--font-heading);
+}
+
+.sectionHeader p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.benefitCard {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 16px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.benefitCard h3 {
+  margin: 10px 0 6px;
+  font-size: 16px;
+}
+
+.benefitCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.benefitIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(0, 61, 41, 0.12);
+  color: rgb(0, 61, 41);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partnerTabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tabBtn {
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tabBtn:hover {
+  background: var(--hover);
+  transform: translateY(-1px);
+}
+
+.tabBtn:active {
+  transform: scale(0.98);
+}
+
+.tabActive {
+  border-color: rgba(0, 61, 41, 0.35);
+  box-shadow: 0 12px 26px rgba(0, 61, 41, 0.15);
+  color: rgb(0, 61, 41);
+}
+
+.partnerCard {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+}
+
+.partnerHeader {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.partnerHeader img {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: var(--surface-soft);
+  padding: 8px;
+}
+
+.partnerHeader h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.partnerHeader p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.partnerGrid,
+.opportunityGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.partnerGrid h4,
+.opportunityGrid h4 {
+  margin: 0 0 8px;
+}
+
+.partnerGrid ul,
+.opportunityGrid ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.partnerFoot {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.mediaCard {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.mediaCard img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  background: var(--surface-soft);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.faqList {
+  display: grid;
+  gap: 12px;
+}
+
+.faqItem {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 14px 16px;
+}
+
+.faqItem summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.faqItem p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.ctaBanner {
+  margin-top: 40px;
+  border-radius: 22px;
+  background: #0d3a2b;
+  color: #f8fafc;
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ctaBanner p {
+  margin: 0;
+  color: rgba(248, 250, 252, 0.75);
+}
+
+.ctaActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .benefitsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .partnerGrid,
+  .opportunityGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .benefitsGrid,
+  .partnerGrid,
+  .opportunityGrid,
+  .mediaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnerFoot,
+  .ctaBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

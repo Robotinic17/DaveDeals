@@ -15,6 +15,12 @@ import About from "./pages/About";
 import Careers from "./pages/Careers";
 import NewsBlog from "./pages/NewsBlog";
 import NewsPost from "./pages/NewsPost";
+import Help from "./pages/Help";
+import PressCenter from "./pages/PressCenter";
+import Locations from "./pages/Locations";
+import Brands from "./pages/Brands";
+import Partners from "./pages/Partners";
+import Guides from "./pages/Guides";
 
 const router = createBrowserRouter([
   {
@@ -29,12 +35,12 @@ const router = createBrowserRouter([
       { path: "careers", element: <Careers /> },
       { path: "news", element: <NewsBlog /> },
       { path: "news/:slug", element: <NewsPost /> },
-      { path: "help", element: <InfoPage pageKey="help" /> },
-      { path: "press", element: <InfoPage pageKey="press" /> },
-      { path: "locations", element: <InfoPage pageKey="locations" /> },
-      { path: "brands", element: <InfoPage pageKey="brands" /> },
-      { path: "partners", element: <InfoPage pageKey="partners" /> },
-      { path: "guides", element: <InfoPage pageKey="guides" /> },
+      { path: "help", element: <Help /> },
+      { path: "press", element: <PressCenter /> },
+      { path: "locations", element: <Locations /> },
+      { path: "brands", element: <Brands /> },
+      { path: "partners", element: <Partners /> },
+      { path: "guides", element: <Guides /> },
       { path: "whats-new", element: <WhatsNew /> },
       { path: "deals/:type", element: <Deals /> },
       { path: "p/:id", element: <Product /> },

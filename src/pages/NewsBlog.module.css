@@ -95,7 +95,7 @@
 .featuredList {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 23px;
 }
 
 .featuredItem {

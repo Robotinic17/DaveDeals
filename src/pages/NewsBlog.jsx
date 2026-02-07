@@ -55,7 +55,7 @@ function RecentCard({ post }) {
 
 export default function NewsBlog() {
   const featured = featuredList[0] || blogPosts[0];
-  const secondary = blogPosts.filter((post) => post.id !== featured.id).slice(0, 5);
+  const secondary = blogPosts.filter((post) => post.id !== featured.id).slice(0, 4);
 
   return (
     <section className={styles.page}>
@@ -74,10 +74,7 @@ export default function NewsBlog() {
       </div>
 
       <div className={styles.recentHeader}>
-        <h2>Recent Posts</h2>
-        <button type="button" className={styles.allBtn}>
-          All Posts
-        </button>
+        <h2>See other posts</h2>
       </div>
 
       <div className={styles.recentGrid}>

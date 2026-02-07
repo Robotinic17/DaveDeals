@@ -8,6 +8,25 @@ import handbagImg from "../assets/categories/handbag.png";
 
 export const blogPosts = [
   {
+    id: "aerolink-partnership",
+    slug: "aerolink-partnership",
+    title: "DaveDeals partners with Aerolink for reliable delivery tracking",
+    category: "Company Update",
+    author: "Eluwole David Timileyin",
+    date: "Feb 7, 2026",
+    readTime: "3 min read",
+    image: coverImg,
+    excerpt:
+      "The partnership strengthens last-mile delivery visibility with live tracking, status updates, and clearer customer timelines.",
+    featured: false,
+    content: [
+      "We are partnering with Aerolink Tracking System to power shipment visibility for DaveDeals orders. This collaboration gives our customers a clearer, more reliable way to track deliveries from dispatch to doorstep.",
+      "Aerolink provides a production-grade tracking experience with status updates, route visibility, sender and receiver details, and timeline events. These updates help reduce uncertainty and improve delivery confidence.",
+      "On the operations side, Aerolink includes protected admin tooling for shipment creation, editing, and status management. This helps our internal team coordinate with logistics partners and keep orders moving smoothly.",
+      "We are committed to a marketplace experience that feels transparent and dependable. This partnership is a meaningful step toward faster delivery updates, better support, and a more trustworthy buying experience.",
+    ],
+  },
+  {
     id: "marketplace-momentum",
     slug: "marketplace-momentum",
     title: "Marketplace Momentum: How to Spot Real Value Fast",
