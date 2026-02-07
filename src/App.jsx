@@ -21,6 +21,11 @@ import Locations from "./pages/Locations";
 import Brands from "./pages/Brands";
 import Partners from "./pages/Partners";
 import Guides from "./pages/Guides";
+import GiftCards from "./pages/GiftCards";
+import MobileApp from "./pages/MobileApp";
+import ShippingDelivery from "./pages/ShippingDelivery";
+import OrderPickup from "./pages/OrderPickup";
+import AccountSignup from "./pages/AccountSignup";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +46,11 @@ const router = createBrowserRouter([
       { path: "brands", element: <Brands /> },
       { path: "partners", element: <Partners /> },
       { path: "guides", element: <Guides /> },
+      { path: "gift-cards", element: <GiftCards /> },
+      { path: "mobile-app", element: <MobileApp /> },
+      { path: "shipping-delivery", element: <ShippingDelivery /> },
+      { path: "order-pickup", element: <OrderPickup /> },
+      { path: "account-signup", element: <AccountSignup /> },
       { path: "whats-new", element: <WhatsNew /> },
       { path: "deals/:type", element: <Deals /> },
       { path: "p/:id", element: <Product /> },

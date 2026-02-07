@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./Footer.module.css";
@@ -47,11 +47,11 @@ const columns = [
   {
     key: "services",
     links: [
-      { key: "giftCards", to: "/" },
-      { key: "mobileApp", to: "/" },
-      { key: "shipping", to: "/deals/delivery" },
-      { key: "orderPickup", to: "/" },
-      { key: "accountSignup", to: "/" },
+      { key: "giftCards", to: "/gift-cards" },
+      { key: "mobileApp", to: "/mobile-app" },
+      { key: "shipping", to: "/shipping-delivery" },
+      { key: "orderPickup", to: "/order-pickup" },
+      { key: "accountSignup", to: "/account-signup" },
     ],
   },
   {
@@ -205,12 +205,13 @@ export default function Footer() {
         ))}
       </div>
 
-      <div className={styles.bottom}>
+      <div className={styles.bottom}
+      >
         <div className={styles.bottomRow}>
           <Link className={styles.bottomItem} to="/">
             {t("footer.bottom.becomeSeller")}
           </Link>
-          <Link className={styles.bottomItem} to="/">
+          <Link className={styles.bottomItem} to="/gift-cards">
             {t("footer.bottom.giftCards")}
           </Link>
           <Link className={styles.bottomItem} to="/help">
