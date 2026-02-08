@@ -133,7 +133,7 @@ export default function Guides() {
           </div>
         </div>
         <div className={styles.heroCard}>
-          <img src={featured.image} alt={featured.title} />
+          <img src={featured.image} alt={featured.title} decoding="async" />
           <div className={styles.heroOverlay}>
             <span className={styles.tag}>{featured.tag}</span>
             <h2>{featured.title}</h2>
@@ -170,7 +170,7 @@ export default function Guides() {
         {filteredGuides.map((guide) => (
           <article key={guide.id} className={styles.card}>
             <div className={styles.cardMedia}>
-              <img src={guide.image} alt={guide.title} />
+              <img src={guide.image} alt={guide.title} loading="lazy" decoding="async" />
               <span className={styles.cardTag}>{guide.tag}</span>
             </div>
             <div className={styles.cardBody}>
@@ -197,3 +197,4 @@ export default function Guides() {
     </section>
   );
 }
+

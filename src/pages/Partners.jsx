@@ -172,7 +172,7 @@ export default function Partners() {
       {activeTab === "aerolink" ? (
         <div className={styles.partnerCard}>
           <div className={styles.partnerHeader}>
-            <img src={aerolinkLogo} alt="Aerolink logo" />
+            <img loading="lazy" decoding="async" src={aerolinkLogo} alt="Aerolink logo" />
             <div>
               <h3>Aerolink Tracking System</h3>
               <p>
@@ -267,7 +267,7 @@ export default function Partners() {
       </div>
       <div className={styles.mediaGrid}>
         <div className={styles.mediaCard}>
-          <img src={logoImg} alt="DaveDeals logo" />
+          <img loading="lazy" decoding="async" src={logoImg} alt="DaveDeals logo" />
           <div>
             <h3>Primary logo</h3>
             <p>High-resolution logo for light backgrounds.</p>
@@ -277,7 +277,7 @@ export default function Partners() {
           </a>
         </div>
         <div className={styles.mediaCard}>
-          <img src={faviconImg} alt="DaveDeals favicon" />
+          <img loading="lazy" decoding="async" src={faviconImg} alt="DaveDeals favicon" />
           <div>
             <h3>Logo mark</h3>
             <p>Compact mark for app icons and social profiles.</p>
@@ -321,3 +321,4 @@ export default function Partners() {
     </section>
   );
 }
+

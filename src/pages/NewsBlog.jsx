@@ -5,7 +5,7 @@ import { blogPosts, featuredList, recentPosts } from "../data/blogPosts";
 function FeaturedCard({ post }) {
   return (
     <article className={styles.featuredCard}>
-      <img src={post.image} alt={post.title} />
+      <img src={post.image} alt={post.title} loading="lazy" decoding="async" />
       <div className={styles.featuredOverlay}>
         <span className={styles.categoryChip}>{post.category}</span>
         <h2>{post.title}</h2>
@@ -21,7 +21,7 @@ function FeaturedCard({ post }) {
 function FeaturedListItem({ post }) {
   return (
     <Link className={styles.featuredItem} to={`/news/${post.slug}`}>
-      <img src={post.image} alt={post.title} />
+      <img src={post.image} alt={post.title} loading="lazy" decoding="async" />
       <div>
         <p className={styles.featuredTitle}>{post.title}</p>
         <p className={styles.featuredMeta}>
@@ -36,7 +36,7 @@ function RecentCard({ post }) {
   return (
     <article className={styles.recentCard}>
       <Link to={`/news/${post.slug}`} className={styles.recentImage}>
-        <img src={post.image} alt={post.title} />
+        <img src={post.image} alt={post.title} loading="lazy" decoding="async" />
       </Link>
       <div className={styles.recentBody}>
         <span className={styles.categoryPill}>{post.category}</span>
@@ -85,3 +85,4 @@ export default function NewsBlog() {
     </section>
   );
 }
+

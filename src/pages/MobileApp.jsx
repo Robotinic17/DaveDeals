@@ -22,7 +22,7 @@ export default function MobileApp() {
           </div>
         </div>
         <div className={styles.heroCard}>
-          <img src={phonesImg} alt="DaveDeals mobile app preview" />
+          <img src={phonesImg} alt="DaveDeals mobile app preview" decoding="async" />
           <div className={styles.badge}>Coming soon</div>
         </div>
       </div>
@@ -44,3 +44,4 @@ export default function MobileApp() {
     </section>
   );
 }
+

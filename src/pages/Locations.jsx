@@ -139,7 +139,7 @@ export default function Locations() {
         <div className={styles.listingsGrid}>
           {regionalListings.map((item) => (
             <article key={item.id} className={styles.card}>
-              <img src={item.image} alt={item.title} />
+              <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
               <div className={styles.cardBody}>
                 <span className={styles.category}>{item.category}</span>
                 <h3>{item.title}</h3>
@@ -189,3 +189,4 @@ export default function Locations() {
     </section>
   );
 }
+

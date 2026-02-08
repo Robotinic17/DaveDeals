@@ -38,7 +38,7 @@ export default function NewsPost() {
           </div>
         </div>
         <div className={styles.heroMedia}>
-          <img src={post.image} alt={post.title} />
+          <img src={post.image} alt={post.title} decoding="async" />
         </div>
       </div>
 
@@ -50,3 +50,4 @@ export default function NewsPost() {
     </section>
   );
 }
+

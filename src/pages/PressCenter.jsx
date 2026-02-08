@@ -168,7 +168,7 @@ export default function PressCenter() {
       </div>
       <div className={styles.mediaGrid}>
         <div className={styles.mediaCard}>
-          <img src={logoImg} alt="DaveDeals logo" />
+          <img loading="lazy" decoding="async" src={logoImg} alt="DaveDeals logo" />
           <div>
             <h3>Primary logo</h3>
             <p>High-resolution logo for light backgrounds.</p>
@@ -178,7 +178,7 @@ export default function PressCenter() {
           </a>
         </div>
         <div className={styles.mediaCard}>
-          <img src={faviconImg} alt="DaveDeals favicon" />
+          <img loading="lazy" decoding="async" src={faviconImg} alt="DaveDeals favicon" />
           <div>
             <h3>Favicon mark</h3>
             <p>Compact logo mark for icons and avatars.</p>
@@ -188,7 +188,7 @@ export default function PressCenter() {
           </a>
         </div>
         <div className={styles.mediaCard}>
-          <img src={founderImg} alt="Founder portrait" />
+          <img loading="lazy" decoding="async" src={founderImg} alt="Founder portrait" />
           <div>
             <h3>Founder portrait</h3>
             <p>Headshot for press coverage and announcements.</p>
@@ -214,3 +214,4 @@ export default function PressCenter() {
     </section>
   );
 }
+
