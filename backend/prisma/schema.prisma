@@ -1,0 +1,106 @@
+// Prisma schema for DaveDeals backend
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         Role     @default(BUYER)
+  seller       Seller?
+  orders       Order[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Seller {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  storeName String?
+  regionId  String?
+  user      User     @relation(fields: [userId], references: [id])
+  region    Region?  @relation(fields: [regionId], references: [id])
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Region {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  code      String?
+  sellers   Seller[]
+  products  Product[]
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String        @id @default(uuid())
+  sellerId    String
+  regionId    String?
+  title       String
+  description String?
+  price       Int
+  currency    String        @default("USD")
+  status      ProductStatus @default(DRAFT)
+  images      String[]      @default([])
+  seller      Seller        @relation(fields: [sellerId], references: [id])
+  region      Region?       @relation(fields: [regionId], references: [id])
+  orderItems  OrderItem[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([sellerId])
+  @@index([regionId])
+  @@index([status])
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  buyerId   String
+  status    OrderStatus @default(PENDING)
+  total     Int
+  currency  String      @default("USD")
+  items     OrderItem[]
+  buyer     User        @relation(fields: [buyerId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int      @default(1)
+  unitPrice Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+}

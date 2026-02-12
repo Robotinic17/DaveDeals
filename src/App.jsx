@@ -26,6 +26,8 @@ import MobileApp from "./pages/MobileApp";
 import ShippingDelivery from "./pages/ShippingDelivery";
 import OrderPickup from "./pages/OrderPickup";
 import AccountSignup from "./pages/AccountSignup";
+import AccountSignin from "./pages/AccountSignin";
+import Account from "./pages/Account";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,8 @@ const router = createBrowserRouter([
       { path: "shipping-delivery", element: <ShippingDelivery /> },
       { path: "order-pickup", element: <OrderPickup /> },
       { path: "account-signup", element: <AccountSignup /> },
+      { path: "account-signin", element: <AccountSignin /> },
+      { path: "account", element: <Account /> },
       { path: "whats-new", element: <WhatsNew /> },
       { path: "deals/:type", element: <Deals /> },
       { path: "p/:id", element: <Product /> },
