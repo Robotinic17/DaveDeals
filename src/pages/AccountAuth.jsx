@@ -2,13 +2,47 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useMemo, useState } from "react";
 import styles from "./AccountAuth.module.css";
 import { login, register, setSession } from "../lib/auth";
+import signupArt from "../assets/signup.png";
+import signinArt from "../assets/Login-PNG-Photos.png";
 
 function GoogleIcon() {
-  return <span className={styles.providerGlyph}>G</span>;
+  return (
+    <svg className={styles.providerSvg} viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M12 10.2v3.9h5.4c-.2 1.3-1.5 3.9-5.4 3.9a6 6 0 0 1 0-12c2.2 0 3.7.9 4.6 1.7l3.1-3A10.4 10.4 0 0 0 12 2a10 10 0 1 0 0 20c5.8 0 9.6-4 9.6-9.7 0-.7-.1-1.3-.2-2H12z"
+      />
+      <path
+        fill="currentColor"
+        d="M3.2 7.3 6.4 9.7A6 6 0 0 1 12 6c2.2 0 3.7.9 4.6 1.7l3.1-3A10.4 10.4 0 0 0 12 2 10 10 0 0 0 3.2 7.3z"
+      />
+      <path
+        fill="currentColor"
+        d="M12 22c2.7 0 5-1 6.7-2.6l-3.2-2.7c-.9.6-2.1 1.2-3.5 1.2-2.9 0-5.3-1.9-6.1-4.6l-3.3 2.6A10 10 0 0 0 12 22z"
+      />
+      <path
+        fill="currentColor"
+        d="M5.9 13.3A6 6 0 0 1 5.6 12c0-.5.1-.9.2-1.3L2.5 8A10 10 0 0 0 2 12c0 1.4.3 2.8.9 4z"
+      />
+    </svg>
+  );
 }
 
 function AppleIcon() {
-  return <span className={styles.providerGlyph}>A</span>;
+  return (
+    <svg
+      className={styles.providerSvg}
+      viewBox="0 0 24 24"
+      width="36"
+      height="36"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        d="M16.8 12.7c0-2.1 1.7-3.1 1.8-3.2-1-1.4-2.5-1.6-3-1.6-1.3-.1-2.4.8-3 .8-.6 0-1.6-.8-2.6-.8-1.3 0-2.6.8-3.3 2-.7 1.2-1.8 3.5-.5 6 .6 1.2 1.4 2.5 2.5 2.5 1 0 1.4-.6 2.6-.6s1.5.6 2.6.6c1.1 0 1.8-1 2.4-2.1.7-1.2 1-2.4 1-2.4-.1 0-2-.8-2-3.2zm-2.1-6.1c.5-.6.9-1.3.8-2.1-.8 0-1.6.5-2.1 1.1-.5.6-.9 1.4-.8 2.2.9.1 1.7-.4 2.1-1.2z"
+      />
+    </svg>
+  );
 }
 
 export default function AccountAuth({ initialMode = "signin" }) {
@@ -35,10 +69,9 @@ export default function AccountAuth({ initialMode = "signin" }) {
     mode === "signin"
       ? "We are glad to see you :)"
       : "Join DaveDeals in less than a minute.";
-  const illustrationHint =
-    mode === "signin"
-      ? "Place login illustration here"
-      : "Place signup illustration here";
+  const illustrationSrc = mode === "signup" ? signupArt : signinArt;
+  const illustrationAlt =
+    mode === "signup" ? "Signup illustration" : "Login illustration";
 
   const switchText = useMemo(
     () =>
@@ -102,14 +135,9 @@ export default function AccountAuth({ initialMode = "signin" }) {
 
   return (
     <section className={styles.overlay}>
-      <article className={styles.shell}>
-        <aside className={styles.left}>
-          <div className={styles.scene} aria-label="Illustration panel">
-            <p className={styles.welcomeWord}>WELCOME</p>
-            <div className={styles.artPlaceholder}>{illustrationHint}</div>
-          </div>
-        </aside>
-
+      <article
+        className={`${styles.shell} ${mode === "signup" ? styles.shellSignup : styles.shellSignin}`}
+      >
         <div className={styles.right}>
           <h1 className={styles.title}>{title}</h1>
           <p className={styles.subtitle}>{subtitle}</p>
@@ -133,21 +161,18 @@ export default function AccountAuth({ initialMode = "signin" }) {
               className={styles.providerBtn}
               onClick={() => onProviderClick("Google")}
             >
-              <GoogleIcon /> Sign up with Google
+              <GoogleIcon />{" "}
+              {mode === "signin"
+                ? "Sign in with Google"
+                : "Sign up with Google"}
             </button>
             <button
               type="button"
-              className={styles.providerBtnSmall}
+              className={styles.providerBtn}
               onClick={() => onProviderClick("Apple")}
             >
-              <AppleIcon />
-            </button>
-            <button
-              type="button"
-              className={styles.providerBtnSmall}
-              onClick={() => onProviderClick("Twitter")}
-            >
-              T
+              <AppleIcon />{" "}
+              {mode === "signin" ? "Sign in with Apple" : "Sign up with Apple"}
             </button>
           </div>
 
@@ -265,6 +290,18 @@ export default function AccountAuth({ initialMode = "signin" }) {
             <Link to="/">Back to home</Link>
           </div>
         </div>
+
+        <aside className={styles.left}>
+          <div className={styles.scene} aria-label="Illustration panel">
+            <div className={styles.artPlaceholder}>
+              <img
+                src={illustrationSrc}
+                alt={illustrationAlt}
+                className={styles.artImage}
+              />
+            </div>
+          </div>
+        </aside>
       </article>
     </section>
   );
