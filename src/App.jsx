@@ -30,6 +30,8 @@ import AccountSignin from "./pages/AccountSignin";
 import Account from "./pages/Account";
 
 const router = createBrowserRouter([
+  { path: "/account-signup", element: <AccountSignup /> },
+  { path: "/account-signin", element: <AccountSignin /> },
   {
     path: "/",
     element: <MainLayout />,
@@ -52,8 +54,6 @@ const router = createBrowserRouter([
       { path: "mobile-app", element: <MobileApp /> },
       { path: "shipping-delivery", element: <ShippingDelivery /> },
       { path: "order-pickup", element: <OrderPickup /> },
-      { path: "account-signup", element: <AccountSignup /> },
-      { path: "account-signin", element: <AccountSignin /> },
       { path: "account", element: <Account /> },
       { path: "whats-new", element: <WhatsNew /> },
       { path: "deals/:type", element: <Deals /> },

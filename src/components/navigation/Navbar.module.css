@@ -392,6 +392,14 @@
   background: var(--surface);
 }
 
+.accountName {
+  display: inline-block;
+  max-width: 86px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 820px) {
   .links {
     display: none;

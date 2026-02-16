@@ -53,7 +53,10 @@ router.post("/register", async (req, res) => {
   }
 
   const token = signToken(user);
-  return res.status(201).json({ token, user: { id: user.id, email: user.email, role: user.role } });
+  return res.status(201).json({
+    token,
+    user: { id: user.id, email: user.email, name: user.name, role: user.role },
+  });
 });
 
 router.post("/login", async (req, res) => {
@@ -78,7 +81,10 @@ router.post("/login", async (req, res) => {
   }
 
   const token = signToken(user);
-  return res.json({ token, user: { id: user.id, email: user.email, role: user.role } });
+  return res.json({
+    token,
+    user: { id: user.id, email: user.email, name: user.name, role: user.role },
+  });
 });
 
 router.post("/dev/reset-password", async (req, res) => {

@@ -1,7 +1,9 @@
 .page {
-  width: min(900px, 92%);
+  width: min(1240px, 94%);
   margin: 32px auto 90px;
   color: var(--text);
+  display: grid;
+  gap: 22px;
 }
 
 .card {
@@ -10,6 +12,30 @@
   background: var(--surface);
   padding: 22px;
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
+
+.heroCard {
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(120deg, rgba(15, 106, 72, 0.1), rgba(15, 106, 72, 0)),
+    var(--surface);
+  padding: 26px;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.heroText {
+  max-width: 760px;
+}
+
+.heroLogo {
+  width: min(280px, 38vw);
+  height: auto;
+  object-fit: contain;
 }
 
 .kicker {
@@ -31,6 +57,14 @@
   color: var(--muted);
 }
 
+.moduleWrap {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
 .list {
   margin: 20px 0;
   display: grid;
@@ -48,10 +82,14 @@
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  margin-top: 14px;
 }
 
 .btn,
 .btnAlt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
   padding: 10px 16px;
   font-weight: 700;
@@ -80,4 +118,40 @@
 .btn:active,
 .btnAlt:active {
   transform: scale(0.98);
+}
+
+.endCard {
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+  display: grid;
+  gap: 10px;
+}
+
+.endCard h3 {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 30px);
+}
+
+.endCard p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 620px;
+}
+
+@media (max-width: 820px) {
+  .heroCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .heroLogo {
+    width: min(220px, 62vw);
+  }
+
+  .moduleWrap {
+    border-radius: 14px;
+  }
 }

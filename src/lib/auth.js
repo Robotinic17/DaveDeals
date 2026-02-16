@@ -45,11 +45,13 @@ export function setSession(token, user) {
   if (!token || !user) return;
   localStorage.setItem(TOKEN_KEY, token);
   localStorage.setItem(USER_KEY, JSON.stringify(user));
+  window.dispatchEvent(new CustomEvent("auth:changed"));
 }
 
 export function clearSession() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+  window.dispatchEvent(new CustomEvent("auth:changed"));
 }
 
 export function getToken() {

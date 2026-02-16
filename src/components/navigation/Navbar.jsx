@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDown, Search, User, ShoppingCart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
@@ -14,6 +14,7 @@ import sneakersImg from "../../assets/categories/sneakers.png";
 import travelImg from "../../assets/categories/travel.png";
 import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
 import { getProductImage } from "../../lib/productImages";
+import { getSessionUser } from "../../lib/auth";
 
 const CATEGORY_IMAGES = {
   "headphones-and-earbuds": techImg,
@@ -27,6 +28,7 @@ const CATEGORY_IMAGES = {
 export default function Navbar() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [topCategories, setTopCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
@@ -35,6 +37,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [currentUser, setCurrentUser] = useState(() => getSessionUser());
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const normalizedQuery = useMemo(
@@ -84,6 +87,29 @@ export default function Navbar() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    function syncAuthUser() {
+      setCurrentUser(getSessionUser());
+    }
+
+    syncAuthUser();
+    window.addEventListener("storage", syncAuthUser);
+    window.addEventListener("auth:changed", syncAuthUser);
+    return () => {
+      window.removeEventListener("storage", syncAuthUser);
+      window.removeEventListener("auth:changed", syncAuthUser);
+    };
+  }, [location.pathname]);
+
+  const accountFullName =
+    currentUser?.name?.trim() ||
+    (currentUser?.email ? String(currentUser.email).split("@")[0] : "");
+  const accountLabel = accountFullName
+    ? accountFullName.length > 7
+      ? `${accountFullName.slice(0, 7)}...`
+      : accountFullName
+    : t("nav.account");
 
   useEffect(() => {
     function onClick(event) {
@@ -599,7 +625,9 @@ export default function Navbar() {
         <div className={styles.actions}>
           <Link to="/account" className={styles.actionLink}>
             <User size={18} />
-            <span>{t("nav.account")}</span>
+            <span className={styles.accountName} title={accountFullName || t("nav.account")}>
+              {accountLabel}
+            </span>
           </Link>
 
           <Link to="/cart" className={styles.actionLink}>
