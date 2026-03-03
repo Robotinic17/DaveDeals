@@ -32,8 +32,7 @@ router.post("/register", async (req, res) => {
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  const allowedRoles = ["BUYER", "SELLER"];
-  const safeRole = allowedRoles.includes(role) ? role : "BUYER";
+  const safeRole = "BUYER";
 
   const user = await prisma.user.create({
     data: {
@@ -43,14 +42,6 @@ router.post("/register", async (req, res) => {
       role: safeRole,
     },
   });
-
-  if (safeRole === "SELLER") {
-    await prisma.seller.create({
-      data: {
-        userId: user.id,
-      },
-    });
-  }
 
   const token = signToken(user);
   return res.status(201).json({

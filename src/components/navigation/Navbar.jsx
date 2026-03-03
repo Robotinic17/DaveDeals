@@ -10,9 +10,9 @@ import furnitureImg from "../../assets/categories/furniture.png";
 import handbagImg from "../../assets/categories/handbag.png";
 import booksImg from "../../assets/categories/books.png";
 import techImg from "../../assets/categories/tech.png";
-import sneakersImg from "../../assets/categories/sneakers.png";
 import travelImg from "../../assets/categories/travel.png";
 import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
+import { getAllProducts, getPopulatedCategories } from "../../lib/catalog";
 import { getProductImage } from "../../lib/productImages";
 import { getSessionUser } from "../../lib/auth";
 
@@ -61,9 +61,7 @@ export default function Navbar() {
 
     async function load() {
       try {
-        const res = await fetch("/data/categories.top.json");
-        if (!res.ok) throw new Error("Failed to load categories");
-        const data = await res.json();
+        const data = await getPopulatedCategories(6);
         if (!active) return;
 
         const items = Array.isArray(data) ? data : [];
@@ -139,9 +137,7 @@ export default function Navbar() {
 
     async function loadCategories() {
       try {
-        const res = await fetch("/data/categories.enriched.json");
-        if (!res.ok) throw new Error("Failed to load categories");
-        const data = await res.json();
+        const data = await getPopulatedCategories();
         if (!active) return;
         setAllCategories(Array.isArray(data) ? data : []);
       } catch (e) {
@@ -164,9 +160,7 @@ export default function Navbar() {
       if (!searchOpen || productsLoaded) return;
       if (!query.trim() || query.trim().length < 2) return;
       try {
-        const res = await fetch("/data/products.json");
-        if (!res.ok) throw new Error("Failed to load products");
-        const data = await res.json();
+        const data = await getAllProducts();
         if (!active) return;
         setAllProducts(Array.isArray(data) ? data : []);
         setProductsLoaded(true);

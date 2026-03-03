@@ -1,0 +1,625 @@
+.page {
+  padding: 32px 24px 72px;
+  background:
+    radial-gradient(circle at top left, rgba(36, 121, 109, 0.14), transparent 24%),
+    linear-gradient(180deg, #f7fbf8 0%, #edf5f1 100%);
+}
+
+.shell {
+  width: min(1220px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+.loading {
+  margin: 0;
+  padding: 32px;
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  color: #355249;
+}
+
+.countPill,
+.lockState,
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.countPill {
+  background: rgba(15, 111, 97, 0.08);
+  color: #0f6f61;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 24px;
+}
+
+.heroCopy,
+.progressCard,
+.checklistCard,
+.formCard {
+  border-radius: 28px;
+  box-shadow: 0 24px 50px rgba(11, 30, 25, 0.08);
+}
+
+.heroCopy {
+  padding: 34px;
+  color: #f1fff9;
+  background:
+    linear-gradient(145deg, rgba(18, 108, 95, 0.98), rgba(10, 69, 61, 0.98)),
+    #0f6f61;
+}
+
+.kicker,
+.cardKicker {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.heroCopy h1,
+.cardHead h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+}
+
+.heroCopy h1 {
+  font-size: clamp(2.6rem, 5vw, 4.5rem);
+  line-height: 0.95;
+}
+
+.lead {
+  margin: 18px 0 0;
+  max-width: 60ch;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(241, 255, 249, 0.88);
+}
+
+.heroMeta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.metaPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(241, 255, 249, 0.12);
+  color: #f1fff9;
+  font-weight: 600;
+}
+
+.progressCard,
+.checklistCard,
+.formCard {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.progressCard {
+  padding: 28px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.ring {
+  width: 150px;
+  height: 150px;
+}
+
+.ringTrack,
+.ringValue {
+  fill: none;
+  stroke-width: 10;
+}
+
+.ringTrack {
+  stroke: #dbece6;
+}
+
+.ringValue {
+  stroke: #157c6d;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 70px 70px;
+}
+
+.ringScore {
+  font-size: 2rem;
+  font-weight: 800;
+  fill: #173229;
+}
+
+.ringLabel {
+  font-size: 0.9rem;
+  fill: #6a847c;
+}
+
+.progressTitle {
+  margin: 12px 0 8px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #173229;
+}
+
+.progressBody {
+  margin: 0;
+  color: #5c746c;
+  line-height: 1.65;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 24px;
+}
+
+.checklistCard,
+.formCard {
+  padding: 28px;
+}
+
+.cardHead {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.surfaceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #0f6f61;
+  font-weight: 700;
+}
+
+.lockStateReady {
+  background: rgba(19, 154, 95, 0.12);
+  color: #0a7d4b;
+}
+
+.lockStateLocked {
+  background: rgba(196, 134, 22, 0.12);
+  color: #996212;
+}
+
+.stepList {
+  display: grid;
+  gap: 12px;
+}
+
+.stepCard {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: start;
+  padding: 16px;
+  border-radius: 20px;
+  background: #f7faf8;
+  border: 1px solid rgba(17, 24, 39, 0.06);
+}
+
+.stepCardDone {
+  background: #eef7f2;
+}
+
+.stepIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 111, 97, 0.1);
+  color: #0f6f61;
+}
+
+.stepCopy {
+  display: grid;
+  gap: 5px;
+}
+
+.stepTitle,
+.stepBody,
+.stepStatus {
+  margin: 0;
+}
+
+.stepTitle {
+  font-weight: 700;
+  color: #173229;
+}
+
+.stepBody {
+  color: #5c746c;
+  line-height: 1.55;
+}
+
+.stepStatus {
+  color: #0f6f61;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  color: #23443a;
+  font-weight: 600;
+}
+
+.form input,
+.form select,
+.form textarea {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 69, 58, 0.14);
+  background: #f7faf8;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: #173229;
+}
+
+.categoryPicker {
+  position: relative;
+}
+
+.categoryMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: 280px;
+  overflow: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(28, 69, 58, 0.14);
+  background: #ffffff;
+  box-shadow: 0 18px 28px rgba(16, 88, 77, 0.12);
+  padding: 8px;
+  z-index: 10;
+}
+
+.categoryOption {
+  width: 100%;
+  border: none;
+  background: transparent;
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  padding: 12px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.categoryOption:hover {
+  background: #f3f8f5;
+}
+
+.categoryOptionName,
+.categoryOptionSlug {
+  margin: 0;
+}
+
+.categoryOptionName {
+  color: #173229;
+  font-weight: 700;
+}
+
+.categoryOptionSlug {
+  color: #6a847c;
+  font-size: 0.88rem;
+}
+
+.form input,
+.form select {
+  height: 52px;
+}
+
+.form textarea {
+  resize: vertical;
+  min-height: 132px;
+}
+
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: rgba(16, 109, 94, 0.55);
+  box-shadow: 0 0 0 4px rgba(39, 121, 108, 0.12);
+}
+
+.spanTwo {
+  grid-column: 1 / -1;
+}
+
+.checkboxRow {
+  display: flex !important;
+  align-items: start;
+  gap: 12px;
+  color: #355249;
+}
+
+.checkboxRow input {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  padding: 0 20px;
+  background: linear-gradient(135deg, #157c6d, #0d5f53);
+  color: #f4fff9;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow: 0 18px 28px rgba(16, 88, 77, 0.18);
+}
+
+.primaryBtn:active {
+  transform: scale(0.985);
+}
+
+.primaryBtn:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.helperText,
+.error,
+.success {
+  margin: 0;
+}
+
+.helperText {
+  color: #5c746c;
+}
+
+.error {
+  color: #ba3a3a;
+}
+
+.success {
+  color: #0f6f61;
+  font-weight: 700;
+}
+
+.productList {
+  display: grid;
+  gap: 12px;
+}
+
+.productCard {
+  border-radius: 20px;
+  padding: 18px;
+  background: #f7faf8;
+  border: 1px solid rgba(17, 24, 39, 0.06);
+  display: grid;
+  gap: 14px;
+}
+
+.productPreview {
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  background: #edf4f1;
+}
+
+.productPreview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.productHead,
+.productActions {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.productTitle,
+.productMeta {
+  margin: 0;
+}
+
+.productTitle {
+  font-weight: 700;
+  color: #173229;
+}
+
+.productMeta {
+  color: #5c746c;
+  line-height: 1.55;
+}
+
+.statusDraft {
+  background: rgba(15, 111, 97, 0.1);
+  color: #0f6f61;
+}
+
+.statusPublished {
+  background: rgba(19, 154, 95, 0.12);
+  color: #0a7d4b;
+}
+
+.statusPending {
+  background: rgba(196, 134, 22, 0.14);
+  color: #996212;
+}
+
+.statusRejected {
+  background: rgba(190, 57, 57, 0.12);
+  color: #a03131;
+}
+
+.statusArchived {
+  background: rgba(120, 129, 126, 0.14);
+  color: #54615d;
+}
+
+.reviewNote {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(190, 57, 57, 0.07);
+  border: 1px solid rgba(190, 57, 57, 0.14);
+}
+
+.reviewNoteTitle,
+.reviewNoteBody,
+.reviewNoteHint {
+  margin: 0;
+}
+
+.reviewNoteTitle {
+  font-weight: 700;
+  color: #8e2626;
+}
+
+.reviewNoteBody {
+  color: #6d3a3a;
+  line-height: 1.55;
+}
+
+.reviewNoteHint {
+  color: #8c5555;
+  font-size: 0.94rem;
+}
+
+.secondaryBtn {
+  height: 44px;
+  border-radius: 999px;
+  padding: 0 16px;
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  background: #fff;
+  color: #173229;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.secondaryBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  background: #f8fbfa;
+}
+
+.secondaryBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 1024px) {
+  .hero,
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 20px 14px 56px;
+  }
+
+  .heroCopy,
+  .progressCard,
+  .checklistCard,
+  .formCard {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .cardHead {
+    flex-direction: column;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .spanTwo {
+    grid-column: auto;
+  }
+
+  .stepCard {
+    grid-template-columns: auto 1fr;
+  }
+
+  .stepStatus {
+    grid-column: 2;
+  }
+
+  .productHead,
+  .productActions {
+    flex-direction: column;
+  }
+}

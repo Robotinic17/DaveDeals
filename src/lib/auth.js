@@ -2,7 +2,7 @@ const API_ROOT = (import.meta.env.VITE_API_URL || "http://localhost:4000/api").r
 const TOKEN_KEY = "davedeals_auth_token";
 const USER_KEY = "davedeals_auth_user";
 
-async function request(path, options = {}) {
+export async function apiRequest(path, options = {}) {
   const token = getToken();
   const headers = {
     "Content-Type": "application/json",
@@ -28,15 +28,91 @@ async function request(path, options = {}) {
 }
 
 export function register(payload) {
-  return request("/auth/register", {
+  return apiRequest("/auth/register", {
     method: "POST",
     body: JSON.stringify(payload),
   });
 }
 
 export function login(payload) {
-  return request("/auth/login", {
+  return apiRequest("/auth/login", {
     method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function submitSellerApplication(payload) {
+  return apiRequest("/seller-applications", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function fetchMySellerApplication() {
+  return apiRequest("/seller-applications/me");
+}
+
+export function fetchSellerApplications() {
+  return apiRequest("/admin/seller-applications");
+}
+
+export function approveSellerApplication(id) {
+  return apiRequest(`/admin/seller-applications/${id}/approve`, {
+    method: "POST",
+  });
+}
+
+export function rejectSellerApplication(id, reason) {
+  return apiRequest(`/admin/seller-applications/${id}/reject`, {
+    method: "POST",
+    body: JSON.stringify({ reason }),
+  });
+}
+
+export function fetchAdminOverview() {
+  return apiRequest("/admin/overview");
+}
+
+export function fetchAdminSellers() {
+  return apiRequest("/admin/sellers");
+}
+
+export function fetchAdminProducts() {
+  return apiRequest("/admin/products");
+}
+
+export function updateAdminProductStatus(id, status, reason) {
+  return apiRequest(`/admin/products/${id}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status, reason }),
+  });
+}
+
+export function fetchSellerProfile() {
+  return apiRequest("/seller/me");
+}
+
+export function updateSellerProfile(payload) {
+  return apiRequest("/seller/me", {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function fetchSellerProducts() {
+  return apiRequest("/seller/products");
+}
+
+export function createSellerProduct(payload) {
+  return apiRequest("/products", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function updateSellerProduct(id, payload) {
+  return apiRequest(`/products/${id}`, {
+    method: "PATCH",
     body: JSON.stringify(payload),
   });
 }
@@ -71,6 +147,12 @@ export function getSessionUser() {
 
 export function isSignedIn() {
   return Boolean(getToken() && getSessionUser());
+}
+
+export function hasRole(...roles) {
+  const user = getSessionUser();
+  if (!user?.role) return false;
+  return roles.includes(user.role);
 }
 
 export function getApiRoot() {

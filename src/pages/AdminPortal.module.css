@@ -1,0 +1,417 @@
+.page {
+  padding: 32px 24px 72px;
+  background:
+    radial-gradient(circle at top left, rgba(35, 117, 106, 0.14), transparent 22%),
+    linear-gradient(180deg, #f7fbf8 0%, #eef5f1 100%);
+}
+
+.shell {
+  width: min(1220px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 22px;
+}
+
+.heroCopy,
+.heroAside,
+.panel,
+.statCard {
+  border-radius: 28px;
+  box-shadow: 0 24px 50px rgba(11, 30, 25, 0.08);
+}
+
+.heroCopy {
+  padding: 34px;
+  color: #f1fff9;
+  background:
+    linear-gradient(145deg, rgba(18, 108, 95, 0.98), rgba(10, 69, 61, 0.98)),
+    #0f6f61;
+}
+
+.kicker,
+.panelKicker {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.heroCopy h1,
+.panelHead h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+}
+
+.heroCopy h1 {
+  font-size: clamp(2.5rem, 5vw, 4.4rem);
+  line-height: 0.95;
+}
+
+.lead,
+.heroAsideText {
+  margin: 18px 0 0;
+  line-height: 1.7;
+}
+
+.lead {
+  max-width: 58ch;
+  font-size: 1.05rem;
+  color: rgba(241, 255, 249, 0.88);
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.heroAside,
+.panel,
+.statCard {
+  background: #fff;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.heroAside {
+  padding: 28px;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(15, 111, 97, 0.08);
+  color: #0f6f61;
+  font-weight: 700;
+}
+
+.heroAsideText {
+  margin: 0;
+  color: #5c746c;
+}
+
+.loading,
+.error,
+.emptyText {
+  margin: 0;
+  padding: 18px 0;
+}
+
+.loading,
+.emptyText {
+  color: #5c746c;
+}
+
+.error {
+  color: #b63a3a;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.statCard {
+  padding: 22px;
+}
+
+.statIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 111, 97, 0.1);
+  color: #0f6f61;
+}
+
+.statLabel,
+.statValue {
+  margin: 0;
+}
+
+.statLabel {
+  margin-top: 16px;
+  color: #5c746c;
+}
+
+.statValue {
+  margin-top: 8px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #173229;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 24px;
+}
+
+.panel {
+  padding: 28px;
+}
+
+.panelHead {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.countPill,
+.stateBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.countPill {
+  background: rgba(15, 111, 97, 0.08);
+  color: #0f6f61;
+}
+
+.requestList,
+.sellerList,
+.nextGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.requestCard,
+.sellerCard,
+.nextCard {
+  border-radius: 20px;
+  padding: 18px;
+  background: #f7faf8;
+  border: 1px solid rgba(17, 24, 39, 0.06);
+}
+
+.inlineActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.reasonField {
+  display: grid;
+  gap: 8px;
+  color: #355249;
+  font-weight: 600;
+}
+
+.reasonField textarea {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(28, 69, 58, 0.14);
+  background: #ffffff;
+  padding: 12px 14px;
+  font-size: 0.98rem;
+  color: #173229;
+  resize: vertical;
+  min-height: 88px;
+}
+
+.reasonField textarea:focus {
+  outline: none;
+  border-color: rgba(16, 109, 94, 0.55);
+  box-shadow: 0 0 0 4px rgba(39, 121, 108, 0.12);
+}
+
+.requestCard {
+  display: grid;
+  gap: 16px;
+}
+
+.productPreview {
+  width: 100%;
+  max-width: 240px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  background: #edf4f1;
+}
+
+.productPreview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.requestName,
+.requestMeta,
+.scoreLabel,
+.scoreValue {
+  margin: 0;
+}
+
+.requestName {
+  font-weight: 700;
+  color: #173229;
+}
+
+.requestMeta {
+  color: #5c746c;
+  line-height: 1.55;
+}
+
+.sellerHead,
+.scoreRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.stateReady {
+  background: rgba(19, 154, 95, 0.12);
+  color: #0a7d4b;
+}
+
+.stateSetup {
+  background: rgba(196, 134, 22, 0.12);
+  color: #996212;
+}
+
+.scoreRow {
+  margin-top: 14px;
+}
+
+.scoreLabel {
+  color: #355249;
+  font-weight: 600;
+}
+
+.scoreValue {
+  color: #173229;
+  font-weight: 700;
+}
+
+.progressTrack {
+  margin-top: 10px;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #ddeae5;
+  overflow: hidden;
+}
+
+.progressValue {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #157c6d, #0d5f53);
+}
+
+.sellerMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.nextGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 11px 18px;
+  text-decoration: none;
+  font-weight: 700;
+  border: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+  cursor: pointer;
+}
+
+.primaryBtn {
+  background: var(--brand);
+  color: var(--brand-contrast);
+}
+
+.secondaryBtn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.primaryBtn:hover,
+.secondaryBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+}
+
+.primaryBtn:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 1100px) {
+  .hero,
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nextGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 20px 14px 56px;
+  }
+
+  .heroCopy,
+  .heroAside,
+  .panel,
+  .statCard {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .statsGrid,
+  .sellerMetaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .panelHead,
+  .sellerHead,
+  .scoreRow {
+    flex-direction: column;
+  }
+}

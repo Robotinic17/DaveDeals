@@ -208,7 +208,7 @@ export default function Footer() {
       <div className={styles.bottom}
       >
         <div className={styles.bottomRow}>
-          <Link className={styles.bottomItem} to="/">
+          <Link className={styles.bottomItem} to="/become-seller">
             {t("footer.bottom.becomeSeller")}
           </Link>
           <Link className={styles.bottomItem} to="/gift-cards">

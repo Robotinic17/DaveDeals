@@ -28,6 +28,11 @@ import OrderPickup from "./pages/OrderPickup";
 import AccountSignup from "./pages/AccountSignup";
 import AccountSignin from "./pages/AccountSignin";
 import Account from "./pages/Account";
+import Forbidden from "./pages/Forbidden";
+import SellerPortal from "./pages/SellerPortal";
+import AdminPortal from "./pages/AdminPortal";
+import BecomeSeller from "./pages/BecomeSeller";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   { path: "/account-signup", element: <AccountSignup /> },
@@ -54,12 +59,28 @@ const router = createBrowserRouter([
       { path: "mobile-app", element: <MobileApp /> },
       { path: "shipping-delivery", element: <ShippingDelivery /> },
       { path: "order-pickup", element: <OrderPickup /> },
-      { path: "account", element: <Account /> },
+      { path: "forbidden", element: <Forbidden /> },
       { path: "whats-new", element: <WhatsNew /> },
       { path: "deals/:type", element: <Deals /> },
       { path: "p/:id", element: <Product /> },
       { path: "cart", element: <Cart /> },
       { path: "checkout", element: <Checkout /> },
+      {
+        element: <ProtectedRoute roles={["BUYER", "SELLER", "ADMIN"]} />,
+        children: [{ path: "account", element: <Account /> }],
+      },
+      {
+        element: <ProtectedRoute roles="BUYER" />,
+        children: [{ path: "become-seller", element: <BecomeSeller /> }],
+      },
+      {
+        element: <ProtectedRoute roles="SELLER" />,
+        children: [{ path: "seller", element: <SellerPortal /> }],
+      },
+      {
+        element: <ProtectedRoute roles="ADMIN" />,
+        children: [{ path: "admin", element: <AdminPortal /> }],
+      },
     ],
   },
 ]);

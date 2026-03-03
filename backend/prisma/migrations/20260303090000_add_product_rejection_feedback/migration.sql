@@ -1,0 +1,5 @@
+ALTER TYPE "ProductStatus" ADD VALUE IF NOT EXISTS 'REJECTED';
+
+ALTER TABLE "Product"
+ADD COLUMN "adminNotes" TEXT,
+ADD COLUMN "reviewedAt" TIMESTAMP(3);

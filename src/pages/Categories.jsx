@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import styles from "./Categories.module.css";
 
 import { useUnsplashImage } from "../hooks/useUnsplashImage";
+import { getPopulatedCategories } from "../lib/catalog";
 
 const COLOR_PALETTE = [
   "#F2EDE7",
@@ -86,9 +87,7 @@ export default function Categories() {
       setLoading(true);
       setError(false);
       try {
-        const res = await fetch("/data/categories.enriched.json");
-        if (!res.ok) throw new Error("Failed to load categories");
-        const data = await res.json();
+        const data = await getPopulatedCategories();
         if (!active) return;
         setCategories(Array.isArray(data) ? data : []);
       } catch (e) {

@@ -6,6 +6,8 @@ import prisma from "./db.js";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import adminRoutes from "./routes/admin.js";
+import sellerApplicationRoutes from "./routes/sellerApplications.js";
+import sellerRoutes from "./routes/seller.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 4000;
@@ -30,6 +32,8 @@ app.get("/api/health", (_req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/seller-applications", sellerApplicationRoutes);
+app.use("/api/seller", sellerRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 

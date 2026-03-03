@@ -80,6 +80,13 @@ export default function AccountAuth({ initialMode = "signin" }) {
         : { prompt: "Already have an account?", action: "Sign in" },
     [mode],
   );
+  const nextPath = searchParams.get("next");
+
+  function getDefaultDestination(role) {
+    if (role === "ADMIN") return "/admin";
+    if (role === "SELLER") return "/seller";
+    return "/account";
+  }
 
   function onProviderClick(provider) {
     setHint(`${provider} sign-in is coming soon.`);
@@ -119,7 +126,7 @@ export default function AccountAuth({ initialMode = "signin" }) {
             });
 
       setSession(data.token, data.user);
-      navigate("/account");
+      navigate(nextPath || getDefaultDestination(data.user?.role));
     } catch (err) {
       setError(err.message || "Authentication failed");
     } finally {
@@ -239,7 +246,6 @@ export default function AccountAuth({ initialMode = "signin" }) {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    minLength={6}
                     required
                   />
                 </label>
