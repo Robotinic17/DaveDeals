@@ -294,6 +294,36 @@
   color: #d9fff0;
 }
 
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInputWrapper input {
+  flex: 1;
+}
+
+.eyeToggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: rgba(236, 255, 248, 0.7);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  width: 24px;
+  height: 24px;
+}
+
+.eyeToggle:hover {
+  color: rgba(236, 255, 248, 1);
+}
+
 @keyframes riseIn {
   from {
     opacity: 0;

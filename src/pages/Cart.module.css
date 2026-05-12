@@ -1,0 +1,268 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(37, 99, 235, 0.08),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(16, 185, 129, 0.08),
+      transparent 22%
+    ),
+    var(--bg);
+  padding: 28px 0 64px;
+}
+
+.shell {
+  width: min(1160px, 92%);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 800;
+}
+
+.continueLink {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.continueLink:hover {
+  background: var(--surface-soft);
+}
+
+.emptyState {
+  display: grid;
+  place-items: center;
+  min-height: 52vh;
+}
+
+.emptyCard {
+  width: min(520px, 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface);
+  padding: 34px;
+  text-align: center;
+  box-shadow: var(--shadow-1, 0 12px 30px rgba(0, 0, 0, 0.06));
+}
+
+.emptyTitle {
+  margin: 0 0 8px;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.emptyText {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.emptyAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  min-width: 170px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
+}
+
+.itemsList {
+  display: grid;
+  gap: 14px;
+}
+
+.itemCard {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow-1, 0 12px 30px rgba(0, 0, 0, 0.04));
+}
+
+.itemImage {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: var(--surface-soft);
+  padding: 8px;
+}
+
+.itemBody {
+  min-width: 0;
+}
+
+.itemTitle {
+  margin: 0 0 6px;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.itemMeta {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.qtyField {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.qtyField input {
+  width: 90px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  padding: 0 12px;
+  color: var(--text);
+}
+
+.removeBtn {
+  border: none;
+  background: transparent;
+  color: #dc2626;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.itemPrice {
+  font-weight: 800;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.summaryCard {
+  position: sticky;
+  top: 20px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--surface), var(--surface-soft));
+  padding: 20px;
+  box-shadow: var(--shadow-1, 0 12px 30px rgba(0, 0, 0, 0.06));
+}
+
+.summaryLabel {
+  margin: 0 0 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.summaryRow:last-of-type {
+  border-bottom: none;
+  margin-bottom: 18px;
+}
+
+.checkoutBtn {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.checkoutBtn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+@media (max-width: 920px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryCard {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .itemCard {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .itemPrice {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}

@@ -7,6 +7,7 @@ import styles from "./WhatsNew.module.css";
 import RatingStars from "../components/category/RatingStars";
 import { getAllProducts } from "../lib/catalog";
 import { getProductImage } from "../lib/productImages";
+import { formatNaira } from "../lib/currency";
 
 const PAGE_SIZE = 70;
 const MAX_PAGES = 5;
@@ -54,7 +55,7 @@ export default function WhatsNew() {
   const maxItems = PAGE_SIZE * MAX_PAGES;
   const pagedProducts = useMemo(
     () => products.slice(0, maxItems),
-    [products, maxItems]
+    [products, maxItems],
   );
 
   const totalPages = useMemo(() => {
@@ -139,41 +140,39 @@ export default function WhatsNew() {
                     }}
                   >
                     <Link to={`/p/${id}`} className={styles.cardLink}>
-                    <div className={styles.badge}>{t("whatsNew.badge")}</div>
-                    <div className={styles.media}>
-                      <img
-                        src={imgSrc || "/fallback-product.png"}
-                        alt={p.title || t("common.product")}
-                        className={styles.thumb}
-                        loading="lazy"
-                        referrerPolicy="origin"
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = "/fallback-product.png";
-                        }}
-                      />
-                    </div>
-                    <div className={styles.cardBody}>
-                      <p className={`${styles.name} ${styles.clamp2}`}>
-                        {p.title}
-                      </p>
-                      <div className={styles.row}>
-                        <p className={styles.price}>
-                          {Number.isFinite(price)
-                            ? `$${price}`
-                            : t("common.priceNA")}
+                      <div className={styles.badge}>{t("whatsNew.badge")}</div>
+                      <div className={styles.media}>
+                        <img
+                          src={imgSrc || "/fallback-product.png"}
+                          alt={p.title || t("common.product")}
+                          className={styles.thumb}
+                          loading="lazy"
+                          referrerPolicy="origin"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "/fallback-product.png";
+                          }}
+                        />
+                      </div>
+                      <div className={styles.cardBody}>
+                        <p className={styles.categoryBadge}>
+                          {p.category || t("whatsNew.metaFallback")}
                         </p>
-                        <div className={styles.ratingRow}>
-                          <RatingStars value={rating} />
-                          <span className={styles.ratingText}>
-                            ({rating.toFixed(1)})
-                          </span>
+                        <p className={`${styles.name} ${styles.clamp2}`}>
+                          {p.title}
+                        </p>
+                        <div className={styles.row}>
+                          <p className={styles.price}>
+                            {formatNaira(price, t("common.priceNA"))}
+                          </p>
+                          <div className={styles.ratingRow}>
+                            <RatingStars value={rating} />
+                            <span className={styles.ratingText}>
+                              ({rating.toFixed(1)})
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      <p className={styles.meta}>
-                        {p.category || t("whatsNew.metaFallback")}
-                      </p>
-                    </div>
                     </Link>
                   </motion.article>
                 );
@@ -214,7 +213,7 @@ export default function WhatsNew() {
                     <span key={item} className={styles.pageGap}>
                       ...
                     </span>
-                  )
+                  ),
                 )}
                 <button
                   type="button"

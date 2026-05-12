@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { Heart } from "lucide-react";
+import { Check, Heart, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styles from "./MostSelling.module.css";
@@ -8,6 +8,8 @@ import { useUnsplashImage } from "../../hooks/useUnsplashImage";
 import { getAllProducts } from "../../lib/catalog";
 import { useInView } from "../../hooks/useInView";
 import { getProductImage } from "../../lib/productImages";
+import { addToCart, loadCart, removeFromCart } from "../../lib/cart";
+import { formatNaira } from "../../lib/currency";
 
 function clampRating(value) {
   const n = Number(value);
@@ -81,7 +83,7 @@ function normalizeProduct(product, t) {
   };
 }
 
-function SellingCard({ item, liked, onToggle, t }) {
+function SellingCard({ item, liked, onToggle, cartIds, onCartToggle, t }) {
   const cacheKey = `selling-${String(item.id).toLowerCase()}`;
   const { image } = useUnsplashImage(item.query, cacheKey);
   const imgSrc = item.thumbnail || image?.url || "/fallback-product.png";
@@ -113,28 +115,49 @@ function SellingCard({ item, liked, onToggle, t }) {
         </div>
 
         <div className={styles.body}>
-          <div className={styles.row}>
-            <h3 className={styles.name}>{item.name}</h3>
-            <span className={styles.price}>${item.price.toFixed(2)}</span>
+          <p className={styles.categoryBadge}>{item.description}</p>
+          <h3 className={styles.name}>{item.name}</h3>
+          <div className={styles.priceRow}>
+            <span className={styles.price}>
+              {formatNaira(item.price, t("common.priceNA"))}
+            </span>
+            <button
+              type="button"
+              className={`${styles.addBtn} ${
+                cartIds.has(item.id) ? styles.added : ""
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onCartToggle(item.id, item);
+              }}
+              aria-label={
+                cartIds.has(item.id)
+                  ? t("category.added")
+                  : t("common.addToCart")
+              }
+            >
+              {cartIds.has(item.id) ? (
+                <Check aria-hidden="true" />
+              ) : (
+                <Plus aria-hidden="true" />
+              )}
+            </button>
           </div>
-          <p className={styles.desc}>{item.description}</p>
           <div className={styles.ratingRow}>
             <RatingStars value={item.rating} />
             <span className={styles.reviewText}>({ratingText})</span>
           </div>
-          <button type="button" className={styles.addBtn}>
-            {t("common.addToCart")}
-          </button>
         </div>
       </Link>
 
       {image && (
         <p className={styles.credit}>
-          {t("common.photoBy")} {" "}
+          {t("common.photoBy")}{" "}
           <a href={image.userLink} target="_blank" rel="noreferrer">
             {image.name}
           </a>{" "}
-          {t("common.on")} {" "}
+          {t("common.on")}{" "}
           <a href={image.unsplashLink} target="_blank" rel="noreferrer">
             {t("common.unsplash")}
           </a>
@@ -149,7 +172,20 @@ export default function MostSelling() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(() => new Set());
+  const [cartIds, setCartIds] = useState(() => {
+    const cart = loadCart();
+    return new Set(cart.map((item) => String(item.id)));
+  });
   const { ref, inView } = useInView();
+
+  // Sync cart with localStorage changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cart = loadCart();
+      setCartIds(new Set(cart.map((item) => String(item.id))));
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -209,6 +245,22 @@ export default function MostSelling() {
     });
   }
 
+  function toggleCart(id, product) {
+    if (cartIds.has(id)) {
+      removeFromCart(id);
+    } else {
+      addToCart({
+        id: product.id,
+        title: product.name,
+        price: product.price,
+        currency: "USD",
+        thumbnail: product.thumbnail,
+      });
+    }
+    const cart = loadCart();
+    setCartIds(new Set(cart.map((item) => String(item.id))));
+  }
+
   return (
     <section className={styles.section} ref={ref}>
       <div className={styles.inner}>
@@ -226,6 +278,8 @@ export default function MostSelling() {
               item={item}
               liked={liked.has(item.id)}
               onToggle={() => toggleLike(item.id)}
+              cartIds={cartIds}
+              onCartToggle={toggleCart}
               t={t}
             />
           ))}

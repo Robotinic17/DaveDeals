@@ -81,6 +81,11 @@ export default function Account() {
             Here at DaveDeals we sell value and you buy value. Explore
             handpicked sections made for you.
           </p>
+          <div className={styles.actions}>
+            <Link to="/account/orders" className={styles.btn}>
+              My orders
+            </Link>
+          </div>
         </div>
         <img src={logo} alt="DaveDeals" className={styles.heroLogo} />
       </article>

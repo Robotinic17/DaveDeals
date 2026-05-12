@@ -30,7 +30,7 @@ function normalizeLang(value) {
   return (value || "en").split("-")[0];
 }
 
-export default function Topbar() {
+export default function Topbar({ visible = true }) {
   const { t } = useTranslation();
 
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -115,8 +115,8 @@ export default function Topbar() {
   return (
     <motion.div
       initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25, ease: "easeOut" }}
+      animate={visible ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
       className={styles.topbar}
     >
       <div className="container mx-auto flex items-center justify-between">

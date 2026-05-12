@@ -1,6 +1,6 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart } from "lucide-react";
+import { Check, Heart, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import styles from "./BestDeals.module.css";
@@ -9,6 +9,8 @@ import RatingStars from "../category/RatingStars";
 import { getAllProducts } from "../../lib/catalog";
 import { getProductImage } from "../../lib/productImages";
 import { useInView } from "../../hooks/useInView";
+import { addToCart, loadCart, removeFromCart } from "../../lib/cart";
+import { formatNaira } from "../../lib/currency";
 
 function clampRating(value) {
   const n = Number(value);
@@ -53,7 +55,20 @@ export default function BestDeals() {
   const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [liked, setLiked] = useState(() => new Set());
+  const [cartIds, setCartIds] = useState(() => {
+    const cart = loadCart();
+    return new Set(cart.map((item) => String(item.id)));
+  });
   const { ref, inView } = useInView();
+
+  // Sync cart with localStorage changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cart = loadCart();
+      setCartIds(new Set(cart.map((item) => String(item.id))));
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -113,6 +128,25 @@ export default function BestDeals() {
     });
   }
 
+  function toggleCart(id, product) {
+    if (cartIds.has(id)) {
+      removeFromCart(id);
+    } else {
+      addToCart({
+        id: product.id,
+        title: product.title,
+        price:
+          typeof product.price === "number"
+            ? product.price
+            : Number(product.price),
+        currency: product.currency || "USD",
+        thumbnail: getProductImage(product),
+      });
+    }
+    const cart = loadCart();
+    setCartIds(new Set(cart.map((item) => String(item.id))));
+  }
+
   return (
     <section className={styles.section} ref={ref}>
       <div className={styles.inner}>
@@ -147,6 +181,7 @@ export default function BestDeals() {
                   }`}
                   onClick={(e) => {
                     e.preventDefault();
+                    e.stopPropagation();
                     toggleLike(id);
                   }}
                   aria-label={t("common.favorite")}
@@ -167,31 +202,53 @@ export default function BestDeals() {
                 </div>
 
                 <div className={styles.body}>
-                  <div className={styles.row}>
-                    <h3 className={styles.name}>{p.title}</h3>
-                    <span className={styles.price}>
-                      {Number.isFinite(price) ? `$${price}` : t("common.priceNA")}
-                    </span>
-                  </div>
-                  <p className={styles.meta}>
+                  <p className={styles.categoryBadge}>
                     {p.category || t("common.topPick")}
                   </p>
+                  <h3 className={styles.name}>{p.title}</h3>
+                  <div className={styles.priceRow}>
+                    <span className={styles.price}>
+                      {formatNaira(price, t("common.priceNA"))}
+                    </span>
+                    <button
+                      type="button"
+                      className={`${styles.addBtn} ${
+                        cartIds.has(id) ? styles.added : ""
+                      }`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleCart(id, p);
+                      }}
+                      aria-label={
+                        cartIds.has(id)
+                          ? t("category.added")
+                          : t("common.addToCart")
+                      }
+                    >
+                      {cartIds.has(id) ? (
+                        <Check aria-hidden="true" />
+                      ) : (
+                        <Plus aria-hidden="true" />
+                      )}
+                    </button>
+                  </div>
                   <div className={styles.ratingRow}>
                     <RatingStars value={rating} />
                     <span className={styles.ratingText}>
                       ({rating.toFixed(1)})
                     </span>
                   </div>
-                  <button type="button" className={styles.addBtn}>
-                    {t("common.addToCart")}
-                  </button>
                 </div>
               </Link>
             </motion.div>
           );
         })}
 
-        <div className={styles.endCard} aria-label={t("home.bestDeals.endAria")}> 
+        <div
+          className={styles.endCard}
+          aria-label={t("home.bestDeals.endAria")}
+        >
           <p>{t("home.bestDeals.endTitle")}</p>
           <span>{t("home.bestDeals.endSubtitle")}</span>
         </div>

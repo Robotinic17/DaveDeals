@@ -47,9 +47,10 @@
 
 .price {
   margin: 0;
-  font-size: 44px;
+  font-size: clamp(30px, 2.4vw, 36px);
   font-weight: 800;
   letter-spacing: -0.02em;
+  line-height: 1.05;
 }
 
 .copy {

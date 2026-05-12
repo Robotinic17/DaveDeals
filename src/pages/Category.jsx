@@ -1,7 +1,13 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Heart, SlidersHorizontal, ChevronDown } from "lucide-react";
+import {
+  Check,
+  Heart,
+  SlidersHorizontal,
+  ChevronDown,
+  Plus,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import styles from "./Category.module.css";
 
@@ -9,6 +15,7 @@ import PromoSlider from "../components/category/PromoSlider";
 import RatingStars from "../components/category/RatingStars";
 import { getCategoryBySlug, getProductsByCategorySlug } from "../lib/catalog";
 import { getProductImage } from "../lib/productImages";
+import { formatNaira } from "../lib/currency";
 
 function formatCategoryTitle(slug) {
   if (!slug) return "";
@@ -272,7 +279,8 @@ export default function Category() {
       if (Number.isFinite(minPrice) && price < minPrice) return false;
       if (Number.isFinite(maxPrice) && price > maxPrice) return false;
       if (Number.isFinite(minRating) && rating < minRating) return false;
-      if (Number.isFinite(minReviews) && !Number.isFinite(reviews)) return false;
+      if (Number.isFinite(minReviews) && !Number.isFinite(reviews))
+        return false;
       if (Number.isFinite(minReviews) && reviews < minReviews) return false;
 
       if (filters.typeKey) {
@@ -805,7 +813,10 @@ export default function Category() {
         <h1 className={styles.title}>{t("category.title", { title })}</h1>
 
         {loading && (
-          <div className={styles.skeletonGrid} aria-label={t("category.loading")}>
+          <div
+            className={styles.skeletonGrid}
+            aria-label={t("category.loading")}
+          >
             {Array.from({ length: 8 }).map((_, idx) => (
               <div key={idx} className={styles.skeletonCard}>
                 <div className={styles.skeletonMedia} />
@@ -885,11 +896,18 @@ export default function Category() {
                           likedIds.has(id) ? styles.hearted : ""
                         }`}
                         aria-label={t("category.addWishlist")}
-                        onClick={() => toggleLiked(id)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleLiked(id);
+                        }}
                         whileTap={{ scale: 0.9 }}
                       >
                         <Heart size={18} />
-                        <span className={styles.heartShine} aria-hidden="true" />
+                        <span
+                          className={styles.heartShine}
+                          aria-hidden="true"
+                        />
                       </motion.button>
 
                       <div className={styles.media}>
@@ -907,21 +925,41 @@ export default function Category() {
                       </div>
 
                       <div className={styles.cardBody}>
-                        <div className={styles.row}>
-                          <p className={`${styles.name} ${styles.clamp2}`}>
-                            {p.title}
-                          </p>
-                          <p className={styles.price}>
-                            {Number.isFinite(price)
-                              ? `$${price}`
-                              : t("common.priceNA")}
-                          </p>
-                        </div>
-
-                        <p className={`${styles.desc} ${styles.clamp2}`}>
+                        <p className={styles.categoryBadge}>
                           {p.category || title}
-                          {p.reviewsCount != null ? ` (${p.reviewsCount})` : ""}
                         </p>
+                        <p className={`${styles.name} ${styles.clamp2}`}>
+                          {p.title}
+                        </p>
+
+                        <div className={styles.priceRow}>
+                          <p className={styles.price}>
+                            {formatNaira(price, t("common.priceNA"))}
+                          </p>
+                          <motion.button
+                            type="button"
+                            className={`${styles.addBtn} ${
+                              cartIds.has(id) ? styles.added : ""
+                            }`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              toggleCart(id);
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            aria-label={
+                              cartIds.has(id)
+                                ? t("category.added")
+                                : t("category.addToCart")
+                            }
+                          >
+                            {cartIds.has(id) ? (
+                              <Check aria-hidden="true" />
+                            ) : (
+                              <Plus aria-hidden="true" />
+                            )}
+                          </motion.button>
+                        </div>
 
                         <div className={styles.ratingRow}>
                           <RatingStars value={rating} />
@@ -930,21 +968,11 @@ export default function Category() {
                           </span>
                         </div>
 
-                        <motion.button
-                          type="button"
-                          className={`${styles.addBtn} ${
-                            cartIds.has(id) ? styles.added : ""
-                          }`}
-                          onClick={() => toggleCart(id)}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <span className={styles.addBtnText}>
-                            {cartIds.has(id)
-                              ? t("category.added")
-                              : t("category.addToCart")}
-                          </span>
-                          <span className={styles.addShine} aria-hidden="true" />
-                        </motion.button>
+                        {p.reviewsCount != null ? (
+                          <p
+                            className={styles.desc}
+                          >{`(${p.reviewsCount}) reviews`}</p>
+                        ) : null}
                       </div>
                     </Link>
                   </motion.article>

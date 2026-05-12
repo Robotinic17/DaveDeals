@@ -1,0 +1,128 @@
+:root {
+  --overlay: rgba(0, 0, 0, 0.36);
+}
+
+.heroOuter {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: block;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.42));
+  mix-blend-mode: normal;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.heroContent {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 120px 8vw;
+  color: #fff;
+}
+
+.eyebrow {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.heroTitle {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(40px, 7vw, 84px);
+  line-height: 0.9;
+  font-weight: 900;
+  margin: 0 0 18px;
+  color: #fff;
+}
+
+.heroTitle em {
+  font-style: italic;
+  color: #f6f6f6;
+}
+
+.heroSub {
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 22px;
+}
+
+.heroCtas {
+  display: flex;
+  gap: 12px;
+}
+.ctaPrimary {
+  background: #fff;
+  color: #002b1f;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+}
+.ctaSecondary {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 12px;
+  pointer-events: none;
+}
+.scrollArrow {
+  font-size: 20px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .heroContent {
+    padding: 80px 6vw;
+  }
+  .heroTitle {
+    font-size: clamp(28px, 12vw, 48px);
+  }
+  .heroSub {
+    font-size: 14px;
+  }
+  .scrollArrow {
+    font-size: 18px;
+  }
+}

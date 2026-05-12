@@ -1,4 +1,6 @@
-const API_ROOT = (import.meta.env.VITE_API_URL || "http://localhost:4000/api").replace(/\/$/, "");
+const API_ROOT = (
+  import.meta.env.VITE_API_URL || "http://localhost:4000/api"
+).replace(/\/$/, "");
 const TOKEN_KEY = "davedeals_auth_token";
 const USER_KEY = "davedeals_auth_user";
 
@@ -36,6 +38,13 @@ export function register(payload) {
 
 export function login(payload) {
   return apiRequest("/auth/login", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function forgotPassword(payload) {
+  return apiRequest("/auth/forgot-password", {
     method: "POST",
     body: JSON.stringify(payload),
   });
@@ -115,6 +124,38 @@ export function updateSellerProduct(id, payload) {
     method: "PATCH",
     body: JSON.stringify(payload),
   });
+}
+
+export function resetPassword(payload) {
+  return apiRequest("/auth/reset-password", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function initializeCheckout(payload) {
+  return apiRequest("/orders/checkout/initialize", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function verifyCheckout(reference) {
+  return apiRequest("/orders/checkout/verify", {
+    method: "POST",
+    body: JSON.stringify({ reference }),
+  });
+}
+
+export function createOrder(payload) {
+  return apiRequest("/orders/checkout", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function fetchMyOrders() {
+  return apiRequest("/orders/me");
 }
 
 export function setSession(token, user) {

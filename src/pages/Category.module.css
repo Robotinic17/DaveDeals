@@ -42,7 +42,9 @@
   color: var(--text);
   font-weight: 600;
   font-size: 12px;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .chip:hover,
@@ -338,7 +340,9 @@
   border: 1px solid var(--border);
   border-radius: 18px;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .cardLink {
@@ -365,7 +369,9 @@
   place-items: center;
   z-index: 2;
   overflow: hidden;
-  transition: transform 0.15s ease, background 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .heartBtn:hover {
@@ -434,16 +440,43 @@
   gap: 10px;
 }
 
-.name {
+.categoryBadge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--brand-light);
+  color: var(--brand);
+  font-size: 11px;
   font-weight: 700;
-  font-size: 13px;
-  line-height: 1.25;
-  max-width: 75%;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  max-width: 100%;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .price {
-  font-weight: 800;
-  font-size: 13px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin: 0;
   white-space: nowrap;
 }
 
@@ -472,57 +505,35 @@
 }
 
 .addBtn {
-  margin-top: 4px;
-  border: 2px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  border-radius: 999px;
-  padding: 10px 16px;
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  width: fit-content;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease,
-    color 0.3s ease;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast);
 }
 
 .addBtn:hover {
-  background: var(--brand);
-  color: var(--bg);
-  transform: translateY(-1px);
+  background: var(--brand-soft);
+  transform: scale(1.08);
 }
 
 .added {
-  background: var(--brand);
-  border-color: var(--success);
-  color: var(--bg) !important;
+  background: var(--success);
+  color: #fff;
 }
 
-.addBtnText {
-  position: relative;
-  z-index: 2;
-}
-
-.addShine {
-  position: absolute;
-  inset: -60% -60%;
-  background: linear-gradient(
-    120deg,
-    transparent 35%,
-    var(--shine-soft) 50%,
-    transparent 65%
-  );
-  transform: translateX(-40%) rotate(12deg);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.added .addShine {
-  opacity: 1;
-  animation: shineSweep 520ms ease;
+.addBtn svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.4;
 }
 
 .clamp2 {

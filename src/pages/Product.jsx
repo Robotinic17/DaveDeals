@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import styles from "./Product.module.css";
@@ -7,6 +7,8 @@ import styles from "./Product.module.css";
 import RatingStars from "../components/category/RatingStars";
 import { getProductById, getProductsByCategorySlug } from "../lib/catalog";
 import { getProductImage } from "../lib/productImages";
+import { addToCart, isInCart, removeFromCart } from "../lib/cart";
+import { formatNaira } from "../lib/currency";
 
 const COLOR_SWATCHES = [
   { id: "black", hex: "#121212" },
@@ -30,12 +32,14 @@ function clampRating(value) {
 export default function Product() {
   const { id } = useParams();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [similar, setSimilar] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [activeImage, setActiveImage] = useState("");
+  const [cartActive, setCartActive] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -80,18 +84,40 @@ export default function Product() {
     };
   }, [id]);
 
+  useEffect(() => {
+    if (!product?.id) {
+      setCartActive(false);
+      return undefined;
+    }
+
+    const syncCartState = () => {
+      setCartActive(isInCart(product.id));
+    };
+
+    syncCartState();
+    window.addEventListener("storage", syncCartState);
+
+    return () => {
+      window.removeEventListener("storage", syncCartState);
+    };
+  }, [product?.id]);
+
   const gallery = useMemo(() => {
     if (!product) return [];
     const images = Array.isArray(product.images) ? product.images : [];
     const normalized = images
-      .map((url) => String(url || "").replace(/^http:\/\//, "https://").trim())
+      .map((url) =>
+        String(url || "")
+          .replace(/^http:\/\//, "https://")
+          .trim(),
+      )
       .filter(Boolean);
 
     if (normalized.length) return normalized.slice(0, 6);
 
     const src = (product.thumbnail || product.imgUrl || "").replace(
       /^http:\/\//,
-      "https://"
+      "https://",
     );
     if (!src) return ["/fallback-product.png"];
     return [src, src, src, src];
@@ -108,10 +134,52 @@ export default function Product() {
   const suggestedColors = useMemo(() => {
     const text = String(product?.title || "").toLowerCase();
     const matches = COLOR_SWATCHES.filter((c) =>
-      text.includes(c.id === "gray" ? "gray" : c.id)
+      text.includes(c.id === "gray" ? "gray" : c.id),
     );
     return matches.length ? matches : COLOR_SWATCHES.slice(0, 5);
   }, [product]);
+
+  const canCheckout = Boolean(product?.id);
+
+  function handleAddToCart() {
+    if (!canCheckout) {
+      window.alert("Cannot add this product to cart.");
+      return;
+    }
+
+    if (cartActive) {
+      removeFromCart(product.id);
+      setCartActive(false);
+      window.alert("Removed from cart.");
+      return;
+    }
+
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price,
+      currency: product.currency,
+      thumbnail: activeImage || product.thumbnail || product.imgUrl,
+    });
+    setCartActive(true);
+    window.alert("Added to cart.");
+  }
+
+  function handleBuyNow() {
+    if (!canCheckout) {
+      window.alert("Cannot checkout with this product.");
+      return;
+    }
+
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price,
+      currency: product.currency,
+      thumbnail: activeImage || product.thumbnail || product.imgUrl,
+    });
+    navigate("/checkout");
+  }
 
   if (loading) {
     return (
@@ -173,7 +241,9 @@ export default function Product() {
         </div>
 
         <div className={styles.details}>
-          <p className={styles.category}>{product.category || t("product.featured")}</p>
+          <p className={styles.category}>
+            {product.category || t("product.featured")}
+          </p>
           <h1 className={styles.title}>{product.title}</h1>
           <div className={styles.ratingRow}>
             <RatingStars value={rating} />
@@ -184,7 +254,7 @@ export default function Product() {
 
           <div className={styles.priceBlock}>
             <span className={styles.price}>
-              {Number.isFinite(price) ? `$${price}` : t("common.priceNA")}
+              {formatNaira(price, t("common.priceNA"))}
             </span>
             <span className={styles.priceNote}>{t("product.priceNote")}</span>
           </div>
@@ -207,11 +277,21 @@ export default function Product() {
           </div>
 
           <div className={styles.ctaRow}>
-            <button type="button" className={styles.buyBtn}>
+            <button
+              type="button"
+              className={styles.buyBtn}
+              onClick={handleBuyNow}
+            >
               {t("product.buyNow")}
             </button>
-            <button type="button" className={styles.cartBtn}>
-              {t("common.addToCart")}
+            <button
+              type="button"
+              className={`${styles.cartBtn} ${
+                cartActive ? styles.cartBtnActive : ""
+              }`}
+              onClick={handleAddToCart}
+            >
+              {cartActive ? "Added to cart" : t("common.addToCart")}
             </button>
           </div>
 
@@ -278,11 +358,7 @@ export default function Product() {
               const pid = item.id || item.asin;
               const imgSrc = getProductImage(item);
               return (
-                <Link
-                  key={pid}
-                  to={`/p/${pid}`}
-                  className={styles.similarCard}
-                >
+                <Link key={pid} to={`/p/${pid}`} className={styles.similarCard}>
                   <img
                     src={imgSrc || "/fallback-product.png"}
                     alt={item.title || t("common.product")}
@@ -296,7 +372,7 @@ export default function Product() {
                     <p className={styles.similarTitle}>{item.title}</p>
                     <p className={styles.similarMeta}>
                       {Number.isFinite(Number(item.price))
-                        ? `$${Number(item.price)}`
+                        ? formatNaira(Number(item.price), t("common.priceNA"))
                         : t("common.priceNA")}
                     </p>
                   </div>
@@ -317,6 +393,3 @@ export default function Product() {
     </section>
   );
 }
-
-
-

@@ -1,6 +1,7 @@
 ﻿import { useTranslation } from "react-i18next";
 import styles from "./CategoryAds.module.css";
 import { useUnsplashImage } from "../../hooks/useUnsplashImage";
+import { formatNaira } from "../../lib/currency";
 
 const deals = [
   {
@@ -45,16 +46,16 @@ function DealCard({ deal, t }) {
       <div className={styles.content}>
         <p className={styles.kicker}>{t("home.categoryAds.kicker")}</p>
         <p className={styles.price} style={{ color: deal.accent }}>
-          ${deal.price}
+          {formatNaira(deal.price)}
         </p>
         <p className={styles.copy}>{t("home.categoryAds.copy")}</p>
         {image && (
           <p className={styles.credit}>
-            {t("common.photoBy")} {" "}
+            {t("common.photoBy")}{" "}
             <a href={image.userLink} target="_blank" rel="noreferrer">
               {image.name}
             </a>{" "}
-            {t("common.on")} {" "}
+            {t("common.on")}{" "}
             <a href={image.unsplashLink} target="_blank" rel="noreferrer">
               {t("common.unsplash")}
             </a>
@@ -65,7 +66,9 @@ function DealCard({ deal, t }) {
         {image?.url ? (
           <img
             src={image.url}
-            alt={t("home.categoryAds.imageAlt", { amount: `$${deal.price}` })}
+            alt={t("home.categoryAds.imageAlt", {
+              amount: formatNaira(deal.price),
+            })}
           />
         ) : (
           <div className={styles.mediaFallback} />

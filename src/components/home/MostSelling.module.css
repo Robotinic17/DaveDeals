@@ -97,7 +97,9 @@
   background: var(--surface);
   display: grid;
   place-items: center;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
   z-index: 2;
 }
 
@@ -136,38 +138,51 @@
 .body {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
-.row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+.categoryBadge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--brand-light);
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .name {
   margin: 0;
+  font-family: var(--font-body);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
   color: var(--text);
-  line-height: 1.3;
-  max-width: 70%;
+  max-width: 100%;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.price {
-  font-weight: 700;
-  color: #3b3b3b;
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.desc {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
+.price {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--text);
 }
 
 .ratingRow {
@@ -198,18 +213,35 @@
 }
 
 .addBtn {
-  border: 1px solid #222;
-  background: transparent;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-weight: 600;
-  font-size: 12px;
-  width: fit-content;
-  transition: transform 0.2s ease;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.addBtn svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.4;
 }
 
 .addBtn:hover {
-  transform: translateY(-1px);
+  transform: scale(1.08);
+  background: var(--brand-soft);
+}
+
+.added {
+  background: var(--success);
+  color: #fff;
 }
 
 @media (max-width: 760px) {

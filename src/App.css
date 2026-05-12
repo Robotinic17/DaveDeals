@@ -1,0 +1,40 @@
+/* ===== CUSTOM SCROLLBAR ===== */
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3db88a rgba(255, 255, 255, 0.06);
+}
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3db88a 0%, #2a9b72 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2a9b72 0%, #1f7a5a 100%);
+  box-shadow: 0 0 8px rgba(61, 184, 138, 0.3);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  overflow-x: hidden;
+}

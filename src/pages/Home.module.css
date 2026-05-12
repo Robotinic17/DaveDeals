@@ -4,33 +4,35 @@
   background-size: cover;
   background-position: 100% 40%;
   width: 100%;
-  height: 35rem;
-}
-.inner {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 45% 55%;
-  gap: 28px;
-  align-items: center;
-  border: 1px solid var(--border);
-  overflow: hidden;
-  position: relative;
-  backdrop-filter: blur(1px);
+  min-height: 520px;
 }
 
-/* soft background overlay like your screenshot */
+.inner {
+  width: 100%;
+  min-height: 520px;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 48% 52%;
+  gap: 40px;
+  align-items: center;
+  padding: var(--space-20);
+  position: relative;
+  overflow: hidden;
+}
+
+/* soft background overlay */
 .inner::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(
-      circle at 20% 25%,
-      rgba(0, 150, 255, 0.18),
-      transparent 50%
-    ),
-    radial-gradient(circle at 70% 55%, rgba(0, 200, 140, 0.14), transparent 55%);
+  background-image:
+    radial-gradient(circle at 20% 25%, rgba(0, 61, 41, 0.12), transparent 50%),
+    radial-gradient(
+      circle at 70% 55%,
+      rgba(16, 185, 129, 0.08),
+      transparent 55%
+    );
   z-index: 0;
   pointer-events: none;
 }
@@ -40,10 +42,10 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    25deg,
-    rgb(0 0 0 / 23%) 0%,
-    rgb(0 0 0 / 0%) 45%,
-    rgba(0, 0, 0, 0.05) 100%
+    135deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.01) 100%
   );
   z-index: 0;
   pointer-events: none;
@@ -52,83 +54,159 @@
 .left {
   position: relative;
   z-index: 1;
-  padding: 0px 0px 0px 20px;
 }
 
 .title {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: clamp(42px, 5vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(36px, 5.5vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--brand);
-  margin-bottom: 16px;
-  font-weight: 900;
+  margin-bottom: var(--space-4);
+}
+
+/* Optional: add italic accent styling for brand words */
+.title em {
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 800;
 }
 
 .subtitle {
   max-width: 520px;
-  color: var(--text);
+  color: var(--text-secondary);
   font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 28px;
+  line-height: 1.7;
+  margin-bottom: var(--space-8);
 }
 
 .ctaRow {
   display: flex;
-  gap: 12px;
+  gap: var(--space-4);
   align-items: center;
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
 }
 
 .cta {
   background: var(--brand);
-  color: var(--bg);
-  border: 1px solid transparent;
-  border-radius: 999px;
-  padding: 12px 26px;
-  font-weight: 700;
+  color: var(--brand-contrast);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 14px 32px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-1);
 }
 
 .cta:hover {
-  transform: translateY(-1px);
-  opacity: 0.92;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
   background: var(--brand-soft);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+/* Stats row below CTA */
+.statsRow {
+  display: flex;
+  gap: var(--space-10);
+  margin-top: var(--space-8);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statNumber {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .right {
   position: relative;
   z-index: 1;
-  padding: 0px 24px 0px 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: 30rem;
+  min-height: 420px;
 }
 
 .heroImage {
   width: 100%;
   height: auto;
   object-fit: contain;
-  transform: translateY(6px);
+  max-width: 480px;
+  animation: slideUp 500ms ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* responsive */
 @media (max-width: 900px) {
   .inner {
     grid-template-columns: 1fr;
-  }
-
-  .left {
-    padding: 44px 24px 20px;
+    gap: var(--space-12);
+    padding: var(--space-12);
   }
 
   .right {
-    padding: 0 18px 24px;
+    min-height: 320px;
   }
 
   .heroImage {
-    height: 320px;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 640px) {
+  .inner {
+    padding: var(--space-8);
+    gap: var(--space-8);
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: var(--space-3);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: var(--space-6);
+  }
+
+  .statsRow {
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+
+  .statNumber {
+    font-size: 18px;
   }
 }

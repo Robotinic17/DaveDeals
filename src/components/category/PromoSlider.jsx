@@ -3,9 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import styles from "./PromoSlider.module.css";
 
-import ad1 from "../../assets/ads/ad-1.webp";
-import ad2 from "../../assets/ads/ad-2.png";
-import ad3 from "../../assets/ads/ad-3.png";
+import stage from "../../assets/stage.png";
+import hero from "../../assets/hero.jpg";
 
 const SLIDE_MS = 5000;
 
@@ -24,21 +23,21 @@ export default function PromoSlider() {
       title: t("promoSlider.slides.ad1.title"),
       title2: t("promoSlider.slides.ad1.title2"),
       cta: t("promoSlider.slides.ad1.cta"),
-      image: ad1,
+      image: stage,
     },
     {
       id: "ad2",
       title: t("promoSlider.slides.ad2.title"),
       title2: t("promoSlider.slides.ad2.title2"),
       cta: t("promoSlider.slides.ad2.cta"),
-      image: ad2,
+      image: stage,
     },
     {
       id: "ad3",
       title: t("promoSlider.slides.ad3.title"),
       title2: t("promoSlider.slides.ad3.title2"),
       cta: t("promoSlider.slides.ad3.cta"),
-      image: ad3,
+      image: hero,
     },
   ];
 
@@ -76,7 +75,15 @@ export default function PromoSlider() {
           </div>
 
           <div className={styles.right}>
-            <img className={styles.image} src={active.image} alt="" />
+            <img
+              className={styles.image}
+              src={active.image}
+              alt=""
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = hero;
+              }}
+            />
           </div>
 
           <div className={styles.dots} aria-hidden="true">

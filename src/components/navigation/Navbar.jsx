@@ -11,10 +11,14 @@ import handbagImg from "../../assets/categories/handbag.png";
 import booksImg from "../../assets/categories/books.png";
 import techImg from "../../assets/categories/tech.png";
 import travelImg from "../../assets/categories/travel.png";
-import { CATEGORY_OVERRIDES, resolveCategorySlug } from "../../lib/categoryResolver";
+import {
+  CATEGORY_OVERRIDES,
+  resolveCategorySlug,
+} from "../../lib/categoryResolver";
 import { getAllProducts, getPopulatedCategories } from "../../lib/catalog";
 import { getProductImage } from "../../lib/productImages";
 import { getSessionUser } from "../../lib/auth";
+import { getCartTotals, loadCart } from "../../lib/cart";
 
 const CATEGORY_IMAGES = {
   "headphones-and-earbuds": techImg,
@@ -25,11 +29,14 @@ const CATEGORY_IMAGES = {
   "home-storage-and-organization": furnitureImg,
 };
 
-export default function Navbar() {
+export default function Navbar({ scrolled = false }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [heroExited, setHeroExited] = useState(
+    () => !!window.__davedeals_heroExited,
+  );
   const [topCategories, setTopCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
@@ -38,6 +45,9 @@ export default function Navbar() {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
   const [currentUser, setCurrentUser] = useState(() => getSessionUser());
+  const [cartCount, setCartCount] = useState(
+    () => getCartTotals(loadCart()).count,
+  );
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const normalizedQuery = useMemo(
@@ -71,7 +81,7 @@ export default function Navbar() {
             label: item.name || item.slug,
             image: CATEGORY_IMAGES[item.slug] || furnitureImg,
             count: item.count ?? null,
-          }))
+          })),
         );
       } catch (e) {
         if (!active) return;
@@ -99,6 +109,27 @@ export default function Navbar() {
       window.removeEventListener("auth:changed", syncAuthUser);
     };
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handler = (e) => setHeroExited(e.detail.exited);
+    window.addEventListener("heroExited", handler);
+    return () => window.removeEventListener("heroExited", handler);
+  }, []);
+
+  useEffect(() => {
+    function syncCartCount() {
+      setCartCount(getCartTotals(loadCart()).count);
+    }
+
+    syncCartCount();
+    window.addEventListener("storage", syncCartCount);
+    const interval = window.setInterval(syncCartCount, 500);
+
+    return () => {
+      window.removeEventListener("storage", syncCartCount);
+      window.clearInterval(interval);
+    };
+  }, []);
 
   const accountFullName =
     currentUser?.name?.trim() ||
@@ -357,7 +388,10 @@ export default function Navbar() {
         to: `/p/${pid}`,
         label: p.title,
         meta: p.category || "Product",
-        thumb: (p.thumbnail || p.imgUrl || "").replace(/^http:\/\//, "https://"),
+        thumb: (p.thumbnail || p.imgUrl || "").replace(
+          /^http:\/\//,
+          "https://",
+        ),
       });
     });
     return items;
@@ -382,9 +416,7 @@ export default function Navbar() {
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       if (!searchItems.length) return;
-      setActiveIndex((prev) =>
-        prev <= 0 ? searchItems.length - 1 : prev - 1,
-      );
+      setActiveIndex((prev) => (prev <= 0 ? searchItems.length - 1 : prev - 1));
     } else if (event.key === "Enter") {
       if (!searchItems.length || activeIndex < 0) return;
       event.preventDefault();
@@ -396,8 +428,12 @@ export default function Navbar() {
   }
 
   return (
-    <header className={styles.navbar}>
-      <div className={`${styles.inner} ${searchOpen ? styles.searchActive : ""}`}>
+    <header
+      className={`${styles.navbar} ${scrolled ? styles.scrolled : styles.glassy}`}
+    >
+      <div
+        className={`${styles.inner} ${searchOpen ? styles.searchActive : ""}`}
+      >
         <Link to="/" className={styles.brand}>
           <img src={logo} alt="DaveDeals" className={styles.logo} />
         </Link>
@@ -486,132 +522,137 @@ export default function Navbar() {
           </button>
           <AnimatePresence>
             {searchOpen && (
-            <motion.div
-              className={styles.searchPanel}
-              initial={{ opacity: 0, y: 8, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 6, scale: 0.98 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              {!query && (
-                <>
-                  <div className={styles.searchHeader}>
-                    {t("nav.searchHeaders.popularCategories")}
-                  </div>
-                  <div className={styles.searchGrid}>
-                    {resolvedTopCategories.map((cat) => (
-                      <Link
-                        key={cat.slug}
-                        to={`/c/${cat.resolvedSlug}`}
-                        className={styles.searchCard}
-                        onClick={() => setSearchOpen(false)}
-                      >
-                        <img
-                          src={cat.image}
-                          alt=""
-                          className={styles.searchImage}
-                        />
-                        <div>
-                          <p className={styles.searchTitle}>{cat.label}</p>
-                          {cat.count != null && (
-                            <p className={styles.searchMeta}>
-                              {cat.count} available
-                            </p>
-                          )}
+              <motion.div
+                className={styles.searchPanel}
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                {!query && (
+                  <>
+                    <div className={styles.searchHeader}>
+                      {t("nav.searchHeaders.popularCategories")}
+                    </div>
+                    <div className={styles.searchGrid}>
+                      {resolvedTopCategories.map((cat) => (
+                        <Link
+                          key={cat.slug}
+                          to={`/c/${cat.resolvedSlug}`}
+                          className={styles.searchCard}
+                          onClick={() => setSearchOpen(false)}
+                        >
+                          <img
+                            src={cat.image}
+                            alt=""
+                            className={styles.searchImage}
+                          />
+                          <div>
+                            <p className={styles.searchTitle}>{cat.label}</p>
+                            {cat.count != null && (
+                              <p className={styles.searchMeta}>
+                                {cat.count} available
+                              </p>
+                            )}
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+                {query && (
+                  <>
+                    <div className={styles.searchHeader}>
+                      {t("nav.searchHeaders.categories")}
+                    </div>
+                    <div className={styles.searchList}>
+                      {results.length === 0 && (
+                        <div className={styles.searchEmpty}>
+                          No categories match "{query}"
                         </div>
-                      </Link>
-                    ))}
-                  </div>
-                </>
-              )}
-              {query && (
-                <>
-                  <div className={styles.searchHeader}>
-                    {t("nav.searchHeaders.categories")}
-                  </div>
-                  <div className={styles.searchList}>
-                    {results.length === 0 && (
-                      <div className={styles.searchEmpty}>
-                        No categories match "{query}"
-                      </div>
-                    )}
-                    {resolvedSearchCategories.map((cat, idx) => (
+                      )}
+                      {resolvedSearchCategories.map((cat, idx) => (
+                        <Link
+                          key={cat.slug}
+                          to={`/c/${cat.resolvedSlug}`}
+                          className={`${styles.searchRow} ${
+                            activeIndex === idx ? styles.searchRowActive : ""
+                          }`}
+                          onClick={() => setSearchOpen(false)}
+                        >
+                          <span className={styles.searchInitial}>
+                            {cat.name?.slice(0, 1) || "?"}
+                          </span>
+                          <span className={styles.searchRowTitle}>
+                            {highlightText(cat.name, queryTokens)}
+                          </span>
+                          <span className={styles.searchRowMeta}>
+                            {cat.count} available
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                    <div className={styles.searchDivider} />
+                    <div className={styles.searchHeader}>
+                      {t("nav.searchHeaders.products")}
+                    </div>
+                    <div className={styles.searchList}>
+                      {productResults.length === 0 && (
+                        <div className={styles.searchEmpty}>
+                          No products match "{query}"
+                        </div>
+                      )}
+                      {productResults.map((p, idx) => {
+                        const rowIndex = resolvedSearchCategories.length + idx;
+                        const imgSrc = getProductImage(p);
+                        return (
+                          <Link
+                            key={p.id || p.asin}
+                            to={`/p/${p.id || p.asin}`}
+                            className={`${styles.searchRow} ${
+                              activeIndex === rowIndex
+                                ? styles.searchRowActive
+                                : ""
+                            }`}
+                            onClick={() => setSearchOpen(false)}
+                          >
+                            <img
+                              src={imgSrc || "/fallback-product.png"}
+                              alt=""
+                              className={styles.searchThumb}
+                              onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = "/fallback-product.png";
+                              }}
+                            />
+                            <span className={styles.searchRowTitle}>
+                              {highlightText(p.title, queryTokens)}
+                            </span>
+                            <span className={styles.searchRowMeta}>
+                              {highlightText(
+                                p.category || "Product",
+                                queryTokens,
+                              )}
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                    <div className={styles.searchFooter}>
+                      <span className={styles.searchHint}>
+                        Use ↑/↓ to navigate and Enter to open.
+                      </span>
                       <Link
-                        key={cat.slug}
-                        to={`/c/${cat.resolvedSlug}`}
-                        className={`${styles.searchRow} ${
-                          activeIndex === idx ? styles.searchRowActive : ""
-                        }`}
+                        className={styles.searchSeeAll}
+                        to="/categories"
                         onClick={() => setSearchOpen(false)}
                       >
-                        <span className={styles.searchInitial}>
-                          {cat.name?.slice(0, 1) || "?"}
-                        </span>
-                        <span className={styles.searchRowTitle}>
-                          {highlightText(cat.name, queryTokens)}
-                        </span>
-                        <span className={styles.searchRowMeta}>
-                          {cat.count} available
-                        </span>
+                        See all results
                       </Link>
-                    ))}
-                  </div>
-                  <div className={styles.searchDivider} />
-                  <div className={styles.searchHeader}>
-                    {t("nav.searchHeaders.products")}
-                  </div>
-                  <div className={styles.searchList}>
-                    {productResults.length === 0 && (
-                      <div className={styles.searchEmpty}>
-                        No products match "{query}"
-                      </div>
-                    )}
-                    {productResults.map((p, idx) => {
-                      const rowIndex = resolvedSearchCategories.length + idx;
-                      const imgSrc = getProductImage(p);
-                      return (
-                      <Link
-                        key={p.id || p.asin}
-                        to={`/p/${p.id || p.asin}`}
-                        className={`${styles.searchRow} ${
-                          activeIndex === rowIndex ? styles.searchRowActive : ""
-                        }`}
-                        onClick={() => setSearchOpen(false)}
-                      >
-                        <img
-                          src={imgSrc || "/fallback-product.png"}
-                          alt=""
-                          className={styles.searchThumb}
-                          onError={(e) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src = "/fallback-product.png";
-                          }}
-                        />
-                        <span className={styles.searchRowTitle}>
-                          {highlightText(p.title, queryTokens)}
-                        </span>
-                        <span className={styles.searchRowMeta}>
-                          {highlightText(p.category || "Product", queryTokens)}
-                        </span>
-                      </Link>
-                      );
-                    })}
-                  </div>
-                  <div className={styles.searchFooter}>
-                    <span className={styles.searchHint}>
-                      Use ↑/↓ to navigate and Enter to open.
-                    </span>
-                    <Link
-                      className={styles.searchSeeAll}
-                      to="/categories"
-                      onClick={() => setSearchOpen(false)}
-                    >
-                      See all results
-                    </Link>
-                  </div>
-                </>
-              )}
-            </motion.div>
+                    </div>
+                  </>
+                )}
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -619,13 +660,19 @@ export default function Navbar() {
         <div className={styles.actions}>
           <Link to="/account" className={styles.actionLink}>
             <User size={18} />
-            <span className={styles.accountName} title={accountFullName || t("nav.account")}>
+            <span
+              className={styles.accountName}
+              title={accountFullName || t("nav.account")}
+            >
               {accountLabel}
             </span>
           </Link>
 
           <Link to="/cart" className={styles.actionLink}>
             <ShoppingCart size={18} />
+            {cartCount > 0 ? (
+              <span className={styles.cartBadge}>{cartCount}</span>
+            ) : null}
             <span>{t("nav.cart")}</span>
           </Link>
         </div>

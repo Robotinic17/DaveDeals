@@ -28,6 +28,7 @@ import OrderPickup from "./pages/OrderPickup";
 import AccountSignup from "./pages/AccountSignup";
 import AccountSignin from "./pages/AccountSignin";
 import Account from "./pages/Account";
+import MyOrders from "./pages/MyOrders";
 import Forbidden from "./pages/Forbidden";
 import SellerPortal from "./pages/SellerPortal";
 import AdminPortal from "./pages/AdminPortal";
@@ -71,7 +72,10 @@ const router = createBrowserRouter([
       },
       {
         element: <ProtectedRoute roles="BUYER" />,
-        children: [{ path: "become-seller", element: <BecomeSeller /> }],
+        children: [
+          { path: "become-seller", element: <BecomeSeller /> },
+          { path: "account/orders", element: <MyOrders /> },
+        ],
       },
       {
         element: <ProtectedRoute roles="SELLER" />,

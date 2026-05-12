@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 import bcrypt from "bcrypt";
 import prisma from "./db.js";
 import authRoutes from "./routes/auth.js";
@@ -8,12 +9,52 @@ import productRoutes from "./routes/products.js";
 import adminRoutes from "./routes/admin.js";
 import sellerApplicationRoutes from "./routes/sellerApplications.js";
 import sellerRoutes from "./routes/seller.js";
+import orderRoutes from "./routes/orders.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 4000;
 
-app.use(cors());
+// CORS configuration - restrict to frontend origin
+const corsOptions = {
+  origin:
+    process.env.ALLOWED_ORIGIN ||
+    (process.env.NODE_ENV === "production"
+      ? "https://davedeals.com"
+      : "http://localhost:5173"),
+  credentials: true,
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// Rate limiting - strict for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 requests per window
+  message: "Too many login/signup attempts, please try again later",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// General rate limiter for other endpoints
+const generalLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 30,
+  message: "Too many requests, please try again later",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Lenient rate limiter for product reads (read-only operations)
+const productLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 200, // Allow many product fetch requests
+  message: "Too many requests, please try again later",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 app.get("/", (_req, res) => {
   res.json({
@@ -27,15 +68,19 @@ app.get("/.well-known/appspecific/com.chrome.devtools.json", (_req, res) => {
   res.status(204).end();
 });
 
-app.get("/api/health", (_req, res) => {
+app.use("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/seller-applications", sellerApplicationRoutes);
-app.use("/api/seller", sellerRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/admin", adminRoutes);
+// Apply rate limiting to auth routes (stricter limits)
+app.use("/api/auth", authLimiter, authRoutes);
+
+// Apply general rate limiting to other routes
+app.use("/api/seller-applications", generalLimiter, sellerApplicationRoutes);
+app.use("/api/seller", generalLimiter, sellerRoutes);
+app.use("/api/products", productLimiter, productRoutes);
+app.use("/api/admin", generalLimiter, adminRoutes);
+app.use("/api/orders", generalLimiter, orderRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error("API error:", err);
@@ -110,7 +155,9 @@ ensureAdmin()
 
     server.on("error", (err) => {
       if (err.code === "EADDRINUSE") {
-        console.error(`Port ${port} is already in use. Stop the other process and retry.`);
+        console.error(
+          `Port ${port} is already in use. Stop the other process and retry.`,
+        );
       } else {
         console.error("Server failed to start:", err);
       }

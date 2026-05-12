@@ -1,0 +1,126 @@
+/* Primary Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Primary variant — brand-700 bg */
+.primary {
+  background: var(--brand);
+  color: var(--brand-contrast);
+  box-shadow: var(--shadow-1);
+  padding: 12px 28px;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--brand-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+.primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-1);
+}
+
+/* Secondary variant — bordered */
+.secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  padding: 11px 26px;
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--surface-soft);
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: translateY(-1px);
+}
+
+/* Ghost variant — text only */
+.ghost {
+  background: transparent;
+  color: var(--text);
+  padding: 8px 16px;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--surface-soft);
+  color: var(--brand);
+}
+
+/* Accent variant — amber/urgency */
+.accent {
+  background: var(--accent);
+  color: #000;
+  box-shadow: var(--shadow-1);
+  padding: 12px 28px;
+}
+
+.accent:hover:not(:disabled) {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+/* Size variants */
+.sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.lg {
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Full width */
+.full {
+  width: 100%;
+}
+
+/* Loading state */
+.loading {
+  position: relative;
+  color: transparent;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: inherit;
+  border-radius: inherit;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

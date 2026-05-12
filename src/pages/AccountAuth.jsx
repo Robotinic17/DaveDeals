@@ -1,7 +1,8 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useMemo, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import styles from "./AccountAuth.module.css";
-import { login, register, setSession } from "../lib/auth";
+import { forgotPassword, login, register, setSession } from "../lib/auth";
 import signupArt from "../assets/signup.png";
 import signinArt from "../assets/Login-PNG-Photos.png";
 
@@ -58,28 +59,42 @@ export default function AccountAuth({ initialMode = "signin" }) {
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [hint, setHint] = useState(
-    searchParams.get("reason") === "forgot"
-      ? "Create your account first, then password reset will be enabled later."
-      : "",
-  );
+  const [hint, setHint] = useState("");
+  const [showSigninPassword, setShowSigninPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showSignupRepeatPassword, setShowSignupRepeatPassword] =
+    useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showForgotRepeatPassword, setShowForgotRepeatPassword] =
+    useState(false);
 
-  const title = mode === "signin" ? "Hello!" : "Create account";
+  const title =
+    mode === "signin"
+      ? "Hello!"
+      : mode === "signup"
+        ? "Create account"
+        : "Reset password";
   const subtitle =
     mode === "signin"
       ? "We are glad to see you :)"
-      : "Join DaveDeals in less than a minute.";
+      : mode === "signup"
+        ? "Join DaveDeals in less than a minute."
+        : "Enter your email and choose a new password.";
   const illustrationSrc = mode === "signup" ? signupArt : signinArt;
   const illustrationAlt =
     mode === "signup" ? "Signup illustration" : "Login illustration";
 
-  const switchText = useMemo(
-    () =>
-      mode === "signin"
-        ? { prompt: "No account yet?", action: "Create account" }
-        : { prompt: "Already have an account?", action: "Sign in" },
-    [mode],
-  );
+  const switchText = useMemo(() => {
+    if (mode === "signin") {
+      return { prompt: "No account yet?", action: "Create account" };
+    }
+
+    if (mode === "signup") {
+      return { prompt: "Already have an account?", action: "Sign in" };
+    }
+
+    return { prompt: "Remembered it?", action: "Sign in" };
+  }, [mode]);
   const nextPath = searchParams.get("next");
 
   function getDefaultDestination(role) {
@@ -108,6 +123,17 @@ export default function AccountAuth({ initialMode = "signin" }) {
       }
     }
 
+    if (mode === "forgot") {
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters.");
+        return;
+      }
+      if (password !== repeatPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -115,6 +141,15 @@ export default function AccountAuth({ initialMode = "signin" }) {
         email: email.trim().toLowerCase(),
         password,
       };
+
+      if (mode === "forgot") {
+        await forgotPassword(payload);
+        setHint("Password reset successful. You can sign in now.");
+        setMode("signin");
+        setPassword("");
+        setRepeatPassword("");
+        return;
+      }
 
       const data =
         mode === "signin"
@@ -154,38 +189,48 @@ export default function AccountAuth({ initialMode = "signin" }) {
             <button
               type="button"
               className={styles.inlineAction}
-              onClick={() =>
-                switchMode(mode === "signin" ? "signup" : "signin")
-              }
+              onClick={() => {
+                if (mode === "signin") {
+                  switchMode("signup");
+                  return;
+                }
+                switchMode("signin");
+              }}
             >
               {switchText.action}
             </button>
           </p>
 
-          <div className={styles.providerRow}>
-            <button
-              type="button"
-              className={styles.providerBtn}
-              onClick={() => onProviderClick("Google")}
-            >
-              <GoogleIcon />{" "}
-              {mode === "signin"
-                ? "Sign in with Google"
-                : "Sign up with Google"}
-            </button>
-            <button
-              type="button"
-              className={styles.providerBtn}
-              onClick={() => onProviderClick("Apple")}
-            >
-              <AppleIcon />{" "}
-              {mode === "signin" ? "Sign in with Apple" : "Sign up with Apple"}
-            </button>
-          </div>
+          {mode !== "forgot" ? (
+            <div className={styles.providerRow}>
+              <button
+                type="button"
+                className={styles.providerBtn}
+                onClick={() => onProviderClick("Google")}
+              >
+                <GoogleIcon />{" "}
+                {mode === "signin"
+                  ? "Sign in with Google"
+                  : "Sign up with Google"}
+              </button>
+              <button
+                type="button"
+                className={styles.providerBtn}
+                onClick={() => onProviderClick("Apple")}
+              >
+                <AppleIcon />{" "}
+                {mode === "signin"
+                  ? "Sign in with Apple"
+                  : "Sign up with Apple"}
+              </button>
+            </div>
+          ) : null}
 
-          <div className={styles.separator}>
-            <span>or</span>
-          </div>
+          {mode !== "forgot" ? (
+            <div className={styles.separator}>
+              <span>or</span>
+            </div>
+          ) : null}
 
           <form className={styles.form} onSubmit={handleSubmit}>
             {mode === "signup" ? (
@@ -210,23 +255,119 @@ export default function AccountAuth({ initialMode = "signin" }) {
                 </label>
                 <label>
                   Password
+                  <div className={styles.passwordInputWrapper}>
+                    <input
+                      type={showSignupPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      minLength={6}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className={styles.eyeToggle}
+                      onClick={() => setShowSignupPassword(!showSignupPassword)}
+                      tabIndex={-1}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showSignupPassword ? (
+                        <Eye size={18} />
+                      ) : (
+                        <EyeOff size={18} />
+                      )}
+                    </button>
+                  </div>
+                </label>
+                <label>
+                  Repeat Password
+                  <div className={styles.passwordInputWrapper}>
+                    <input
+                      type={showSignupRepeatPassword ? "text" : "password"}
+                      value={repeatPassword}
+                      onChange={(e) => setRepeatPassword(e.target.value)}
+                      minLength={6}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className={styles.eyeToggle}
+                      onClick={() =>
+                        setShowSignupRepeatPassword(!showSignupRepeatPassword)
+                      }
+                      tabIndex={-1}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showSignupRepeatPassword ? (
+                        <Eye size={18} />
+                      ) : (
+                        <EyeOff size={18} />
+                      )}
+                    </button>
+                  </div>
+                </label>
+              </div>
+            ) : mode === "forgot" ? (
+              <div className={styles.formStack}>
+                <label>
+                  Email Address
                   <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    minLength={6}
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </label>
                 <label>
-                  Repeat Password
-                  <input
-                    type="password"
-                    value={repeatPassword}
-                    onChange={(e) => setRepeatPassword(e.target.value)}
-                    minLength={6}
-                    required
-                  />
+                  New Password
+                  <div className={styles.passwordInputWrapper}>
+                    <input
+                      type={showForgotPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      minLength={6}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className={styles.eyeToggle}
+                      onClick={() => setShowForgotPassword(!showForgotPassword)}
+                      tabIndex={-1}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showForgotPassword ? (
+                        <Eye size={18} />
+                      ) : (
+                        <EyeOff size={18} />
+                      )}
+                    </button>
+                  </div>
+                </label>
+                <label>
+                  Repeat New Password
+                  <div className={styles.passwordInputWrapper}>
+                    <input
+                      type={showForgotRepeatPassword ? "text" : "password"}
+                      value={repeatPassword}
+                      onChange={(e) => setRepeatPassword(e.target.value)}
+                      minLength={6}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className={styles.eyeToggle}
+                      onClick={() =>
+                        setShowForgotRepeatPassword(!showForgotRepeatPassword)
+                      }
+                      tabIndex={-1}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showForgotRepeatPassword ? (
+                        <Eye size={18} />
+                      ) : (
+                        <EyeOff size={18} />
+                      )}
+                    </button>
+                  </div>
                 </label>
               </div>
             ) : (
@@ -242,12 +383,27 @@ export default function AccountAuth({ initialMode = "signin" }) {
                 </label>
                 <label>
                   Password
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
+                  <div className={styles.passwordInputWrapper}>
+                    <input
+                      type={showSigninPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className={styles.eyeToggle}
+                      onClick={() => setShowSigninPassword(!showSigninPassword)}
+                      tabIndex={-1}
+                      aria-label="Toggle password visibility"
+                    >
+                      {showSigninPassword ? (
+                        <Eye size={18} />
+                      ) : (
+                        <EyeOff size={18} />
+                      )}
+                    </button>
+                  </div>
                 </label>
               </div>
             )}
@@ -270,7 +426,7 @@ export default function AccountAuth({ initialMode = "signin" }) {
               <button
                 type="button"
                 className={styles.ghostLink}
-                onClick={() => switchMode("signup")}
+                onClick={() => switchMode("forgot")}
               >
                 Forgot password?
               </button>
@@ -288,7 +444,9 @@ export default function AccountAuth({ initialMode = "signin" }) {
                 ? "Please wait..."
                 : mode === "signin"
                   ? "Sign In"
-                  : "Sign Up"}
+                  : mode === "signup"
+                    ? "Sign Up"
+                    : "Reset Password"}
             </button>
           </form>
 
