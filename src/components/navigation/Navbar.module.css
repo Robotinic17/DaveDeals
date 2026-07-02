@@ -9,10 +9,12 @@
 }
 
 .navbar.glassy {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  /* Use a white background instead of translucent glass */
+  background: var(--bg, #ffffff);
+  /* Remove heavy blur so white appears solid on top of hero */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid var(--border);
 }
 
 .navbar.scrolled {
